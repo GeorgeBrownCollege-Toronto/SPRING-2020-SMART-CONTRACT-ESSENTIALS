@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title> Tokeneconomics </title>
+
+    <meta name="author" content="Dhruvin Parikh">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../../reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="../../../reveal.js/css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../../../reveal.js/lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../../../reveal.js/css/print/pdf.css' : '../../../reveal.js/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <style>
+      .reveal .slides h1, .reveal .slides h2, .reveal .slides h3 {
+        text-transform: none;
+      }
+
+      .two-column {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .two-column em {
+        margin: 20px;
+      }
+
+      .credits{
+        font-size: small;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+<!------------------------------------------------------->
+
+
+
+<section data-markdown><script type="text/template">
+
+### BCDV 1010 - Smart Contract Essentials
+
+#### Smart Contract Security Review
+
+*Dhruvin Parikh, May 2020*
+
+</script></section>
+
+<section>
+  <h2>Class Plan</h2>
+  <ul>
+    <li><a href="#/content">Content</a></li>
+    <li><a href="#/objectives">Objectives</a></li>
+  </ul>
+</section>
+
+<section id="content" data-markdown><script type="text/template">
+  ## Content
+  * Proxy Contract
+  * Common Security Bugs
+  * Review 
+  * Lab
+</script></section>
+
+<section>
+    <h2>Proxy Contract</h2>
+    <p>Initial</p>
+    <img src="proxy1.svg" style="box-shadow: none;border: none;">
+    <p>After upgrade</p>
+    <img src="proxy2.svg" style="box-shadow: none;border: none;">
+</section>
+
+<section data-auto-animate>
+    <h2 data-id="code-title">Proxy contract demo</h2>
+    <pre data-id="code-animation"><code class="hljs" data-trim>
+        //SPDX-License-Identifier: MIT
+
+        pragma solidity ^0.6.0;
+
+        interface ILib {
+            function version() external view returns(uint);
+        }
+
+        contract LibV1 is ILib {
+            uint public override version = 1;
+        }
+
+        contract Ownable {
+            address public owner;
+            constructor() public {
+            owner = msg.sender;
+            }
+            modifier onlyOwner() {
+                require(msg.sender == owner, "not onwer!");
+                _;
+            }
+        }
+
+        contract Proxy is Ownable {
+            ILib public lib;
+            constructor(ILib libAddress) public {
+                lib = libAddress;
+            }
+            function upgrade(ILib newLib) public onlyOwner {
+                lib = newLib;
+            }
+            function version() public view returns(uint) {
+                return lib.version();
+            }
+        }
+    </code></pre>
+</section>
+
+<section>
+    <h2>Common Security Bug</h2>
+    <ul>
+        <li>Re-entrancy</li>
+        <li>Integer overflow and underflow</li>
+        <li>External Contract Reference</li>
+        <li>Denial Of Source</li>
+        <li>Misuse of selfDestruct</li>
+    </ul>
+</section>
+
+<section>
+  <h2>Reentrancy Attack</h2>
+  <ul style="list-style-type: none;">
+    <li>One of the major dangers of calling external contracts is that they can take over the control flow, and make changes to your data that the calling function wasn't expecting. This class of bug can take many forms, and both of the major bugs that led to the DAO's collapse were bugs of this sort.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Reentrancy Attack Facts</h2>
+  <ul>
+    <li>DAO's (Decentralized Autonomous Organization) goal is to codify the rules and decisionmaking apparatus of an organization, eliminating the need for documents and people in governing, creating a structure with decentralized control.
+    <li>On June 17th 2016, The DAO was hacked and 3.6 million Ether ($50 Million) were stolen using the first reentrancy attack.</li>
+    <li>Foundation issued a critical update to rollback the hack, resulted in eth classic and eth.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Reentrancy on single function</h2>
+  <pre data-id="code-animation"><code class="hljs" data-trim>
+  // INSECURE
+  mapping (address => uint) private userBalances;
+
+  function withdrawBalance() public {
+    uint amountToWithdraw = userBalances[msg.sender];
+    (bool success, ) = msg.sender.call.value(amountToWithdraw)(""); // At this point, the caller's code is executed, and can call withdrawBalance again
+    require(success);
+    userBalances[msg.sender] = 0;
+  }
+  </code></pre>
+</section>
+
+<section>
+  <h2>Reentrancy on single function</h2>
+  <pre data-id="code-animation"><code class="hljs" data-trim>
+    // SECURE
+    mapping (address => uint) private userBalances;
+
+    function withdrawBalance() public {
+      uint amountToWithdraw = userBalances[msg.sender];
+      userBalances[msg.sender] = 0;
+      (bool success, ) = msg.sender.call.value(amountToWithdraw)(""); // The user's balance is already 0, so future invocations won't withdraw anything
+      require(success);
+    }
+  </code></pre>
+</section>
+
+<section>
+    <h2>Reentrancy Attack Demo</h2>
+    <ul>
+        <li>A reentrancy attack occurs when an external call to another untrusted contract causes a recursive call back to the calling contract with undesirable side effects</li>
+        <li>Best practice to avoid reentrancy is to finish all internal state change before calling external function</li>
+        <ul>
+        <li><a target="_blank" href="https://is.gd/BankReentrance">https://is.gd/BankReentrance</a></li>
+        </ul>
+    </ul>
+</section>
+
+<section>
+  <h2>Cross-function Reentrancy</h2>
+  <pre data-id="code-animation"><code class="hljs" data-trim>
+    // INSECURE
+    mapping (address => uint) private userBalances;
+
+    function transfer(address to, uint amount) {
+      if (userBalances[msg.sender] >= amount) {
+        userBalances[to] += amount;
+        userBalances[msg.sender] -= amount;
+      }
+    }
+
+    function withdrawBalance() public {
+      uint amountToWithdraw = userBalances[msg.sender];
+      (bool success, ) = msg.sender.call.value(amountToWithdraw)(""); // At this point, the caller's code is executed, and can call transfer()
+      require(success);
+      userBalances[msg.sender] = 0;
+    }
+  </code></pre>
+</section>
+
+<section>
+  <h2>Favour push over pull payment</h2>
+  <pre data-id="code-animation"><code class="hljs" data-trim>
+    // bad
+    contract auction {
+      address highestBidder;
+      uint highestBid;
+
+      function bid() payable {
+        require(msg.value >= highestBid);
+
+        if (highestBidder != address(0)) {
+            (bool success, ) = highestBidder.call.value(highestBid)("");
+            require(success); // if this call consistently fails, no one else can bid
+        }
+
+       highestBidder = msg.sender;
+       highestBid = msg.value;
+      }
+    }
+
+    // good
+    contract auction {
+      address highestBidder;
+      uint highestBid;
+      mapping(address => uint) refunds;
+
+      function bid() payable external {
+        require(msg.value >= highestBid);
+
+        if (highestBidder != address(0)) {
+            refunds[highestBidder] += highestBid; // record the refund that this user can claim
+        }
+
+        highestBidder = msg.sender;
+        highestBid = msg.value;
+      }
+
+      function withdrawRefund() external {
+        uint refund = refunds[msg.sender];
+        refunds[msg.sender] = 0;
+        (bool success, ) = msg.sender.call.value(refund)("");
+        require(success);
+      }
+    }
+  </code></pre>
+</section>
+
+<section>
+  <h2>Integer Overflow and underflow</h2>
+  <ul>
+    <li>If a balance reaches the maximum uint value 2<sup>256</sup> it will circle back to zero which checks for the condition. </li>
+    <li>If a uint is made to be less than zero, it will cause an underflow and get set to its maximum value.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Integer Overflow and underflow</h2>
+  <pre data-id="code-animation"><code class="hljs" data-trim>
+    mapping (address => uint256) public balanceOf;
+
+    // INSECURE
+    function transfer(address _to, uint256 _value) {
+      /* Check if sender has balance */
+      require(balanceOf[msg.sender] >= _value);
+      /* Add and subtract new balances */
+      balanceOf[msg.sender] -= _value;
+      balanceOf[_to] += _value;
+    }
+
+    // SECURE
+    function transfer(address _to, uint256 _value) {
+      /* Check if sender has balance and for overflows */
+      require(balanceOf[msg.sender] >= _value && balanceOf[_to] + _value >= balanceOf[_to]);
+
+      /* Add and subtract new balances */
+      balanceOf[msg.sender] -= _value;
+      balanceOf[_to] += _value;
+    }
+  </code></pre>
+</section>
+
+<section>
+  <h2>Integer Overflow and underflow demo</h2>
+  <ul>
+    <li>Use openzeppelin's <code>SafeMath.sol</code> library</li>
+    <ul><li><a href="https://is.gd/IntegerUnderflowOverflow">https://is.gd/IntegerUnderflowOverflow</a></li></ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Denial Of Service (Unexpected) revert</h2>
+  <pre data-id="code-animation"><code class="hljs" data-trim>
+    // INSECURE
+    contract Auction {
+      address currentLeader;
+      uint highestBid;
+
+      function bid() payable {
+        require(msg.value > highestBid);
+
+        require(currentLeader.send(highestBid)); // Refund the old leader, if it fails then revert
+
+        currentLeader = msg.sender;
+        highestBid = msg.value;
+      }
+    }
+  </code></pre>
+</section>
+
+<section>
+  <h2>DoS with Block Gas Limit</h2>
+  <ul style="list-style-type: none;">
+    <li>Each block has an upper bound on the amount of gas that can be spent.If the gas spent exceeds this limit, the transaction will fail and leads to:</li>
+    <ul>
+      <li>Gas Limit DoS on a Contract via Unbounded Operations</li>
+      <li>Gas Limit DoS on the Network via Block Stuffing</li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Gas Limit DoS on a Contract via Unbounded Operations</h2>
+  <ul>
+    <li>By paying out to everyone at once, you risk running into the block gas limit.</li>
+    <li>The gas cost of refunding each of the attacker's addresses could end up being more than the gas limit, blocking the refund transaction from happening at all.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Gas Limit DoS on the Network via Block Stuffing</h2>
+  <ul>
+    <li>An attacker can prevent other transactions from being included in the blockchain for several blocks by placing computationally intensive transactions with a high enough gas price</li>
+    <ul>
+      <li>Issue several transactions that consumes the entire gas limit, with a high enough gas price to be included as soon as the next block is mined. Higher the price is, the higher is the chance of block inclusion.</li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Gas Limit DoS facts</h2>
+  <ul>
+    <li>Fomo3D was designed to reward the last address that purchased a "key". Each key purchase extended the timer, and the game ended once the timer went to 0. The attacker bought a key and then stuffed 13 blocks in a row until the timer was triggered and the payout was released. It took 7.9 million gas on each block, so the gas limit allowed a few small "send" transactions (which take 21,000 gas each), but disallowed any calls to the <code>buyKey()</code> function (which costs 300,000+ gas).</li>
+  </ul>
+</section>
+
+<section>
+    <h2>Denial Of Service Demo</h2>
+    <ul>
+        <li>Denial of Service in this demo shows how the original function of the contract no longer work as intended.</li>
+        <li>Best practice: use withdrawal design pattern</li>
+        <ul>
+            <li><a href="https://is.gd/DenialOfService">https://is.gd/DenialOfService</a></li>
+        </ul>
+    </ul>
+</section>
+
+<section>
+  <h2>Hack Smart Contracts for fun! </h2>
+  <ul>
+    <li><a href="https://ethernaut.openzeppelin.com/">https://ethernaut.openzeppelin.com/</a></li>
+    <li><a href="https://capturetheether.com/">https://capturetheether.com/</a></li>
+  </ul>
+</section>
+
+<section data-markdown><script type="text/template">
+
+## End
+
+</script></section>
+
+
+
+<!------------------------------------------------------->
+
+
+      </div>
+
+    </div>
+
+    <script src="../../../reveal.js/lib/js/head.min.js"></script>
+    <script src="../../../reveal.js/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+
+	math: {
+          mathjax: './lib/MathJax/MathJax.js',
+          config: 'TeX-AMS_SVG-full',
+	},
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../../reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../../reveal.js/plugin/math/math.js', async: true },
+           // Zoom in and out with Alt+click
+           { src: "../../../reveal.js/plugin/zoom-js/zoom.js", async: true },
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
