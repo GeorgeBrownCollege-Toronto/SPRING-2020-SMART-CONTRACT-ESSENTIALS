@@ -11,6 +11,12 @@ contract Master {
     function destroy(address payable recipient) public {
         selfdestruct(recipient);
     }
+    
+    receive() external payable {}
+    
+    function getBalance() public view returns(uint){
+        return address(this).balance;
+    }
 }
 
 contract Child {
@@ -40,21 +46,28 @@ contract Child {
         return address(this).balance;
     }
     
-    function() external payable {}
+    receive() external payable {}
 }
 
-
-contract KillMaster{
-    address master;
-    address owner;
+contract KillMaster {
+    address public master;
+    address payable public owner;
     
     constructor(address masterAddress) public {
-        master = masterAddress;
+        master = masterAddress; 
         owner = msg.sender;
     }
     
-    function doKill() public {
-        (bool success,) = master.call(abi.encodeWithSignature("destroy(address)", owner));
-        require(success, "failed to kill master");
+    
+    function commitSuicide() public {
+        (bool success, ) = 
+        master.call(abi.encodeWithSignature("destroy(address)", owner));
+        require(success, "failed to suicide");
     }
+    
+    function getBalance() public view returns(uint){
+        return address(this).balance;
+    }
+    
+    receive() external payable {}
 }
