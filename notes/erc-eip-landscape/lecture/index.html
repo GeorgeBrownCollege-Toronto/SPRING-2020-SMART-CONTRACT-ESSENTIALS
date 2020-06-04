@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title> ERC/EIP Landscape </title>
+
+    <meta name="author" content="Dhruvin Parikh">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../../reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="../../../reveal.js/css/theme/sky.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../../../reveal.js/lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../../../reveal.js/css/print/pdf.css' : '../../../reveal.js/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <style>
+      .reveal .slides h1, .reveal .slides h2, .reveal .slides h3 {
+        text-transform: none;
+      }
+
+      .two-column {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .two-column em {
+        margin: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+<!------------------------------------------------------->
+
+
+
+<section data-markdown><script type="text/template">
+
+### BCDV 1010 - Smart Contract Essentials
+
+#### ERC/EIP Landscape
+
+*Dhruvin Parikh, May 2020*
+
+</script></section>
+
+<section id="content" data-markdown><script type="text/template">
+  ## Content
+  * EIP Rationale 
+  * EIP type
+  * EIP workflow
+  * EIP Process
+</script></section>
+
+<section>
+  <h2>Ethereum Improvement Proposals (EIPs)</h2>
+</section>
+
+<section>
+  <h2>EIPs</h2>
+  <ul>
+    <li>Standards for the Ethereum platform, including core protocol specifications, client APIs, and contract standards.</li>
+    <li>Design document providing information on Ethereum community,rationale of feature for ethereum and its concise technical specification.</li>
+    <li>Author has to gather consensus within community and document dissenting opinions.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>EIP Rationale (Why?)</h2>
+  <ul>
+    <li>Required to propose new features, gather input from community and document design decisions that have gone into Ethereum.</li>
+    <li>Also to track the progress of implementation by EIP implementers.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>EIP classification</h2>
+  <ol>
+    <li>Standard track EIP : (e.g. ERC-20)</li>
+    <li>Meta EIP : (e.g. EIP-1)</li>
+    <li>Informational EIP : (e.g. EIP-1470)</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Standard track EIP</h2>
+</section>
+
+
+<section>
+  <h2>Standard Track EIP</h2>
+  <ul>
+    <li>A change that affects the interoperability of applications using Ethereum such as change to:
+      <ul>
+        <li>network protocol</li>
+        <li>block or transaction validity rules</li>
+        <li>proposed application standards/conventions</li>
+      </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Standard track EIP</h2>
+  <ul>
+    <li>Categories of standard track EIPs</li>
+    <ul>
+      <li>Core (e.g. EIP5, EIP101)</li>
+      <li>Networking (e.g. EIP8)</li>
+      <li>Interface (e.g. EIP6)</li>
+      <li>ERC (e.g. ERC20)</li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Standard track EIP</h2>
+  <ul>
+    <li>Core</li>
+    <ul>
+      <li>consensus fork (e.g. EIP5, EIP101)</li>
+      <li>no consensus critical change</li>
+      <li><i>"core dev"</i> discussions (e.g. the miner/node strategy changes 2, 3, and 4 of EIP86)</li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Standard track EIP</h2>
+  <ul>
+    <li>Networking</li>
+    <ul>
+      <li><i>devp2p</i> (e.g. EIP8) and light ethereum subprotocol</li>
+      <li>whisper and swarm and protocol improvements</li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Standard track EIP</h2>
+  <ul>
+    <li>Interface</li>
+    <ul>
+      <li>client API/RPC specifications</li>
+      <li>method names and contract ABIs</li>
+    </ul>
+  </ul>
+<hr>
+  <ul style="list-style: none;">
+    <li>The label <i>“interface”</i> aligns with the interfaces repo and discussion occurs in that repository before an EIP is submitted to the EIPs repository.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Standard track EIP</h2>
+  <ul>
+    <li>ERC</li>
+    <ul>
+      <li>Application-level standards and conventions</li>
+      <li>token standards (ERC20), name registries (ERC137), URI schemes (ERC681), library/package formats (EIP190), and wallet formats (EIP85).</li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+<h2>Meta EIP</h2>
+</section>
+
+<section>
+  <h2>Meta EIP</h2>
+  <ul>
+    <li>Procedures and guidelines (Process EIPs)</li>
+    <li>No to the Ethereum protocol or codebase</li> 
+    <li>Require community consensus</li> 
+    <li>More than recommendations</li>
+    <li>Decision-making process</li>
+    <li>Changes to the tools or environment.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Informational EIP</h2>
+</section>
+
+<section>
+  <h2>Informational EIP</h2>
+  <ul>
+    <li>Ethereum design issue</li>
+    <li>General guidelines/information to the community</li>
+    <li>No new feature proposal nor consensus/recommendation proposals</li>  
+    <li>Users and implementers are free to ignore.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>EIP Work Flow</h2>
+</section>
+
+<section>
+  <h2>EIP Work flow</h2>
+  <ul>
+    <li>Sherpherding an EIP</li>
+    <ul>
+      <li>EIP author : vet your idea (should be original)</li>
+      <li>Invite feedback from community (reviewers and editors)</li>
+      <li>Leverage interest with implementation as well as attracting parties.</li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>EIP Work Flow</h2>
+  <ul>
+    <li>Core EIPs</li>
+    <ul>
+      <li>provide client implementation or convince client</li>
+      <li>AllCoreDevs call (<i>"rough consensus"</i>) : for attracting client implementers to review <a target="_blank" href="https://github.com/ethereum/pm/issues">AllCoreDevs agenda GitHub Issue</a></li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>EIP Process</h2>
+</section>
+
+<section>
+  <h2>EIP Process</h2>
+  <ul style="list-style: none;">
+    <li>non-Core EIP</li>
+  </ul>
+  <div data-markdown>
+    ```
+    [ WIP ] -> [ DRAFT ] -> [ LAST CALL ] -> [ FINAL ]
+    ```
+  </div>
+</section>
+
+<section>
+  <h2>EIP Process</h2>
+  <ul style="list-style: none;">
+    <li>Core EIP</li>
+  </ul>
+  <div data-markdown>
+    ```
+    [ IDEA ] -> [ DRAFT ] -> [ LAST CALL ] -> [ ACCEPTED ] -> [ FINAL ]
+    ```
+  </div>
+</section>
+
+<section>
+  <h2>Resources</h2>
+  <ul>
+    <li>EIP1 : <a target="_blank" href="https://eips.ethereum.org/EIPS/eip-1">https://eips.ethereum.org/EIPS/eip-1</a></li>
+    <li>EIP-template : <a target="_blank" href="https://github.com/ethereum/EIPs/blob/master/eip-template.md">https://github.com/ethereum/EIPs/blob/master/eip-template.md</a></li>
+  </ul>
+</section>
+
+<section data-markdown><script type="text/template">
+
+## End
+
+</script></section>
+
+
+
+<!------------------------------------------------------->
+
+
+      </div>
+
+    </div>
+
+    <script src="../../../reveal.js/lib/js/head.min.js"></script>
+    <script src="../../../reveal.js/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+
+	math: {
+          mathjax: './lib/MathJax/MathJax.js',
+          config: 'TeX-AMS_SVG-full',
+	},
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../../reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../../reveal.js/plugin/math/math.js', async: true },
+           // Zoom in and out with Alt+click
+           { src: "../../../reveal.js/plugin/zoom-js/zoom.js", async: true },
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
