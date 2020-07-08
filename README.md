@@ -9,5 +9,10 @@ git clone https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essential
 
 Then go into the directory and init the submodules:
 
+```bash
 $ cd ./Smart-Contract-Essentials
+```
+
+```bash
 $ git submodule update --init
+```
