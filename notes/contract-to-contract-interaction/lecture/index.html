@@ -61,7 +61,7 @@
 
 #### Contract to Contract Interaction
 
-*Dhruvin Parikh, May 2020*
+*Dhruvin Parikh, January 2021*
 
 </script></section>
 
@@ -80,8 +80,7 @@
   * Application Binary Interface (ABI)
   * External Function Calls
   * Contract Creation Using **`new`** keyword
-  * Common Security Bugs
-  * Lab
+  * Lab 2
 </script></section>
 
 <section id="objectives">
@@ -89,7 +88,6 @@
   <ul>
     <li>Able to interact with other contract when ABI is know/unknown</li>
     <li>Able to explain application binary interface</li>
-    <li>Idea of known security bugs</li>
   </ul>
 </section>
 
@@ -233,15 +231,20 @@ bytes4(keccak256(bytes("fun(bool)")))
 </section>
 
 <section>
-  <h2>Assessments > Lab Tests > Lab - 1 > Question 1</h2>
+  <h2>Assessments > Lab - 2 > Question 1</h2>
+  <p>Refer : <a href="https://docs.soliditylang.org/en/v0.8.0/abi-spec.html" target="_blank">Contract ABI Specification</a></p>
 </section>
 
 <section data-markdown><script type="text/template">
   ## External function calls
   * A contract calling function in another contract
   * The expressions `this.f(8);` and `c.f(2);`
-  * Special options: `.value(amount)` and `.gas(amount)`. 
-      * e.g. `this.f.value(10).gas(10)(8)`
+  * Special options: 
+  
+  ```js
+  {value:<amount>,gas:<amount>}
+  ``` 
+      * e.g. `this.f{value:10,gas:10}(8)`
 </script></section>
 
 <section>
@@ -294,31 +297,32 @@ bytes4(keccak256(bytes("fun(bool)")))
   ```javascript
   selfdestruct(address payable recipient)
   ```
-      * Fallback function not executed
+      * `fallback()` or `receive()` function not executed
 </script></section>
 
 <section>
   <h2>Example</h2>
   <pre><code class="hljs" data-trim data-line-numbers="1-14">
     contract Caller {
-      constructor() public payable {}
+      constructor() payable {}
       function doTransfer(address payable user) public {
         user.transfer(1 ether);
       }
 
       function doSend(address payable user) public {
-        require(user.send( ether));
+        require(user.send(1 ether));
       }
 
       function kill(address payable target) public {
-        selfdestruct(arget);
+        selfdestruct(target);
       }
     }
   </code></pre>
 </section>
 
 <section>
-  <h2>Assessments > Lab Tests > Lab - 1 > Question 2</h2>
+  <h2>Assessments > Lab - 2 > Question 2</h2>
+  <p>Refer : <a href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-to-contract-interaction/demo/ExternalCall.sol" target="_blank">PriceFeed example</a></p>
 </section>
 
 <section data-markdown><script type="text/template">
@@ -332,9 +336,9 @@ bytes4(keccak256(bytes("fun(bool)")))
 <section data-markdown><script type="text/template">
   ## `call`
 
-  ```javascript
+  ```js
   (bool success, bytes memory returnData) 
-  = feed.call.value(msg.value)(
+  = feed.call{value:msg.value}(
   abi.encodeWithSignature("set(uint256)", newPrice));
   ```
 </script></section>
@@ -443,7 +447,7 @@ feed.delegatecall(abi.encodeWithSignature(
 </section>
 
 <section>
-  <h2>Assessments > Lab Tests > Lab - 1 > Question 3</h2>
+  <h2>Assessments > Lab - 2 > Question 3</h2>
 </section>
 
 <section data-markdown><script type="text/template">
@@ -479,8 +483,8 @@ contract Sample {
 <section data-markdown><script type="text/template">
   ## Create Contract via **`new`**
   * Contract create another contract using the `new` keyword
-  * Can send ether using **`.value()`** option
-  * **Cannot** limit gas using **`.gas()`** option
+  * Can send ether using **`value`** as key
+  * **Cannot** limit gas using **`gas`** as key
 </script></section>
 
 <section>
@@ -488,7 +492,7 @@ contract Sample {
   <pre><code class="hljs" data-trim data-line-numbers="1-14">
     contract Exchange {
       address _token;
-      constructor (address token) public { _token = token;}
+      constructor (address token) { _token = token;}
     }
 
     contract Factory {
@@ -505,44 +509,21 @@ contract Sample {
   ## Contract Address
 
   * the contract address is calculated as 
-  ```javascript
+  ```js
   keccak256(rlp([caller, nonce]))[12:]
   ```
   
   * Javascript function:
-  ```javascript
-  ethers.utils.keccak256(ethers.utils.RLP.encode(
-  [address, nonce])).slice(26);
+  ```js
+  ethers.utils.keccak256(
+  ethers.utils.RLP.encode(
+  [address, nonce])
+  ).slice(26);
   ```
 </script></section>
 
 <section>
-  <h2>Assessments > Lab Tests > Lab - 1 > Question 4</h2>
-</section>
-
-<section>
-  <h2>Common Security Bugs</h2>
-  <ul>
-    <li>Re-entrancy</li>
-    <li>Context exploitation (e.g. storage states,msg.sender)</li>
-    <li>External contract reference</li>
-    <li>Denial of Service</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Demo(Reentrancy bug)</h2>
-  <p>Best practice to avoid reentrancy is to finish all internal state change works before calling external function</p>
-</section>
-
-<section>
-  <h2>Demo(Denial Of Service)</h2>
-  <p>Denial of Service in this demo shows how the original function of the contract no longer work as intended.</p>
-</section>
-
-<section>
-  <h2>External Contract Reference with Selfdestruct</h2>
-  <p>Demo how the parity multi-sig wallet was destroyed due to a bug in the selfdestruct call. </p>
+  <h2>Assessments > Lab - 2 > Question 4</h2>
 </section>
 
 <section data-markdown><script type="text/template">
