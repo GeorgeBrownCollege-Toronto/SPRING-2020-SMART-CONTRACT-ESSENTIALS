@@ -7,9 +7,9 @@ interface PriceFeed {
 }
 
 contract feed is PriceFeed {
-      uint private price = 42;
+      uint private _price = 42;
     function getPrice() public view override returns (uint) {
-    return price;
+    return _price;
   }
 }
  

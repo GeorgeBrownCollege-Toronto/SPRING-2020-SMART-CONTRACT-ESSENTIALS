@@ -1,17 +1,11 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.1;
 
-contract PriceFeed {
-  uint private price = 42;
-  function getPrice() public view returns (uint) {
-    return price;
-  }
-}
- 
 contract Consumer {
-  function callFeed(PriceFeed feed) public returns (bool, bytes memory) {
-    (bool success, bytes memory returnData) = address(feed).call(abi.encodeWithSignature("getPrice()"));
-    return (success,returnData);
+  function callFeed(address _feed) public returns(uint _price) {
+    (bool _success, bytes memory _returnData) = _feed.call(abi.encodeWithSignature("getPrice()"));
+    require(_success);
+    (_price) = abi.decode(_returnData,(uint));
   }
 }
