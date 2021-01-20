@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.1;
 
 /* A demo contract for Crowd Sale
  * Run the test as follows:
@@ -18,7 +18,7 @@ contract MyCoin {
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
     constructor() public {
-        balances[tx.origin] = 10000;
+        balances[msg.sender] = 10000;
     }
 
     function sendCoin(address receiver, uint amount) public returns(bool sufficient) {
@@ -32,17 +32,17 @@ contract MyCoin {
 
 contract GBCCrowdSale {
     
-    uint256 public _rate;
-    address payable public _wallet;
-    uint256 public _weiRaised;
-    MyCoin _coin;
+    uint256 public rate;
+    address payable public wallet;
+    uint256 public weiRaised;
+    MyCoin public coin;
 
-    constructor(uint256 rate, address payable wallet, MyCoin coin) public{
-        require(rate > 0, "GBCCrowdSale : rate is 0");
-        require(wallet != address(0), "GBCCrowdSale : wallet is the zero address");
-        _rate = rate;
-        _wallet = wallet;
-        _coin = coin;
+    constructor(uint256 _rate, address payable _wallet, MyCoin _coin) {
+        require(_rate > 0, "GBCCrowdSale : rate is 0");
+        require(_wallet != address(0), "GBCCrowdSale : wallet is the zero address");
+        rate = _rate;
+        wallet = _wallet;
+        coin = _coin;
     }
     
     receive() external payable{
@@ -54,7 +54,7 @@ contract GBCCrowdSale {
         require(beneficiary != address(0), "GBCCrowdSale : beneficiary address is 0");
         uint256 weiAmount = msg.value;
         uint256 coins = _getCoinsCreated(weiAmount);
-        _weiRaised = _weiRaised + weiAmount;
+        weiRaised = weiRaised + weiAmount;
         bool success = _processPurchase(beneficiary,coins);
         require(success,"The coin purchase is unsuccessful");
         emit CoinPurchased(msg.sender, weiAmount, coins);
@@ -75,11 +75,11 @@ contract GBCCrowdSale {
     }
     
     function _forwardFunds() internal {
-        _wallet.transfer(msg.value);
+        wallet.transfer(msg.value);
     }
     
     function getCoinBalance(address holder) public view returns(uint){
-        return _coin.balances(holder);
+        return coin.balances(holder);
     }
     
     event CoinPurchased(address indexed purchaser, uint256 indexed weiAmount, uint256 indexed coins);

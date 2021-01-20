@@ -1,6 +1,16 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.1;
+
+/* A demo contract for token
+ * Run the test as follows:
+ * 1) create MetaCoin with account A
+ * 2) Copy the address of account B
+ * 3) run MetaCoin.sendCoin(account B, 100) with account A
+ * 4) check MetaCoin.getBalance(account B) for balance of account B.
+ * 5) check MetaCoin.getBalanceInEth(account B, 2) for balance in Eth.
+ * 6) check MetaCoin.getBalance(account A) for balance of account A. 
+ */
 
 library ConvertLib{
 	function convert(uint amount,uint conversionRate) public pure returns (uint convertedAmount)
@@ -10,12 +20,12 @@ library ConvertLib{
 }
 
 contract MetaCoin {
-    mapping (address => uint) balances;
+    mapping (address => uint) public balances;
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
-    constructor() public {
-        balances[tx.origin] = 10000;
+    constructor() {
+        balances[msg.sender] = 10000;
     }
 
     function sendCoin(address receiver, uint amount) public returns(bool sufficient) {

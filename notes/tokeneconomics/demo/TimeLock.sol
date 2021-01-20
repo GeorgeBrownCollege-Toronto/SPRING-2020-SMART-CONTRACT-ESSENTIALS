@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.1;
 
 /* A demo contract for TimeLock
 * Run the test as follows:
@@ -17,8 +17,8 @@ contract MyToken {
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
-    constructor() public {
-        balances[tx.origin] = 10000;
+    constructor() {
+        balances[msg.sender] = 10000;
     }
 
     function sendToken(address receiver, uint amount) public returns(bool sufficient) {
@@ -40,7 +40,7 @@ contract TokenTimelock {
     // timestamp when token release is enabled
     uint256 private _releaseTime;
 
-    constructor (MyToken token, address beneficiary, uint256 releaseTime) public {
+    constructor (MyToken token, address beneficiary, uint256 releaseTime) {
         // solhint-disable-next-line not-rely-on-time
         require(releaseTime > block.timestamp, "TokenTimelock: release time is before current time");
         _token = token;
