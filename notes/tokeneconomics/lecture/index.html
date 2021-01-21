@@ -65,7 +65,7 @@
 
 #### Tokeneconomics
 
-*Dhruvin Parikh, May 2020*
+*Dhruvin Parikh, January 2021*
 
 </script></section>
 
@@ -82,25 +82,28 @@
   * Crowd Sales
   * Centralized v/s Decentralized Exchanges
   * Time Locks
-  * Applying mechanism design to incentivisation schemes
+  * Applying mechanism design to incentivization schemes
 </script></section>
 
 <section id="objectives">
   <h2>Objectives</h2>
   <ul>
-    <li>Explain difference between centralized and decentralised exchnges</li>
-    <li>Create a crowdsale(ICO) token contract using ERC20 token</li>
-    <li>Implement time lock mechanism in a crowdsale contract</li>
-    <li>Apply principles of tokeneconomics to the token contract</li>
+    <li>Explain difference between centralized and decentralized exchanges</li>
+    <li>Create a simple token sale contract</li>
+    <li>Implement a timelock mechanism in simple token sale contract</li>
+    <li>Apply principles of tokeneconomics to the contract</li>
   </ul>
 </section>
 
 <section>
-  <h2>Economics of Tokenisation</h2>
-  <section data-transition="slide">
+  <h2>Economics of Tokens</h2>
+</section>
+
+<section>
   <img src="cryptoeconomics.png" style="border: none; box-shadow: none; max-width: 55%; max-height: 55%;">
 </section>
-<section data-transition="slide">
+
+<section>
   <ul>
     <li>Tokenomics is a subset of crypto economics. It is the economics of crypto project/DApp.</li>
     <li>It considers 3 design variables</li>
@@ -112,7 +115,8 @@
   </ul>
   <p style="font-size: large;"><b>Note :</b> Well designed economics with rules and incentives, defines the long-term outcomes of cryptoprojects. Poorly designed ecosystems can lead to the collapse of the ecosystem.</p>
 </section>
-<section data-transition="slide">
+
+<section>
   <ul>
     <li>Tokeneconmics on a high level involves</li>
     <ul style="list-style:circle;">
@@ -128,16 +132,14 @@
     </ul>
   </ul>
 </section>
-</section>
 
 <section>
   <h2>Pillars fo tokenization</h2>
   <img src="token-framework.png" style="box-shadow: none;border: none; max-width: 70%; max-height: 70%;">
 </section>
 
-<section>
-  <h2>Market Design</h2>
-  <section data-transition="slide">
+  <section>
+    <h3>Market Design</h3>
   <ul>
     <li>Tokeneconmics is also about environment i.e. <b>Market</b></li>
     <li>When creating the environment, if you can nail : 
@@ -149,113 +151,122 @@
      then users are more likely to use your system.</li>
   </ul>
  </section>
- <section id="demand" data-transition="slide">
+
+ <section id="demand">
+  <h3>Market Design : Demand</h3>
   <ul>
     <li>Generate <b>Demand</b> or increase <b>thickness (size) of network</b> by bringing all the relevant parties who want to transact together.Launching a ride-hailing business in the small rural city of 250 people is not a good idea.</li>
   </ul>
  </section>
- <section id="decongestion" data-transition="slide">
+
+ <section id="decongestion">
+  <h3>Market Design : Congested</h3>
   <ul>
     <li>Make sure to <b>Decongest</b> or <b>reduce congestion in the network</b>  by having the system to help people make better choices. Launching a ride-hailing business in a big-city which has one main road with 2 lanes is not a good idea as vehicle will remain stuck in traffic.</li>
   </ul>
  </section>
- <section id="safety" data-transition="slide">
+ 
+ <section id="safety">
+  <h3>Market Design : Safety</h3>
   <ul>
     <li>Make it <b>easy</b> and <b>safe</b> for people to join. Fully autonomous coins, reduce information kept about the participants. Launching a ride-hailing business in mid-sized city that has considerable population plus roads with more lane, you realise that same city has tons of robbery; may jeoparadise the safety of drivers and passengers </li>
   </ul>
  </section>
+
+<section>
+  <h3>Mechanism Design versus Game theory</h3>
+  <ul>
+    <li>In the crypto space, we can incentivize people to behave in a right (rational) way. This can be done through <a href="#/game-theory">game theory</a>.</li>
+    <li>Mechanism design is designing the game based on outcome (inverse of game theory)</li>
+    <li>Influence the behavior of participant by <b>rewarding</b> good actions and <b>punishing</b> for bad actions</li>
+  </ul>
 </section>
 
 <section>
-  <h2>Mechanism Design</h2>
-  <section data-transition="slide">
-  <ul>
-    <li>In the crypto space, we can incentivise people to behave in a right (rational) way. This can be done through <a href="#/game-theory">game theory</a>.</li>
-    <li>Mechanism design is designing the game based on outcome (inverse of game theory)</li>
-    <li>Influence the behaviour of participant by <b>rewarding</b> good actions and <b>punishing</b> for bad actions</li>
-  </ul>
-</section>
- <section data-transition="slide">
+  <h3>Mechanism Design</h3>
   <ul>
     <li>In the Crypto Space we have got committees of people to vote on issues. When we reach consensus, the issue is resolved. </li>
-      <li>Mechanism design affects the actions and behaviours of people in your network. This will affect the long-term sustainability of the project. Imagine if it is easy to bribe the president, the economy will not do well.</li>
+      <li>Mechanism design affects the actions and behaviors of people in your network. This will affect the long-term sustainability of the project. Imagine if it is easy to bribe the president, the economy will not do well.</li>
   </ul>
-  </section>
-  <section data-transition="slide">
+</section>
+
+<section>
+    <h3>Mechanism Design</h3>
     <ul style="list-style: none;">
     <li>Bribery can happen and it can be affected by</li>
     <ul>
-      <li>Having a lot of people on the committee. So it is expensive to bribe. (De-incentive)</li>
-      <li>Randomly allocate users to be on the committee, so you don’t know who to bribe. (De-incentive)</li>
-      <li>To raise an issue to the committee of people, you have to put some tokens into the fund. If it turns out that you are a bad actor, you lose those tokens. (Punishment)</li>
+      <li>Having a lot of people on the committee. So it is expensive to bribe. <b>De-incentive</b></li>
+      <li>Randomly allocate users to be on the committee, so you don’t know who to bribe. <b>De-incentive</b></li>
+      <li>To raise an issue to the committee of people, you have to put some tokens into the fund. If it turns out that you are a bad actor, you lose those tokens. <b>Punishment</b></li>
     </ul>  
   </ul>
-  </section>
 </section>
 
 <section>
-  <h2>Implementing Mechanism Design</h2>
-  <section data-transition="slide">
+  <h3>Mechanism Design Implementation</h3>
   <ul>
     <li>Understand what the goal/objective of the system is. If this is a game, what is the goal of the game?</li>
     <li>Consider the information available, for participants to make an informed decision.</li>
-    <li>What types of behaviours do you want to encourage?</li>
-    <li>What can you do to incentivise it?</li>
+    <li>What types of behaviors do you want to encourage?</li>
+    <li>What can you do to incentivize it?</li>
     <li>How can you punish bad actors?</li>
   </ul>
 </section>
-  <section data-transition="slide">
-    <h3>Price stability mechanism for MakerDAO</h3>
+
+<section>
+    <h3>Mechanism Design Implementation : Price stability mechanism for MakerDAO</h3>
     <ul>
       <li>Target rate feedback mechanism
-        <li>Sensitivity parameter</li>
-        <li>Global settlement</li>
+      <li>Sensitivity parameter</li>
+      <li>Global settlement</li>
     </ul>
-  </section>
-  <section data-transition="slide">
-    <h3>Target rate feedback mechanism</h3>
+</section>
+
+<section>
+    <h3>Mechanism Design Implementation : Target rate feedback mechanism</h3>
     <ul>
       <li>Stabilization mechanism that Maker token holders would have to activate in emergencies via the governance system.</li>
-      <li>It autonomously adjusted incentives both for Collateralized Debt Position (CDP) creation and for Dai holding, to bring the Dai market price closer to the target price by changing the target price.</li>
+      <li>It autonomously adjust incentives both for Collateralized Debt Position (CDP) creation and for Dai holding, to bring the Dai market price closer to the target price by changing the target price.</li>
     </ul>
-  </section>
-  <section data-transition="slide">
-    <h3>Sensitivity parameter</h3>
+</section>
+
+<section>
+    <h3>Mechanism Design Implementation : Sensitivity parameter</h3>
     <ul>
       <li>Token holders vote to determine trusted accounts</li>
       <li>They also vote to set a parameter that determines the maximum amount oracles can change the protocol’s internal estimates of market prices of Dai and collateral in a given amount of time</li>
     </ul>
-  </section>
-  <section data-transition="slide">
-    <h3>Global settlement Mechanism</h3>
+</section>
+
+<section>
+    <h3>Mechanism Design Implementation : Global settlement Mechanism</h3>
     <ul>
       <li>Global settlement is an emergency shut-down function that helps stabilize coin.</li>
       <li>It does so by freezing the Maker platform and stopping transactions.</li>
     </ul>
-  </section>
 </section>
 
 <section>
-  <h2>Mechanism Design Factors</h2>
-  <section data-transition="slide">
-    <h3>Monetory Policy</h3>
+    <h3>Mechanism Design Factor : Monetary Policy</h3>
     <ul>
       <li>How do you manage the system so that the peg remains the same and tokens are still valuable?</li>
       <ul>
         <li><a href="#/stable-coin-mechanism">Stable Coin Mechanism</a></li>
       </ul>
     </ul>
-  </section>
-  <section data-transition="slide">
-    <h3>Financial Policy</h3>
+</section>
+
+<section>
+    <h3>Mechanism Design Factor : Financial Policy</h3>
     <ul>
       <li>financial policy is to understand how to create economic incentives to make sure the users carry out the right actions.</li>
       <ul>
        <li><a href="#/auction-payments">Auctions/Payments</a></li>
       </ul>
     </ul>
-  </section>
-  <section data-transition="slide">
+</section>
+
+<section>
     <h3>Governance Protocol</h3>
     <ul>
       <li>They are the methods to ensure that the rules of the game are in place.</li>
@@ -265,7 +276,6 @@
         <li><a href="#/tcr">Token curated registries</a></li>
       </ul>
     </ul>
-  </section>
 </section>
 
 <section id="stable-coin-mechanism">
@@ -281,9 +291,9 @@
 <section>
   <h2>Auction/Payments</h2>
   <ul>
-    <li>Instead of a centralised system setting the payment price, you (the buyer) set your own price and compete with other buyers to receive the object.</li>
+    <li>Instead of a centralized system setting the payment price, you (the buyer) set your own price and compete with other buyers to receive the object.</li>
     <ul style="list-style-type: none;">
-      <li>E.g. Miner receive block reward and transaction fees after mining which is little in beginning as no one is in the market. So, more reward to mine on the network. As the network grows, there are MORE transactions. So, block rewards reduce and transaction fees increase.</li>
+      <li>E.g. Miner receive little block reward and transaction fees after mining in beginning. So, more reward to mine on the network. MORE transactions as network grows. So, block rewards reduce and transaction fees increase.</li>
   </ul>
   </ul>
 </section>
@@ -291,28 +301,28 @@
 <section id="voting">
   <h2>Voting</h2>
   <ul>
-    <li>Instead of a centralised system making decisions and changes, you (the token holder) can vote on issues and take ownership of the changes.</li>
+    <li>Instead of a centralized system making decisions and changes, you (the token holder) can vote on issues and take ownership of the changes.</li>
   </ul>
 </section>
 
 <section id="oracle">
   <h2>Oracle</h2>
   <ul>
-    <li>Instead of a centralised entity giving input/answers to the system, you (the network participant) can add information into the oracle to be evaluated.</li>
+    <li>Instead of a centralized entity giving input/answers to the system, you (the network participant) can add information into the oracle to be evaluated.</li>
   </ul>
 </section>
 
 <section id="tcr">
   <h2>Token curated registries</h2>
   <ul>
-    <li>Instead of having a centralised entity like Buzzfeed to rank “best cheesecake in Philly”, you (the voter) can curate the decentralised list.</li>
+    <li>Instead of having a centralized entity like Buzzfeed to rank “best cheesecake in Philly”, you (the voter) can curate the decentralized list.</li>
   </ul>
 </section>
 
 <section>
   <h2>Token Design</h2>
   <ul>
-    <li>Token design is everything that involves the token, for example, how are the tokens used to incentivise specific behaviour, total supply, and token governance.</li>
+    <li>Token design is everything that involves the token, for example, how are the tokens used to incentivize specific behavior, total supply, and token governance.</li>
     <ul>
       <li>Architecture</li>
       <li>Incentive</li>
@@ -323,14 +333,19 @@
 
 <section>
   <h2>Token Design (punch)</h2>
-  <p>The unique thing about token ecosystem is that everything is <b>decentralised</b>. That means many of the token design “rules” has to be coded or embedded into the system.</p>
+  <p>The unique thing about token ecosystem is that everything is <b>decentralized</b>. That means many of the token design “rules” has to be coded or embedded into the system.</p>
+</section>
+
+<section>
+  <h2>While designing token ask yourself</h2>
+  <img src="token-issuance-scope.png" width="700">
 </section>
 
 <section>
   <h2>While designing token ask yourself</h2>
   <ul>
     <li>What is the true purpose of a token?</li>
-    <li>Why do you need a decentralised network for your product/project?</li>
+    <li>Why do you need a decentralized network for your product/project?</li>
     <li>What incentives are you giving to the users?</li>
     <li>What is the ideal token design structure you’d like? (e.g. inflation rate, allocation, distribution schemes, total supply,)</li>
     <li>Are you pegging your token valuation to a real currency? What is the possible limitation to that?(may not be applicable)</li>
@@ -364,7 +379,7 @@
 <section>
   <h2>Air Drops</h2>
   <p>Airdrops is a process by which the company distributes its tokens to wallets of certain user, completely free of charge.</p>
-  <img src="airdrop.jpg" style="max-width: 50%; max-height: 60%;">
+  <img src="airdrop.jpg" style="max-width: 40%; max-height: 50%;">
   <p class="credits"><a href="https://blockgeeks.com/guides/what-are-airdrops/">Image Credits</a></p>
 </section>
 
@@ -380,7 +395,7 @@
 
 <section data-markdown><script type="text/template">
 ## Taking part in Air Drop
-* Cryptocurrency wallets
+* Crypto-currency wallets
 * The Base tokens
 * Access to information
 </script></section>
@@ -418,8 +433,8 @@
 </section>
 
 <section data-markdown><script type="text/template">
-  ## IEO - Intial Exchange Offering
-  * Also  known as ICO 2.0, IEOs enable establishment of a “trusted entity”. Trusted entity is the cryptocurrency exchange
+  ## IEO - Initial Exchange Offering
+  * Also  known as ICO 2.0, IEOs enable establishment of a “trusted entity”. Trusted entity is the crypto-currency exchange
   * Benefits of IEOs
   * Projects hosted by exchanges are legitimate.
   * Tokens listed on exchange are immediately tradable
@@ -435,34 +450,31 @@
 </script></section>
 
 <section>
-  <h2>Decentralized Exchange</h2>
-</section>
-
-<section>
-  <h2>Decentralized Exchange</h2>
-  <section>
+  <h3>Decentralized Exchange</h3>
     <ul>
       <li>In most exchanges, only the asset exchange is decentralized, as the assets are cryptocurrencies deployed on the blockchain that no central entity controls.</li>
     </ul>
-  </section>
-  <section>
-    <ul>
-      <li>Due to KYC and AML regulations, exchanges are often required to seek users’ identities for capital deposits, creating centralized record-collection and data-storage of personal information. Centralized exchanges give users permission to transact currencies, rather than creating a permissionless ecosystem.</li>
-    </ul>
-  </section>
 </section>
 
 <section>
-  <h2>Why <b>NOT</b> Centralised Exchange?</h2>
-  <section data-transition="slide">
+  <h3>Decentralized Exchange</h3>
+    <ul>
+      <li>Due to KYC and AML regulations, exchanges are often required to seek users’ identities for capital deposits, creating centralized record-collection and data-storage of personal information. Centralized exchanges give users permission to transact currencies, rather than creating a permissionless ecosystem.</li>
+    </ul>
+</section>
+
+<section>
+  <h3>Why <b>NOT</b> Centralized Exchange?</h3>
   <ul>
     <li>Unreliable and untrustworthy</li>
     <li>Modern financial system, this transgressions happen to quickly</li>
-    <li>CEX compromisation may put millions of  users’ fund at risk at a given time.</li>
+    <li>Compromised CEX  may put millions of users’ fund at risk at a given time.</li>
     <li>Multiple people have access to customer’s fund. “Three can keep a secret if two are dead”.</li>
   </ul>
-  </section>
-  <section data-transition="slide">
+</section>
+
+<section>
+  <h3>Why <b>NOT</b> Centralized Exchange?</h3>
   <ul>
     <li>High-frequency trading, front running or hidden orders</li>
     <li>May need to go physically close to exchanges as trading bots make decisions so quickly.</li>
@@ -470,34 +482,34 @@
     <li>“Big brother is watching”</li>
   </ul>
 </section>
-</section>
 
 <section>
-  <h2>Decentralized exchange prons</h2>
-  <section data-transition="slide">
+    <h3>Decentralized exchange merits</h3>
     <ul>
       <li>Any attack or failure impacts only one user and their funds.</li>
       <li>User has control over their own security</li>
       <li>Hacking and individual user or exchange occurs at fixed cost.</li>
     </ul>
-  </section>
-  <section data-transition="slide">
+</section>
+
+<section>
+  <h3>Decentralized exchange merits</h3>
     <ul>
       <li>Level playing field to traders</li>
       <li>Spin up your own exchange by running an API node locally - location-neutral</li>
       <li>A user may keep more than one account and there is no way of tying transactions done through different account to your identity hencing it gives false sense of privacy.</li>
     </ul>
-  </section>
 </section>
 
-<section id="game-theory">
-  <h2>Game Theory</h2>
-  <section data-transition="slide">
+<section>
+  <h3>Game Theory</h3>
     <ul style="list-style: none;">
       <li>Game theory is basically strategic decision making. You look at the options, consider the outcomes to the solutions and make the best decision.</li>
     </ul>
-  </section>
-  <section data-transition="slide">
+</section>
+
+<section>
+  <h3>Game Theory</h3>
   <ul style="list-style-type: none;">
     <li>Imagine there is a sealed cookie jar at home. Mum says that no one can eat the cookie. You and your sister both wants the cookie. What options are there?</li>
     <ul>
@@ -508,7 +520,9 @@
     </ul>  
   </ul>
 </section>
-<section data-transition="slide">
+
+<section>
+  <h3>Game Theory</h3>
   <ul style="list-style-type: none;">
     <li>What will happen next?</li>
     <ul style="list-style: decimal;">
@@ -520,19 +534,19 @@
     <li>Which option will you choose?</li>
   </ul>
 </section>          
-</section>
+
 
 <section>
   <h2>Time lock Contracts</h2>
   <ul>
     <li>Allow users to lock up their tokens.</li>
     <li>Tokens can be released again after specified amount of time before a user who has decided to unlock his tokens actually receives them back (cliff vesting).</li>
-    <li>The contract can be used for any token that follows the ERC20 standard and the same instance can be used by an arbitrary number of users</li> 
+    <li>The contract can be used for any token that follows the common token standard and the same instance can be used by an arbitrary number of users</li> 
   </ul>
 </section>
 
 <section>
-  <h2>Lab 2</h2>
+  <h2>Lab 3</h2>
 </section>
 
 <section data-markdown><script type="text/template">
