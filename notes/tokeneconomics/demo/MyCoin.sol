@@ -4,43 +4,58 @@ pragma solidity ^0.7.1;
 
 /* A demo contract for token
  * Run the test as follows:
- * 1) create MetaCoin with account A
- * 2) Copy the address of account B
- * 3) run MetaCoin.sendCoin(account B, 100) with account A
- * 4) check MetaCoin.getBalance(account B) for balance of account B.
- * 5) check MetaCoin.getBalanceInEth(account B, 2) for balance in Eth.
- * 6) check MetaCoin.getBalance(account A) for balance of account A. 
+ * 1) create PriceFeed with account A
+ * 2) create MetaCoin with account A
+ * 3) Copy the address of account B
+ * 4) run MetaCoin.sendCoin(account B, 100) with account A
+ * 5) check MetaCoin.getBalance(account B) for balance of account B.
+ * 6) check MetaCoin.getBalanceInEth(account B, 2) for balance in Eth.
+ * 7) check MetaCoin.getBalance(account A) for balance of account A. 
  */
 
-library ConvertLib{
-	function convert(uint amount,uint conversionRate) public pure returns (uint convertedAmount)
-	{
-		return amount * conversionRate;
-	}
+contract PriceFeed {
+  uint private _price = 2;
+  function getPrice() public view returns (uint) {
+    return _price;
+  }
+  
+  function setPrice(uint _price_) public {
+      _price = _price_;
+  }
+}
+
+library ConvertLib {
+    function convert(uint _amount, uint _conversionRate) public pure returns (uint convertAmount) {
+        return _amount * _conversionRate;
+    }
 }
 
 contract MetaCoin {
-    mapping (address => uint) public balances;
-
-    event Transfer(address indexed _from, address indexed _to, uint256 _value);
-
-    constructor() {
+    mapping(address => uint) balances;
+    
+    event Transfer(address indexed _from, address indexed _to, uint indexed _amount);
+    
+    PriceFeed public feed;
+    
+    constructor(PriceFeed _feed) {
+        feed = _feed;
         balances[msg.sender] = 10000;
     }
-
-    function sendCoin(address receiver, uint amount) public returns(bool sufficient) {
-        if (balances[msg.sender] < amount) return false;
-        balances[msg.sender] -= amount;
-        balances[receiver] += amount;
-        emit Transfer(msg.sender, receiver, amount);
-        return true;
+    
+    function sendCoin(address _receiver, uint _amount) public returns(bool _sufficent) {
+        require(balances[msg.sender] >= _amount,"Insufficient balance");
+        balances[msg.sender] = balances[msg.sender] - _amount;
+        balances[_receiver] = balances[_receiver] + _amount;
+        emit Transfer(msg.sender, _receiver, _amount);
+        _sufficent = true;
     }
-
-    function getBalanceInEth(address addr) public view returns(uint){
-        return ConvertLib.convert(getBalance(addr),2);
+    
+    function getBalance(address _account) public view returns(uint _balance) {
+        _balance = balances[_account];
     }
-
-    function getBalance(address addr) public view returns(uint) {
-        return balances[addr];
+    
+    function getBalanceInEth(address _account) public view returns(uint _balanceInEth) {
+        uint _exchangeRate = feed.getPrice();
+        _balanceInEth = ConvertLib.convert(balances[_account],_exchangeRate);
     }
 }
