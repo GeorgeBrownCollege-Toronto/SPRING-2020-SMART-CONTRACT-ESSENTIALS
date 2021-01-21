@@ -31,7 +31,7 @@ library ConvertLib {
 }
 
 contract MetaCoin {
-    mapping(address => uint) balances;
+    mapping(address => uint) public balances;
     
     event Transfer(address indexed _from, address indexed _to, uint indexed _amount);
     
