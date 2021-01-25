@@ -65,7 +65,7 @@
 
 #### Contract Deployment
 
-*Dhruvin Parikh, May 2020*
+*Dhruvin Parikh, January 2021*
 
 </script></section>
 
@@ -131,6 +131,23 @@
 </section>
 
 <section>
+  <h2><code>approve</code> and <code>transferFrom</code></h2>
+    <img src="approve_transferFrom_workflow.png" width="500px">
+</section>
+
+<section>
+  <h2><code>approve</code> and <code>transferFrom</code></h2>
+  <ul>
+    <li>A contract that will accept WETH tokens and issue another tokens</li>
+    <li>Demonstrate the use of ERC20 standard approve and transferFrom use case</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Lab 7</h2>
+</section>
+
+<section>
   <h2>Metamask</h2>
   <div class="two-column">
     <div>
@@ -161,7 +178,8 @@
   <h2>What is a JSON Wallet File?</h2>
   <ul>
     <li>It includes the encrypted private key, with information about how it was encrypted</li>
-    <li>You can use <a target="_blank" href="https://ethers.io/">https://ethers.io/</a> to generate the wallet file</li>
+    <li>You can use <a target="_blank" href="https://www.myetherwallet.com/create-wallet">https://www.myetherwallet.com/create-wallet</a> to generate the wallet file</li>
+    <li>You can use <a target="_blank" href="https://www.myetherwallet.com/access-my-wallet">https://www.myetherwallet.com/access-my-wallet</a> to generate the wallet file</li>
   </ul>
 </section>
 
@@ -171,9 +189,7 @@
     <li>Testnet is a blockchain network for testing purposes</li>
       <li>The following article has a good description of each testnet:
       <ul>
-        <li><a target="_blank" href="https://dev.to/5chdn/the-grli-testnet-proposal---a-call-for-partic
-          ipation-58pf">https://dev.to/5chdn/the-grli-testnet-proposal---a-call-for-partic
-          ipation-58pf</a></li>
+        <li><a target="_blank" href="https://ethereum.org/en/developers/docs/networks/">https://ethereum.org/en/developers/docs/networks/</a></li>
       </ul>
   </ul>
 </section>
@@ -227,14 +243,7 @@
 </section>
 
 <section>
-  <h2>Lab</h2>
-  <ul>
-    <li>Create an ERC20 token contract</li>
-    <li>Deploy to a testnet</li>
-    <li>Verify the contract on etherscan</li>
-    <li>Manually perform tests on the contract, make sure there are approve, transfer, transferFrom transactions</li>
-    <li>Submit the etherscan link with the contract address to blackboard</li>
-  </ul>
+  <h2>Lab 8</h2>
 </section>
 
 <section>
@@ -248,35 +257,23 @@
 </section>
 
 <section>
-  <h2><code>approve</code> and <code>transferFrom</code></h2>
-  <section data-transition="slide">
-    <img src="approve_transferFrom_workflow.png" width="500px">
-  </section>
-  <section data-transition="slide">
-    <ul>
-      <li>A contract that will accept WETH tokens and issue another tokens</li>
-      <li>Demonstrate the use of ERC20 standard approve and transferFrom use case</li>
-    </ul>
-  </section>
+<h2>Class Activity : ERC20 Token Payment</h2>
+<ul>
+  <li>Use account 1 to deploy <a target="_blank" href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-deployment/demo/Token.sol">Token.sol</a> contract</li>
+  <li>Use account 1 to deploy <a target="_blank" href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-deployment/demo/WETH.sol">WETH.sol</a> contract</li>
+  <li>Use account 1 to mint token</li>
+  <li>Use account 2 to deploy the TokenSale contract using account 1 as the wallet. <a target="_blank" href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-deployment/demo/TokenSale.sol">TokenSale.sol</a></li>
+</ul>
 </section>
 
 <section>
-<h2>Demo of TokenSale</h2>
-<section data-transition="slide">
-<ul>
-  <li>Use account 1 to deploy token contract</li>
-  <li>Use account 1 to mint token</li>
-  <li>Use account 2 to deploy the TokenSale contract using account 1 as the wallet. <a href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-deployment/demo/TokenSale.sol">TokenSale.sol</a></li>
-</ul>
-</section>
-<section data-transition="slide">
-<ul>
+  <h2>Class Activity : ERC20 Token Payment (Cont.)</h2>
+  <ul>
   <li>Use account 1 to approve tokenSale to transfer tokens</li>
   <li>Use account 3 to purchase WETH token</li>
   <li>Use account 3 to approve tokenSale contract to spend <b>WETH</b></li>
   <li>Use account 3 to call <code>tokenSale.claimToken()</code></li>
 </ul>
-</section>
 </section>
 
 <section data-markdown><script type="text/template">
