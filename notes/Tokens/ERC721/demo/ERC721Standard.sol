@@ -28,6 +28,9 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
     
     bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
     
+    // optional
+    string private _baseURI;
+    
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
         _symbol = symbol_;
@@ -43,6 +46,14 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
     
     function totalSupply() public view override returns(uint256) {
         return _tokenIDs.length;
+    }
+    
+    function baseURI() public view returns(string memory) {
+        return _baseURI;
+    }
+    
+    function setBaseURI(string memory baseURI_) public  {
+        _baseURI = baseURI_;
     }
     
     function tokenOfOwnerByIndex(address _owner, uint256 _index) public view override returns(uint256 tokenId) {
@@ -62,7 +73,40 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
         require(_exists(_tokenId),"ERC721: approved query for nonexistant token");
         string memory _tokenURI = _tokenURIs[_tokenId];
-        return _tokenURI;
+        
+        if(bytes(_baseURI).length == 0) {
+            return _tokenURI;
+        }
+        
+        if (bytes(_tokenURI).length > 0) {
+            return string(abi.encodePacked(_baseURI,_tokenURI));
+        }
+        
+        return string(abi.encodePacked(_baseURI, _toString(_tokenId)));
+    }
+    
+    function _toString(uint256 _value) internal pure returns (string memory) {
+        if (_value == 0) {
+            return "0";
+        }
+        
+        uint256 _digits;
+        uint256 _temp = _value;
+        while(_temp != 0) {
+            _digits++;
+            _temp /= 10;
+        }
+        
+        bytes memory buffer = new bytes(_digits);
+        uint256 index = _digits - 1;
+        _temp = _value;
+        
+        while(_temp != 0) {
+            buffer[index--] = byte(uint8(48 + _temp % 10));
+            _temp /= 10;
+        }
+        
+        return string(buffer);
     }
     
     function ownerOf(uint256 _tokenId) public override view returns (address) {
@@ -133,8 +177,31 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
         require(_checkOnERC721Received(_from, _to, _tokenId, ""));
     }
     
+    function safeMint(address _to, uint256 _tokenId) public {
+        mint(_to, _tokenId);
+        require(_checkOnERC721Received(address(0), _to, _tokenId, ""));
+    }
+    
+    function safeMint(address _to, uint256 _tokenId, bytes memory data) public {
+        mint(_to, _tokenId);
+        require(_checkOnERC721Received(address(0), _to, _tokenId, data));
+    }
+    
+    function mint(address _to, uint256 _tokenId) public {
+        require(_to != address(0), "ERC721: mint to the zero address");
+        require(!_exists(_tokenId),"ERC721: approved query for nonexistant token");
+        
+        _holderToTokens[_to].push(_tokenId);
+        
+        _tokenIDs.push(_tokenId);
+        uint _index = _tokenIDs.length - 1;
+        _tokenIDToTokenIndex[_tokenId] = _index;
+        
+        emit Transfer(address(0), _to, _tokenId);
+    }
+    
     function _checkOnERC721Received(address _from, address _to, uint256 _tokenId, bytes memory _data) private returns (bool) {
-        if (!_isContract(_to)) {
+        if (!isContract(_to)) {
             return true;
         }
         
@@ -153,8 +220,8 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
         return (_tokenIDs[_tokenIDToTokenIndex[_tokenId]] == _tokenId);
     }
     
-    function _isContract(address _account) internal view returns (bool) {
-        uint256 _size; 
+    function isContract(address _account) internal view returns (bool) {
+        uint256 _size;
         assembly { _size := extcodesize(_account)}
         return _size > 0;
     }
