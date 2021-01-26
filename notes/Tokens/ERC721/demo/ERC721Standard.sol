@@ -3,8 +3,10 @@
 pragma solidity ^0.7.1;
 
 import "./IERC721.sol";
+import "./IERC721Metadata.sol";
+import "./IERC721Enumerable.sol";
 
-contract ERC721Standard is IERC721 {
+contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
     
     mapping(address => uint256[]) private _holderToTokens;
     
@@ -13,17 +15,63 @@ contract ERC721Standard is IERC721 {
     mapping(uint256 => address) private _tokenApprovals;
     
     mapping(address => mapping(address => bool)) private _operatorApprovals;
+    
+    uint256[] private _tokenIDs;
+    
+    mapping(uint256 => uint256) private _tokenIDToTokenIndex;
+    
+    string private _name;
+    
+    string private _symbol;
+    
+    mapping(uint256 => string) private _tokenURIs;
+    
+    bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
+    
+    constructor(string memory name_, string memory symbol_) {
+        _name = name_;
+        _symbol = symbol_;
+    }
+    
+    function name() public view override returns (string memory) {
+        return _name;
+    }
+    
+    function symbol() public view override returns (string memory) {
+        return _symbol;
+    }
+    
+    function totalSupply() public view override returns(uint256) {
+        return _tokenIDs.length;
+    }
+    
+    function tokenOfOwnerByIndex(address _owner, uint256 _index) public view override returns(uint256 tokenId) {
+        uint256 _tokenId = _holderToTokens[_owner][_index];
+        return _tokenIDToTokenIndex[_tokenId];
+    }
+    
+    function tokenByIndex(uint256 _index) public view override returns(uint256) {
+        return _tokenIDs[_index];
+    }
 
     function balanceOf(address _owner) public override view returns (uint256) {
         require(_owner != address(0), "ERC721 : balance query for zero address");
         return _holderToTokens[_owner].length;
     }
     
+    function tokenURI(uint256 _tokenId) public view override returns (string memory) {
+        require(_exists(_tokenId),"ERC721: approved query for nonexistant token");
+        string memory _tokenURI = _tokenURIs[_tokenId];
+        return _tokenURI;
+    }
+    
     function ownerOf(uint256 _tokenId) public override view returns (address) {
+        require(_exists(_tokenId),"ERC721: approved query for nonexistant token");
         return _tokenIdToHolder[_tokenId];
     }
     
     function approve(address _operator, uint256 _tokenId) public override payable {
+        require(_exists(_tokenId),"ERC721: approved query for nonexistant token");
         address _owner = _tokenIdToHolder[_tokenId];
         require(_owner == msg.sender, "ERC721: approve caller is not owner nor approved for all");
         require(_owner != _operator, "ERC721: approval to current owner");
@@ -32,6 +80,7 @@ contract ERC721Standard is IERC721 {
     }
     
     function getApproved(uint256 _tokenId) public override view returns (address) {
+        require(_exists(_tokenId),"ERC721: approved query for nonexistant token");
         return _tokenApprovals[_tokenId];    
     }
     
@@ -46,6 +95,7 @@ contract ERC721Standard is IERC721 {
     }
     
     function transferFrom(address _from, address _to, uint256 _tokenId) public override payable {
+        require(_exists(_tokenId),"ERC721: approved query for nonexistant token");
         // msg.sender should be approved
         address _owner = _tokenIdToHolder[_tokenId];
         address _spender = msg.sender;
@@ -73,12 +123,40 @@ contract ERC721Standard is IERC721 {
         emit Transfer(_from, _to, _tokenId);
     }
     
-    function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes memory data) public override payable {
-        
+    function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes memory _data) public override payable {
+        transferFrom(_from,  _to,  _tokenId);
+        require(_checkOnERC721Received(_from, _to, _tokenId, _data));
     }
     
     function safeTransferFrom(address _from, address _to, uint256 _tokenId) public override payable {
+        transferFrom(_from, _to, _tokenId);
+        require(_checkOnERC721Received(_from, _to, _tokenId, ""));
+    }
+    
+    function _checkOnERC721Received(address _from, address _to, uint256 _tokenId, bytes memory _data) private returns (bool) {
+        if (!_isContract(_to)) {
+            return true;
+        }
         
+        (bool _success, bytes memory _returnData) = _to.call(
+            abi.encodeWithSignature("onERC721Received(address,address,uint256,bytes)", msg.sender, _from, _tokenId, _data));
+        require(_success,"low-level-failed");
+        bytes4 _retVal = abi.decode(_returnData, (bytes4));
+        return (_retVal == _ERC721_RECEIVED);
+    }
+    
+    function _exists(uint256 _tokenId) internal view returns(bool) {
+        if(_tokenIDs.length == 0) {
+            return false;
+        }
+        
+        return (_tokenIDs[_tokenIDToTokenIndex[_tokenId]] == _tokenId);
+    }
+    
+    function _isContract(address _account) internal view returns (bool) {
+        uint256 _size; 
+        assembly { _size := extcodesize(_account)}
+        return _size > 0;
     }
     
 }
