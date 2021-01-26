@@ -60,6 +60,10 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
         uint256 _tokenId = _holderToTokens[_owner][_index];
         return _tokenIDToTokenIndex[_tokenId];
     }
+
+    function getTokenIndexByTokenID(uint256 _tokenId) public view returns (uint256) {
+        return _tokenIDToTokenIndex[_tokenId];
+    }
     
     function tokenByIndex(uint256 _index) public view override returns(uint256) {
         return _tokenIDs[_index];
