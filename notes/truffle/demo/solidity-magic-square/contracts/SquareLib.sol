@@ -4,6 +4,7 @@ pragma solidity ^0.7.1;
 pragma experimental ABIEncoderV2;
 
 library SquareLib {
+    
     struct MagicSquare {
         uint256[][] rows;
         uint256 n;
