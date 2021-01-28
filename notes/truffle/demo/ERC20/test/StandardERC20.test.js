@@ -171,4 +171,63 @@ contract("StandardERC20", (accounts) => {
       "recipient1's balance is not as expected"
     );
   });
+  it("test revert transfer()", async () => {
+    const transferAmount = web3.utils.toBN(105000000);
+
+    await truffleAssert.reverts(
+      standardERC20Instance.transfer(recipient1, transferAmount, {
+        from: creator,
+      }),
+      "ERC20: sender does not have enough amount"
+    );
+  });
+
+  it("test revert approve()", async () => {
+    const approveAmount = web3.utils.toBN(11000000);
+
+    await truffleAssert.reverts(
+      standardERC20Instance.approve(spender, approveAmount, {
+        from: recipient1,
+      }),
+      "ERC20: owner does not have enough amount"
+    );
+  });
+
+  it("test address(0) recipient transfer()", async () => {
+      const recipient = "0x0000000000000000000000000000000000000000";
+
+      await truffleAssert.reverts(
+        standardERC20Instance.transfer(
+            recipient,
+            recipient1Amount,
+            { from: creator }
+          ), "ERC20: transfer from zero transfer"
+      )
+  });
+
+  it("test address(0) sender transferFrom()", async () => {
+    const sender = "0x0000000000000000000000000000000000000000";
+
+    await truffleAssert.reverts(
+      standardERC20Instance.transferFrom(
+          sender,
+          recipient1,
+          recipient1Amount,
+          { from: creator }
+        ), "ERC20: transfer from zero transfer"
+    )
+});
+
+  it("test address(0) spender approve()", async () => {
+    const spenderAddr = "0x0000000000000000000000000000000000000000";
+
+    truffleAssert.reverts(
+        standardERC20Instance.approve(
+            spenderAddr,
+            spenderAmount,
+            { from: recipient1 }
+          ),
+          "ERC20: transfer from zero transfer"
+    )
+  });
 });
