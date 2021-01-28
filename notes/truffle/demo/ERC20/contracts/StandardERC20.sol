@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity >=0.4.25 <0.7.0;
+pragma solidity >=0.4.22 <0.9.0;
 
 /**
  * @dev Interface of the ERC20 standard as defined in the EIP.
@@ -88,12 +88,12 @@ contract StandardERC20 is IERC20 {
     string private _symbol;
     uint8 private _decimals;
     
-    constructor (string memory name, string memory symbol, uint256 totalSupply) public {
+    constructor (string memory name, string memory symbol, uint8 decimals, uint256 totalSupply) {
         _name = name;
         _symbol = symbol;
-        _decimals = 18; // 1 ether  = 10^18 wei
+        _decimals = decimals;
         _totalSupply = totalSupply;
-        _balances[msg.sender] = _balances[msg.sender] + totalSupply;
+        _balances[msg.sender] = totalSupply;
     }
     
     function name() public view returns (string memory) {
