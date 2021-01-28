@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title> Security Considerations </title>
+
+    <meta name="author" content="Dhruvin Parikh">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../../reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="../../../reveal.js/css/theme/solarized.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../../../reveal.js/lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../../../reveal.js/css/print/pdf.css' : '../../../reveal.js/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <style>
+      .reveal .slides h1, .reveal .slides h2, .reveal .slides h3 {
+        text-transform: none;
+      }
+
+      .two-column {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .two-column em {
+        margin: 20px;
+      }
+
+      .credits{
+        font-size: small;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+<!------------------------------------------------------->
+
+
+
+<section data-markdown><script type="text/template">
+
+### BCDV 1010 - Smart Contract Essentials
+
+#### Security Considerations
+
+*Dhruvin Parikh, January 2021*
+
+</script></section>
+
+<section id="content" data-markdown><script type="text/template">
+  ## Content
+  * Proxy Contract
+  * Common Security Bugs
+  * Solidity Static Analysis using Remix 
+  * Lab
+</script></section>
+
+<section>
+  <h2>Proxy Contract</h2>
+  <p>Initial</p>
+  <img src="proxy1.svg" style="box-shadow: none;border: none;">
+  <p>After upgrade</p>
+  <img src="proxy2.svg" style="box-shadow: none;border: none;">
+</section>
+
+<section data-auto-animate>
+  <h2 data-id="code-title">Proxy contract demo</h2>
+  <pre data-id="code-animation"><code class="hljs" data-trim>
+      // SPDX-License-Identifier: MIT
+
+      pragma solidity ^0.7.1;
+
+      interface ILib {
+          function version() external view returns(uint);
+      }
+
+      contract LibV1 is ILib {
+          uint public override version = 1;
+      }
+
+      contract Ownable {
+          address public owner;
+          constructor() {
+          owner = msg.sender;
+          }
+          modifier onlyOwner() {
+              require(msg.sender == owner, "not owner!");
+              _;
+          }
+      }
+
+      contract Proxy is Ownable {
+          ILib public lib;
+          constructor(ILib libAddress) {
+              lib = libAddress;
+          }
+          function upgrade(ILib newLib) public onlyOwner {
+              lib = newLib;
+          }
+          function version() public view returns(uint) {
+              return lib.version();
+          }
+      }
+  </code></pre>
+</section>
+
+<section>
+  <h2>Common Security Bug</h2>
+  <ul>
+      <li>Re-entrancy</li>
+      <li>Integer overflow and underflow</li>
+      <li>External Contract Reference</li>
+      <li>Denial Of Source</li>
+      <li>Misuse of selfDestruct</li>
+  </ul>
+</section>
+
+<section>
+<h2>Reentrancy Attack</h2>
+<ul>
+  <li>Unexpected changes to the target contract's function</li>
+  <li>Functions called repeatedly before previous function execution completes</li>
+</ul>
+</section>
+
+<section>
+  <h2>What is DAO?</h2>
+  <ul>
+    <li>DAO's (Decentralized Autonomous Organization) goal is to codify the rules and decision making apparatus of an organization, eliminating the need for documents and people in governing, creating a structure with decentralized control.</li>
+  </ul>
+</section>
+
+<section>
+<h2>Reentrancy Attack Facts</h2>
+<ul>
+  <li>On June 17th 2016, The DAO was hacked and 3.6M ether (USD 50M) were stolen using the first reentrancy attack.</li>
+  <li>Foundation issued a critical update to rollback the hack, resulted in Ethereum-Classic and Ethereum.</li>
+</ul>
+</section>
+
+<section>
+<h2>Reentrancy on single function</h2>
+<pre data-id="code-animation"><code class="hljs" data-trim>
+// INSECURE
+mapping (address => uint) private _userBalances;
+
+function withdrawBalance() public {
+  uint amountToWithdraw = _userBalances[msg.sender];
+  (bool success, ) = msg.sender.call{value:amountToWithdraw}(""); // At this point, the caller's code is executed, and can call withdrawBalance again
+  require(success);
+  _userBalances[msg.sender] = 0;
+}
+</code></pre>
+</section>
+
+<section>
+<h2>Reentrancy on single function</h2>
+<pre data-id="code-animation"><code class="hljs" data-trim>
+  // SECURE
+  mapping (address => uint) private _userBalances;
+
+  function withdrawBalance() public {
+    uint amountToWithdraw = userBalances[msg.sender];
+    _userBalances[msg.sender] = 0;
+    (bool success, ) = msg.sender.call{value:amountToWithdraw}(""); // The user's balance is already 0, so future invocations won't withdraw anything
+    require(success);
+  }
+</code></pre>
+</section>
+
+<section>
+  <h2><a href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/security-considerations/demo/BankReentrance.sol" target="_blank">Reentrancy Attack Demo</a></h2>
+  <ul>
+      <li>A re-entrancy attack occurs when an external call to another untrusted contract causes a recursive call back to the calling contract with undesirable side effects</li>
+      <li>Best practice to avoid re-entrancy is to finish all internal state change before calling external function</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Cross-function Reentrancy</h2>
+  <ul>
+    <li>An attacker attacks using two different functions that share the same state.</li>
+  </ul>
+</section>
+
+<section>
+<h2>Cross-function Reentrancy</h2>
+<pre data-id="code-animation"><code class="hljs" data-trim>
+  // INSECURE
+  mapping (address => uint) private userBalances;
+
+  function transfer(address to, uint amount) {
+    if (userBalances[msg.sender] >= amount) {
+      userBalances[to] += amount;
+      userBalances[msg.sender] -= amount;
+    }
+  }
+
+  function withdrawBalance() public {
+    uint amountToWithdraw = userBalances[msg.sender];
+    (bool success, ) = msg.sender.call.value(amountToWithdraw)(""); // At this point, the caller's code is executed, and can call transfer()
+    require(success);
+    userBalances[msg.sender] = 0;
+  }
+</code></pre>
+</section>
+
+<section>
+  <h2>Mitigating Re-Entrancy</h2>
+  <ol>
+    <li>Check who called the function, are the arguments in range, did they send enough Ether, does the person have tokens, etc.</li>
+    <li>Make effects to the state variables of the current contract.</li> 
+    <li>Lastly Interact with other contracts from a function.</li>
+  </ol>
+</section>
+
+
+<section>
+<h2>Mitigating Re-Entrancy : Pull Payment</h2>
+<pre data-id="code-animation"><code class="hljs" data-trim>
+  // bad
+  contract auction {
+    address highestBidder;
+    uint highestBid;
+
+    function bid() payable {
+      require(msg.value >= highestBid);
+
+      if (highestBidder != address(0)) {
+          (bool success, ) = highestBidder.call.value(highestBid)("");
+          require(success); // if this call consistently fails, no one else can bid
+      }
+
+     highestBidder = msg.sender;
+     highestBid = msg.value;
+    }
+  }
+</code></pre>
+</section>
+
+<section>
+<h2>Mitigating Re-Entrancy : Pull Payment</h2>
+<pre data-id="code-animation"><code class="hljs" data-trim="">
+  // good
+  contract auction {
+    address highestBidder;
+    uint highestBid;
+    mapping(address => uint) refunds;
+
+    function bid() payable external {
+      require(msg.value >= highestBid);
+
+      if (highestBidder != address(0)) {
+          refunds[highestBidder] += highestBid; // record the refund that this user can claim
+      }
+
+      highestBidder = msg.sender;
+      highestBid = msg.value;
+    }
+
+    function withdrawRefund() external {
+      uint refund = refunds[msg.sender];
+      refunds[msg.sender] = 0;
+      (bool success, ) = msg.sender.call.value(refund)("");
+      require(success);
+    }
+  }
+</code></pre>
+</section>
+
+<section>
+<h2>Integer Overflow and underflow</h2>
+<ul>
+  <li>If a balance reaches the maximum uint value 2<sup>256</sup> it will circle back to zero which checks for the condition. </li>
+  <li>If a uint is made to be less than zero, it will cause an underflow and get set to its maximum value.</li>
+</ul>
+</section>
+
+<section>
+<h2>Integer Overflow and underflow</h2>
+<pre data-id="code-animation"><code class="hljs" data-trim>
+  mapping (address => uint256) public balanceOf;
+
+  // INSECURE
+  function transfer(address _to, uint256 _value) {
+    /* Check if sender has balance */
+    require(balanceOf[msg.sender] >= _value);
+    /* Add and subtract new balances */
+    balanceOf[msg.sender] -= _value;
+    balanceOf[_to] += _value;
+  }
+
+  // SECURE
+  function transfer(address _to, uint256 _value) {
+    /* Check if sender has balance and for overflows */
+    require(balanceOf[msg.sender] >= _value && balanceOf[_to] + _value >= balanceOf[_to]);
+
+    /* Add and subtract new balances */
+    balanceOf[msg.sender] -= _value;
+    balanceOf[_to] += _value;
+  }
+</code></pre>
+</section>
+
+<section>
+<h2>Mitigating Integer Overflow and underflow</h2>
+<ul>
+  <li>Use OpenZeppelin's <code><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol" target="_blank" >SafeMath.sol</a></code> library</li>
+</ul>
+</section>
+
+<section>
+  <h2>Lab 10</h2>
+</section>
+
+<section>
+  <h2>Denial Of Service</h2>
+  <ul>
+    <li>An attack happens to the contract where it prevents anyone from calling function(s).</li>
+  </ul>
+</section>
+
+<section>
+<h2>Denial Of Service : unexpected revert</h2>
+<pre data-id="code-animation"><code class="hljs" data-trim>
+  // INSECURE
+  contract Auction {
+    address currentLeader;
+    uint highestBid;
+
+    function bid() payable {
+      require(msg.value > highestBid);
+
+      require(currentLeader.send(highestBid)); // Refund the old leader, if it fails then revert
+
+      currentLeader = msg.sender;
+      highestBid = msg.value;
+    }
+  }
+</code></pre>
+</section>
+
+<section>
+  <h2><a href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/security-considerations/demo/DenialOfService.sol" target="_blank">Denial Of Service Demo</a></h2>
+  <ul>
+      <li>Denial of Service in this demo shows how the original function of the contract no longer work as intended.</li>
+      <li>Mitigation : use withdrawal design pattern</li>
+  </ul>
+</section>
+
+<section>
+<h2>Denial Of Service : Gas Limit</h2>
+<ul>
+  <li>By paying out to everyone at once, you risk running into the block gas limit.</li>
+  <li>The gas cost of refunding each of the attacker's addresses could end up being more than the gas limit, blocking the refund transaction from happening at all.</li>
+</ul>
+</section>
+
+<section>
+  <h2>Denial Of Service: Gas Limit (Demo)</h2>
+  <pre data-id="code-animation"><code class="hljs" data-trim>
+    struct Payee {
+      address addr;
+      uint256 value;
+    }
+  
+    Payee[] payees;
+    uint256 nextPayeeIndex;
+  
+    function payOut() {
+      uint256 i = nextPayeeIndex;
+      while (i < payees.length && msg.gas > 200000) {
+        payees[i].addr.send(payees[i].value);
+        i++;
+      }
+      nextPayeeIndex = i;
+    }
+  </code></pre>
+</section>
+
+
+<section>
+<h2>Gas Limit DoS facts</h2>
+<ul>
+  <li>Fomo3D was designed to reward the last address that purchased a "key".</li>
+   <li>Each key purchase extended the timer, and the game ended once the timer went to 0.</li> 
+   <li>The attacker bought a key, stuffed 13 blocks in a row until the timer was triggered and the payout was released.</li> 
+</ul>
+</section>
+
+<section>
+  <h2>Gas Limit DoS facts (Cont.)</h2>
+  <ul>
+     <li>It took 7.9 million gas on each block, so the gas limit allowed a few small "send" transactions (which take 21,000 gas each), but disallowed any calls to the <code>buyKey()</code> function (which costs 300,000+ gas).</li>
+  </ul>
+</section>
+
+<section>
+  <h2>External Contract Reference with selfdestruct</h2>
+  <p>Demo how the parity multi-sig wallet was destroyed due to a bug in the selfdestruct call. </p>
+</section>
+
+<section>
+  <h2>Hack Smart Contracts for fun! </h2>
+  <ul>
+    <li><a href="https://ethernaut.openzeppelin.com/">https://ethernaut.openzeppelin.com/</a></li>
+    <li><a href="https://capturetheether.com/">https://capturetheether.com/</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Solidity Static Analysis</h2>
+</section>
+
+<section>
+  <h2>Solidity Static Analysis - Remix Plugin</h2>
+  <ul>
+    <li>Debug the code without execution.</li>
+    <li>Ensures proper coding standards, best practices, syntax errors,etc.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Solidity Static Analysis - Remix Plugin</h2>
+  <img src="remix-static-plugin.svg" style="border: none;box-shadow: none;">
+</section>
+
+<section>
+  <h2>Solidity Static Analysis - Remix Plugin</h2>
+  <img src="static-analysis-output.svg" style="border: none;box-shadow: none;">
+</section>
+
+<section>
+  <h2>Solidity Static Analysis - Remix Plugin</h2>
+  <ul style="list-style-type: none;">
+      <li>False Positive on infinite gas for dynamic arrays such as string</li>
+  </ul>
+  <img src="static-false-positive.svg" style="border: none;box-shadow: none;">
+</section>
+
+<section>
+  <h2>Solidity Linters</h2>
+  <ul>
+    <li><a href="https://github.com/protofire/solhint" target="_blank">solhint</a></li>
+    <li><a href="https://github.com/duaraghav8/Ethlint" target="_blank">ethlint</a></li>
+    <li><a href="https://github.com/prettier-solidity/prettier-plugin-solidity" target="_blank">prettier-solidity</a></li>
+  </ul>
+</section>
+
+<section data-markdown><script type="text/template">
+
+## End
+
+</script></section>
+
+
+
+<!------------------------------------------------------->
+
+
+      </div>
+
+    </div>
+
+    <script src="../../../reveal.js/lib/js/head.min.js"></script>
+    <script src="../../../reveal.js/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+
+	math: {
+          mathjax: './lib/MathJax/MathJax.js',
+          config: 'TeX-AMS_SVG-full',
+	},
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../../reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../../reveal.js/plugin/math/math.js', async: true },
+           // Zoom in and out with Alt+click
+           { src: "../../../reveal.js/plugin/zoom-js/zoom.js", async: true },
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
