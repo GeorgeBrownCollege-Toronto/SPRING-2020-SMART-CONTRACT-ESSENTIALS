@@ -61,17 +61,17 @@
 
 #### Smart Contract Security Analysis
 
-*Dhruvin Parikh, May 2020*
+*Dhruvin Parikh, January 2021*
 
 </script></section>
 
 <section id="content" data-markdown><script type="text/template">
   ## Content
+  * Fuzz testing
   * Static Analysis
   * Dynamic Analysis
-  * Symbolic Analysis
+  * Symbolic Execution
   * Formal Verification
-  * Bonus Lab
 </script></section>
 
 <section>
@@ -79,114 +79,8 @@
     <ul>
         <li>Once deployed, immutable and publicly accessible</li>
         <li>Testing can only prove the presence of bugs, not absence</li>
-        <li>DAO hack 2016 - US$150 million</li>
-        <li>Parity wallet hack - US$150 million</li>
-        <ul>
-            <li><a href="https://hackernoon.com/parity-wallet-hack-2-electric-boogaloo-e493f2365303">https://hackernoon.com/parity-wallet-hack-2-electric-boogaloo-e493f2365303</a></li>
-        </ul>
-    </ul>
-</section>
-
-<section>
-    <h2>Static Analysis</h2>
-    <ul>
-        <li>Static Analysis is performed by reviewing the source code without running the program</li>
-        <li>It is mostly for ensuring proper coding standards, best practices, syntax errors, etc</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Static Analysis</h2>
-    <ul style="list-style-type: none;">
-        <li>Remix Plugin</li>
-    </ul>
-    <img src="remix-static-plugin.svg" style="border: none;box-shadow: none;">
-</section>
-
-<section>
-    <h2>Static Analysis</h2>
-    <img src="static-analysis-output.svg" style="border: none;box-shadow: none;">
-</section>
-
-<section>
-    <h2>Static analysis</h2>
-    <ul style="list-style-type: none;">
-        <li>False Positive on infinite gas for dynamic arrays such as string</li>
-    </ul>
-    <img src="static-false-positive.svg" style="border: none;box-shadow: none;">
-</section>
-
-<section>
-    <h2>Dynamic Analysis</h2>
-    <ul>
-        <li>Analysis is performed by executing the program</li>
-        <li>Unit testing is a type of dynamic analysis</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Symbolic Analysis</h2>
-    <ul>
-        <li>Symbolic Analysis performs code path analysis on a program and generates test input to verify program</li>
-    </ul>
-</section>
-
-<section>
-    <h2>MythX - Remix Plugin</h2>
-    <img src="remix-mythx.svg" style="border: none;box-shadow: none;">
-    <ul style="list-style-type: none;">
-        <li>Refer to <a target="_blank">https://mythx.io/</a> for more details</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Remix - Detection of Integer underflow</h2>
-    <img src="mythx-output.svg" style="border: none;box-shadow: none;">
-</section>
-
-<section>
-    <h2>MythX with truffle demo</h2>
-    <ul>
-        <li><code>npm install truffle-security</code></li>
-        <li><code>truffle run verify</code></li>
-        <li><a target="_blank" href="https://github.com/consensys/truffle-security">https://github.com/consensys/truffle-security</a></li>
-        <li>MYTHX_ETH_ADDRESS and MYTHX_PASSWORD</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Formal Verification</h2>
-    <ul>
-        <li>Formal Verification is the process of proving or disproving program correctness with respect to a set of specifications</li>
-        <li>Solidity has a built-in module for formal verification</li>
-        <ul>
-            <li>Enabled by pragma experimental SMTChecker</li>
-        </ul>
-        <li>Paper : <a target="_blank" href="https://github.com/leonardoalt/text/blob/master/solidity_isola_2018/main.pdf">https://github.com/leonardoalt/text/blob/master/solidity_isola_2018/main.pdf</a></li>
-    </ul>
-</section>
-
-<section>
-    <h2>Require and Assert</h2>
-    <ul>
-        <li><code>require</code>: used as specifications</li>
-        <li><code>assert</code>: used as proof</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Solidity with SmtChecker</h2>
-    <ul>
-        <li>Video demo of the use of solidity smtchecker:</li>
-        <ul>
-            <li><a target="_blank" href="https://www.youtube.com/watch?v=QQbWpN76HEg">https://www.youtube.com/watch?v=QQbWpN76HEg</a></li>
-            <li><a target="_blank" href="https://chriseth.github.io/notes/talks/smt_solidity_isola/#/">https://chriseth.github.io/notes/talks/smt_solidity_isola/#/</a></li>
-            <li><a target="_blank" href="https://www.youtube.com/watch?v=rx0NPckEWGI">https://www.youtube.com/watch?v=rx0NPckEWGI</a></li>
-        </ul>
-        <li>Solidity with z3</li>
-        <ul>
-            <li><a href="https://hub.docker.com/r/yuetloo/solc_z3">https://hub.docker.com/r/yuetloo/solc_z3</a></li>
-        </ul>
+        <li><a target="_blank" href="https://github.com/joeb000/mock-dao-hack">DAO hack 2016 - US$150 million</a></li>
+        <li><a target="_blank" href="https://hackernoon.com/parity-wallet-hack-2-electric-boogaloo-e493f2365303">Parity wallet hack - US$150 million</a></li>
     </ul>
 </section>
 
@@ -237,23 +131,185 @@
 </section>
 
 <section>
-    <h2>Fuzz testing tools</h2>
+    <h2>Static Analysis</h2>
     <ul>
-        <li><a target="_blank" href="https://github.com/crytic/echidna">https://github.com/crytic/echidna</a></li>
-        <li><a target="_blank" href="https://contract.guardstrike.com/#/scan">https://contract.guardstrike.com/#/scan</a></li>
-        <li><a target="_blank" href="https://solidity.readthedocs.io/en/latest/security-considerations.html#">https://solidity.readthedocs.io/en/latest/security-considerations.html#</a></li>
-        <li><a target="_blank" href="https://arxiv.org/pdf/1905.06944.pdf">https://arxiv.org/pdf/1905.06944.pdf</a></li>
+        <li>Static Analysis is performed by reviewing the source code without running the program</li>
+        <li>It is mostly for ensuring proper coding standards, best practices, syntax errors, etc</li>
     </ul>
 </section>
 
 <section>
-    <h2>Echidna</h2>
+    <h2>Static Analysis : tools</h2>
+    <ul>
+        <li><a target="_blank" href="https://remix-ide.readthedocs.io/en/latest/static_analysis.html#solidity-static-analysis">Solidity Static Analysis</a> - Remix Plugin</li>
+        <li><a target="_blank" href="https://contract.guardstrike.com/#/scan">sFuzz</a> - fuzzer to find common vulnerabilities</li>
+        <li><a target="_blank" href="https://github.com/smartdec/smartcheck">SmartCheck</a> - sc vulnerabilities and bugs detector</li>
+        <li><a target="_blank" href="https://github.com/crytic/slither">slither</a> - Solidity static analyzer</li>
+        <li><a target="_blank" href="https://github.com/crytic/echidna">echidna</a> - rapid sc fuzzer</li>
+        <li><a target="_blank" href="https://github.com/eth-sri/securify2">Securify</a> - Solidity security static analyzer </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Static Analysis : Remix Plugin</h2>
+    <img src="remix-static-plugin.svg" style="border: none;box-shadow: none;">
+</section>
+
+<section>
+    <h2>Static Analysis : Remix Plugin</h2>
+    <img src="static-analysis-output.svg" style="border: none;box-shadow: none;">
+</section>
+
+<section>
+    <h2>Static Analysis : Remix Plugin</h2>
     <ul style="list-style-type: none;">
-        <li>Uses property testing to generate malicious inputs that break smart contracts</li>
+        <li>False Positive on infinite gas for dynamic arrays such as string</li>
+    </ul>
+    <img src="static-false-positive.svg" style="border: none;box-shadow: none;">
+</section>
+
+<section>
+    <h2> Static Analysis : <a target="_blank" href="https://contract.guardstrike.com/#/scan">sFuzz</a></h2>
+    <ul>
+        <li>Adaptive fuzzing strategy to maximize code coverage through multi-objective optimization</li>
+        <li>Automatically configures a blockchain network, deploys the smart contract, and generates multiple transactions
+            given the smart contract.</li>
+        <li>The transactions are then executed with an EVM
+            enriched with a set of oracles for identifying vulnerabilities.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Static Analysis : <a target="_blank" href="https://github.com/smartdec/smartcheck">SmartCheck</a></h2>
+    <ul>
+        <li>An extensible static analysis tool for discovering vulnerabilities and other code issues in Ethereum smart contracts written in the Solidity programming language.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Static Analysis : <a target="_blank" href="https://github.com/crytic/slither">Slither</a></h2>
+    <ul>
+        <li>low false positives</li>
+        <li>Identifies error condition in the source code</li>
+        <li>Easily integrates into continuous integration and Truffle builds</li>
+        <li>Report crucial contract information</li>
+        <li>Detector API to write custom analyses in Python</li>
+        <li>Intermediate representation (SlithIR) enables simple, high-precision analyses</li>
+        <li>Average execution time of less than 1 second per contract</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Static Analysis : <a target="_blank" href="https://github.com/crytic/echidna">Echidna</a></h2>
+    <ul>
+        <li>Property testing to generate malicious inputs that break smart contracts</li>
+        <li>Generates inputs tailored to code</li>
+        <li>Optional corpus collection, mutation and coverage guidance to find deeper bugs</li>
+        <li>Powered by Slither to extract useful information before the fuzzing campaign</li>
+        
+    </ul>
+</section>
+
+<section>
+    <h2>Static Analysis : <a target="_blank" href="https://github.com/crytic/echidna">Echidna</a></h2>
+    <ul>
+        <li>Automatic testcase minimization for quick triage</li>
+        <li>Seamless integration into the development workflow</li>
+        <li>Maximum gas usage reporting of the fuzzing campaign</li>
+        <li>Support for a complex contract initialization with Etheno and Truffle</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Static Analysis : <a target="_blank" href="https://github.com/eth-sri/securify2">Securify</a></h2>
+    <ul>
+        <li>Implements novel context-sensitive static analysis written in Datalog</li>
+        <li>Analyzes contracts written in Solidity >= 0.5.8</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Dynamic Analysis</h2>
+    <ul>
+        <li>Analysis is performed by executing the program</li>
+        <li>Unit testing is a type of dynamic analysis</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Dynamic Analysis</h2>
+    <ul>
+        <li><a target="_blank" href="https://www.trufflesuite.com/docs/truffle/testing/testing-your-contracts#testing-your-contracts">Truffle tests</a></li>
+        <li><a target="_blank" href="https://github.com/JoranHonig/vertigo">Vertigo</a> - Mutation testing for Ethereum smart contracts</li>
+        <li><a target="_blank" href="https://remix-ide.readthedocs.io/en/latest/unittesting.html#write-tests">Unit Testing Plugin</a> - Remix Plugin</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Symbolic Execution</h2>
+    <ul>
+        <li>Symbolic execution performs code path analysis on a program and generates test input to verify program</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Symbolic Execution</h2>
+    <ul>
+        <li><a target="_blank" href="https://github.com/trailofbits/manticore">manticore</a> - Symbolic execution tool</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Formal Verification</h2>
+    <ul>
+        <li>Formal Verification is the process of proving or disproving program correctness with respect to a set of specifications</li>
+        <li>Solidity has a built-in module for formal verification</li>
         <ul>
-            <li>Installation : <a target="_blank" href="https://github.com/crytic/echidna/blob/master/README.md">https://github.com/crytic/echidna/blob/master/README.md</a></li>
-            <li>Usage with truffle : <a target="_blank" href="https://github.com/crytic/echidna/wiki/Testing-Truffle-projects-with-Echidna">https://github.com/crytic/echidna/wiki/Testing-Truffle-projects-with-Echidna</a></li>
+            <li>Enabled by pragma experimental SMTChecker</li>
         </ul>
+    </ul>
+</section>
+
+<section>
+    <h2>Formal Verification : Spectrum</h2>
+    <img src="formal_verification_spectrum.jpeg">
+</section>
+
+<section>
+    <h2>Formal Verification : Spectrum</h2>
+    <ul>
+        <li><b>Unit testing</b> : program verification through input combination</li>
+        <li><b>Quickcheck</b> : generate 1000s of test cases</li>
+        <li><b>Full Specification</b> : generate mathematical proof</li>
+    </ul>
+</section>
+
+
+<section>
+    <h2>Formal Verification</h2>
+    <ul>
+        <li><a target="_blank" href="https://github.com/ethereum/sourcify">Sourcify</a> - verify bytecode to sourcecode</li>
+        <li><a target="_blank" href="https://github.com/leonardoalt/text/blob/master/solidity_isola_2018/main.pdf">SMTChecker</a> - SMT based formal verification module</li>
+        <li><a target="_blank" href="https://github.com/ConsenSys/scribble">Scribble</a> - Runtime verification tool</li>
+        <li><a target="_blank" href="https://pactlang.org/beginner/welcome-to-pact/#formal-verification">Pact</a> - Z3 based formal verification tool cum SC language</li>
+    </ul>
+</section>
+
+<section>
+    <h2>SMTChecker</h2>
+    <ul>
+        <li>Arithmetic underflow and overflow (underflow and overflow).</li>
+        <li>Division by zero (divByZero).</li>
+        <li>Trivial conditions and unreachable code (constantCondition).</li>
+        <li>Popping an empty array (popEmptyArray).</li>
+        <li>Insufficient funds for a transfer (balance).</li>
+    </ul>
+</section>
+
+<section>
+    <h2>SMTChecker</h2>
+    <ul>
+        <li>Solidity with z3 : <a target="_blank" href="https://hub.docker.com/r/yuetloo/solc_z3">Docker Image</a></li>
     </ul>
 </section>
 
@@ -268,16 +324,20 @@
 </section>
 
 <section>
-    <h2>References</h2>
+    <h2>References : Formal Verification</h2>
     <ul>
-        <li>Security tools : <a href="https://consensys.github.io/smart-contract-best-practices/security_tools/">https://consensys.github.io/smart-contract-best-practices/security_tools/</a></li>
+        <li><a target="_blank" href="https://medium.com/kadena-io/pact-formal-verification-for-blockchain-smart-contracts-done-right-889058bd8c3f">Pact formal verification</a> </li>
+        <li><a target="_blank" href="https://www.youtube.com/watch?v=QQbWpN76HEg">Using Solidity's SMTChecker</a></li>
+        <li><a target="_blank" href="https://chriseth.github.io/notes/talks/smt_solidity_isola/#/">SMT-based Verification of Solidity Smart Contracts</a></li>
+        <li><a target="_blank" href="https://www.youtube.com/watch?v=rx0NPckEWGI">Formal Verification of Smart Contracts</a></li>
     </ul>
 </section>
 
 <section>
-    <h2>Bonus Lab</h2>
+    <h2>References : Static Analysis</h2>
     <ul>
-        <li>Analyze the supplied contract and fix all the errors and warnings if possible</li>
+        <li><a href="https://consensys.github.io/smart-contract-best-practices/security_tools/">Security tools</a> - Consensys SC security best practices</li>
+        <li><a target="_blank" href="https://arxiv.org/pdf/1905.06944.pdf">HARVEY</a> - A Greybox Fuzzer for Smart Contracts</li>
     </ul>
 </section>
 
