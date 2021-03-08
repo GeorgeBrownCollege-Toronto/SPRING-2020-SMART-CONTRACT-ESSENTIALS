@@ -182,12 +182,11 @@ bytes4(keccak256(bytes("fun(bool)")))
   ```
   Call with `fun(true)` gives following ABI encoding:
 
-  ```
-  0xf1386ef70000000000000000000000000000000000000000000000000000000000000001
-  ```
+  <pre style="font-size: large;">
+  <span style="color:red;">0xf1386ef7</span>0000000000000000000000000000000000000000000000000000000000000001
+  </pre>
 
-  * `0xf1386ef7` - function selector
-  * `0000...1` - value for xy
+  <span style="color:red;">function selector</span> + value for xy
 </script></section>
 
 <section>
@@ -331,11 +330,18 @@ bytes4(keccak256(bytes("fun(bool)")))
 
 <section data-markdown><script type="text/template">
   ## Low Level External Function Calls
-  ### Used when the complete ABI is not available
   * `call`
   * `staticcall`
   * `delegatecall`
  </script></section>
+
+ <section data-markdown><textarea data-template>
+  ### When to Use Low Level Function Calls?
+  - When the ABI is not known
+  - When you want to bypass the gas stipend imposed on `.transfer()` or `.send()`
+  - Avoid using these low level calls if possible as they bypass safety checks
+  - Refer to the <a href="https://solidity.readthedocs.io/en/v0.6.2/units-and-global-variables.html#members-of-address-types" target="_blank">solidity docs</a> for more details
+</textarea></section>
 
 <section data-markdown><script type="text/template">
   ## `call`
@@ -360,7 +366,7 @@ bytes4(keccak256(bytes("fun(bool)")))
 <section data-markdown><script type="text/template">
   ## `delegatecall`
   * It is basically the same as `call`, except that code is run in the context of the calling contract
-
+  * Contract interacts with library via `delegatecall`
   ```javascript
   (bool success, bytes memory returnData) =
 feed.delegatecall(abi.encodeWithSignature(
@@ -409,11 +415,20 @@ feed.delegatecall(abi.encodeWithSignature(
   <ul>
     <li>When a Solidity contract calls a function of another contract, it produces a message call.
     <li>Message call is not a transaction; It does not get recorded in a block in the blockchain
-    <li>Every call has a sender, a recipient, a payload, a value, and an amount of gas.</li>
     <li>The depth of message call is limited to less than 1024 levels.</li>
     <li> You will receive an exception if this limit is exceeded</li>
   </ul>
 </section>
+
+<section data-markdown><textarea data-template>
+  ### Message Call : Cont'd
+  * Every call has a sender, a recipient, a payload, a value, and an amount of gas.
+
+  ```js
+    `recipient`.call{gas:`gas`,value:`val`}(`payload`)
+  ```
+  - `msg.sender` and `tx.origin` are passed with the message call.
+</textarea></section>
 
 <section>
   <h2>Account</h2>
@@ -426,6 +441,31 @@ feed.delegatecall(abi.encodeWithSignature(
     <li>Every account consists of a balance, a nonce, bytecode, and stored data (storage). EOA has empty bytecode and storage</li>
   </ul>
 </section>
+
+<section data-markdown=""><script type="text/template">
+  ## EOA v/s Contract Account
+  <img src="eoa-ca.png" width=400><br/>
+  * **EOA** - private keys, no code.
+  * **Contract Account** - contract code, no private keys.
+</script></section>
+
+<section data-markdown=""><script type="text/template">
+  ## EOA v/s Contract Account
+  <img src="eoa-ca-process.png">
+</script></section>
+
+<section data-markdown=""><script type="text/template">
+  ## Account State
+  ![account-state](./account-state.png)
+</script></section>
+
+<section data-markdown=""><script type="text/template">
+  ## Account State
+  * **nonce** : For EOA, it is # of transactions sent; # of contracts created otherwise.
+  * **balance** : `wei` owned (1 ether = 10^18 wei)
+  * **storageRoot** : A hash of the root node of a Merkle Patricia tree. Tree encodes the hash of storage contents of this account.
+  * **codeHash** : For contract accounts codeHash = hash(code); codeHash = hash("") otherwise.
+</script></section>
 
 <section data-markdown=""><script type="text/template">
   ## `this`
@@ -447,7 +487,7 @@ feed.delegatecall(abi.encodeWithSignature(
 
 <section>
   <h2>Delegate Message Call</h2>
-  <img src="delegate-call.png" style="box-shadow: none;border: none;">
+  <img src="delegatecall.svg" style="box-shadow: none;border: none;">
 </section>
 
 <section>
@@ -482,6 +522,11 @@ contract Sample {
 <section>
   <h2>Delegatecall context</h2>
   <img src="delegate-call-context.png" style="border: none;box-shadow: none;">  
+</section>
+
+<section>
+  <h2>Call V/s delegate Call Context</h2>
+  <img src="sender-context.svg" style="border: none;box-shadow: none;">
 </section>
 
 <section data-markdown><script type="text/template">
