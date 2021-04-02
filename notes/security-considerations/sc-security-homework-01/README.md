@@ -1,5 +1,5 @@
 # Attack the Auction
-Welcome to the Blockchain for Developers DeCal's third assignment. You'll be getting acclimated with external calls, inheritance, and smart contract security.
+You'll be getting acclimated with external calls, inheritance, and smart contract security.
 
 ## Homework Instructions
 Your task is to complete both `BadAuction.sol` and `GoodAuction.sol` such that they are each, respectively, vulnerable and protected from a push/pull reentrancy attack. Notice that both contracts inherit from `AuctionInterface.sol`.
