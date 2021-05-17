@@ -61,18 +61,20 @@
 
 #### ERC/EIP Landscape
 
-*Dhruvin Parikh, January 2021*
+*Dhruvin Parikh, May 2021*
 
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Class Plan
-  * Content
-  * Class outline
-  * Objectives
+  * Definition of an EIP
+  * The timeline of an EIP
+  * Participants in EIP process
+  * Anatomy of an EIP
+  * Examples of EIP
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Content
   * EIP Rationale 
   * EIP type
@@ -81,7 +83,7 @@
   * EIP Anatomy
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Objectives
   * Understand rationale behind EIP
   * Understand the process of EIP
@@ -89,19 +91,16 @@
 </script></section>
 
 <section>
-  <h2>Ethereum Improvement Proposals (EIPs)</h2>
-</section>
-
-<section>
-  <h2>EIPs</h2>
+  <h2>EIP</h2>
   <ul>
+    <li>Concise and thorough document</li>
     <li>Standards for the Ethereum platform, including core protocol specifications, client APIs, and contract standards.</li>
     <li>Design document providing information on Ethereum community,rationale of feature for ethereum and its concise technical specification.</li>
     <li>Author has to gather consensus within community and document dissenting opinions.</li>
   </ul>
 </section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## EIP Repository
   * A place for technical specifications.
   * A place to keep drafted EIPs as records.
@@ -119,16 +118,11 @@
 <section>
   <h2>EIP classification</h2>
   <ol>
-    <li>Standard track EIP : (e.g. ERC-20)</li>
-    <li>Meta EIP : (e.g. EIP-1)</li>
+    <li>Standard track EIP : (e.g. ERC-20)</li> - anything that should be known by the community
+    <li>Meta EIP : (e.g. EIP-1)</li> - related to the eip process
     <li>Informational EIP : (e.g. EIP-1470)</li>
   </ol>
 </section>
-
-<section>
-  <h2>Standard track EIP</h2>
-</section>
-
 
 <section>
   <h2>Standard Track EIP</h2>
@@ -147,10 +141,10 @@
   <ul>
     <li>Categories of standard track EIPs</li>
     <ul>
-      <li>Core (e.g. EIP5, EIP101)</li>
-      <li>Networking (e.g. EIP8)</li>
-      <li>Interface (e.g. EIP6)</li>
-      <li>ERC (e.g. ERC20)</li>
+      <li>Core (e.g. EIP5, EIP101)</li> - consensys related
+      <li>Networking (e.g. EIP8)</li> - related to networking clients
+      <li>Interface (e.g. EIP6)</li> - client interface related
+      <li>ERC (e.g. ERC20)</li> - on-chain app related
     </ul>
   </ul>
 </section>
@@ -205,10 +199,6 @@
 </section>
 
 <section>
-<h2>Meta EIP</h2>
-</section>
-
-<section>
   <h2>Meta EIP</h2>
   <ul>
     <li>Procedures and guidelines (Process EIPs)</li>
@@ -218,10 +208,6 @@
     <li>Decision-making process</li>
     <li>Changes to the tools or environment.</li>
   </ul>
-</section>
-
-<section>
-  <h2>Informational EIP</h2>
 </section>
 
 <section>
@@ -236,22 +222,31 @@
 
 <section>
   <h2>EIP Process</h2>
+  <ol>
+    <li>idea</li>
+    <li>draft</li>
+    <li>iteration</li>
+    <li>implementation & testing</li>
+    <li>last call</li>
+    <li>final</li>
+  </ol>
 </section>
 
 <section>
-  <h2>EIP Process</h2>
-  <div data-markdown>
-    ```
-    [ WIP ] -> [ DRAFT ] -> [ LAST CALL ] -> [ FINAL ]
-    ```
-  </div>
+  <h2>Participants</h2>
+  <ul>
+    <li>author(s)</li>
+    <li>champion(s) (often the same as the author)</li>
+    <li><a href="https://eips.ethereum.org/EIPS/eip-1#eip-editors" target="_blank">editors</a></li>
+    <li>community</li>
+    <li>core developers</li>
+  </ul>
 </section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## EIP Statuses
   * `DRAFT`.
   * `REVIEW`.
-  * `LAST CALL`
   * `LAST CALL`
   * `FINAL`
   * `LIVING`
@@ -259,7 +254,12 @@
   * `WITHDRAWN`
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section>
+  <h2>EIP status workflow</h2>
+  <img src="./eip_status.png">
+</section>
+
+<section data-markdown><script type="text/template">
   ## `REVIEW`
   * EIP authors signal that their EIP is ready for external review.
   * Before, external feedback wouldn’t occur until an EIP was in `LAST CALL`, which was too late to implement any meaningful feedback.
@@ -267,14 +267,14 @@
   * EIPs will go into a `REVIEW` state before being moved to `LAST CALL`.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## `FINAL`
   * EIP is NOT live on Ethereum mainnet. 
   * Specification is frozen.
   * Only non-normative changes, such as spelling corrections, can be made to the EIP. Any other changes must happen with a new EIP.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## `LIVING`
   * LIVING is a renaming for the previous status ACTIVE , which is the status of EIP-1. 
   * The purpose was to more accurately explain what the status is with the name.
@@ -282,29 +282,20 @@
   * EIP can be continually edited and updated.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## `STAGNANT`
   * EIPs that have gone stale, with no updates in the past several months. 
   * EIPs can be automatically given the status `STAGNANT` by the EIP bot.
   * An EIP author can move an EIP out of `STAGNANT` as it is not a status with finality.  
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## `WITHDRAWN`
   * EIPs that have formally been removed from consideration from the EIP author. 
   * An EIP can only be moved to `WITHDRAWN` by the EIP author.
   * The difference between this and `STAGNANT` is `WITHDRAWN` has finality. 
   * The only way to move an EIP that is `WITHDRAWN` forward is by creating a new EIP with a new EIP number.
 </script></section>
-
-<section>
-  <h2>EIP Work Flow</h2>
-</section>
-
-<section>
-  <h2>EIP status workflow</h2>
-  <img src="./eip_status.png">
-</section>
 
 <section>
   <h2>EIP Work flow</h2>
@@ -329,50 +320,72 @@
   </ul>
 </section>
 
-<section id="content" data-markdown><script type="text/template">
-  ## EIP Anatomy
-</script></section>
-
-<section id="content" data-markdown><script type="text/template">
-  ## Parts
+<section data-markdown><script type="text/template">
+  ## Anatomy of EIP
   * Preamble
+  * Simple Summary
   * Abstract
   * Motivation(optional)
   * Specification
   * Rationale
   * Backwards Compatibility
   * Test Cases
-  * implementations
+  * Reference Implementations
   * Security Considerations
   * Copyright Waiver
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
-  ## Preamble
+<section data-markdown><script type="text/template">
+  ## Preamble (1/2)
+  ```
+  ---
+  eip: <to be assigned>
+  title: <EIP title>
+  author: <a list of the author's or authors' name(s) and/or username(s), or name(s) and email(s), e.g. (use with the parentheses or triangular brackets): FirstName LastName (@GitHubUsername), FirstName LastName <foo@bar.com>, FirstName (@GitHubUsername) and GitHubUsername (@GitHubUsername)>
+  discussions-to: <URL>
+  status: Draft
+  type: <Standards Track, Meta, or Informational>
+  category (*only required for Standards Track): <Core, Networking, Interface, or ERC>
+  created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
+  requires (*optional): <EIP number(s)>
+  replaces (*optional): <EIP number(s)>
+  ---
+  ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Preamble(2/2)
   * RFC 822 style headers containing metadata about the EIP, 
-  * EIP number
+  * EIP number will be assigned by an editor.
   * A short descriptive title (limited to a maximum of 44 characters)
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
+  ## Simple Summary
+  *If you can't explain it simply, you don't understand it well enough.* 
+  * Provide a simplified and layman-accessible explanation of the EIP. 
+  * Imagine an email subject line, GitHub PR title, or forum post title.
+</script></section>
+
+<section data-markdown><script type="text/template">
   ## Abstract
   * A short (~200 word) description of the technical issue being addressed.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Motivation(optional)
   * The motivation is critical for EIPs that want to change the Ethereum protocol. 
   * It should clearly explain why the existing protocol specification is inadequate to address the problem that the EIP solves. 
   * EIP submissions without sufficient motivation may be rejected outright.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Specification
   * The technical specification should describe the syntax and semantics of any new feature. 
   * The specification should be detailed enough to allow competing, interoperable implementations for any of the current Ethereum platforms (cpp-ethereum, go-ethereum, parity, ethereumJ, ethereumjs-lib, and others.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Rationale
   * Describe motivation for the design and why particular design decisions were made. 
   * Describe alternate designs that were considered and related work, e.g. how the feature is supported in other languages. 
@@ -380,26 +393,26 @@
   * Discuss important objections or concerns raised during discussion.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Backwards Compatibility
   * Describing incompatibilities and their severity. 
   * Explain how the author proposes to deal with incompatibilities. 
   * EIP submissions without a sufficient backwards compatibility treatise may be rejected outright.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Test cases
   * Test cases for an implementation are mandatory for EIPs that are affecting consensus changes. 
   * Other EIPs can choose to include links to test cases if applicable.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
-  ## Implementations
+<section data-markdown><script type="text/template">
+  ## Reference Implementations
   * The implementations must be completed before any EIP is given status “Final”, 
   * Completion required before the EIP is merged as draft. 
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Security Considerations
   * Section that discusses the security implications/considerations relevant to the proposed change. 
   * Information for security discussions, surfaces risks and can be used throughout the life cycle of the proposal. 
@@ -409,17 +422,27 @@
   * An EIP cannot proceed to status “Final” without a Security Considerations discussion deemed sufficient by the reviewers.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Copyright Waiver
   * EIPs must be in the public domain. 
   * See the bottom of this EIP for an example copyright waiver.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
+## Examples
+✔ an opcode returning the sender’s nonce <br/>
+✔ reduce the gas cost of calldata <br/>
+✘ standardize the interface for a gaming contract <br/>
+✘ to add an opcode that will transfer a token <br/>
+✔ explain an efficient way to represent the state db <br/>
+✘ update the community on a DAO <br/>
+</script></section>
+
+<section data-markdown><script type="text/template">
 ## FAQs
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### How could help happen?
 * Brainstorming 
 * Proposals from developer community
@@ -431,7 +454,7 @@
 * To make it ready for user , miner and exchange adaption
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### Reasons to help
 * Avoid debasing security tokens
 * Network security depends on value of ether
@@ -443,7 +466,7 @@
 * Thwart blatant abuse
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### Reasons not to help
 * When all you have…
 * Slippery slope
@@ -451,25 +474,25 @@
 * Vulnerability escalation
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### When all you have is a hammer, everything looks like a nail 
 If intervention is the only way you can effect change, you are prone to overuse.<br/>
 **Be aware from tendencies but don’t shy away from valid uses**
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### It's a slippery slope
 While action this time may be somewhat defensible , it could ultimately lead to interventions over trivial or extremely controversial matters <br/>
 **Some sort of community constitution needed to safeguard against this?**
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### Implementation Purity
 These forks would be long term warts on protocol, dirtying implementations indefinitely<br/>
 **It’s containable**
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### Vulnerability Escalation
 By altering the “core protocol” to “fix” an “application”, we’re escalating the surface of the attack, potentially endangering far more important code.
 #### To proceed, fork-spec must be:
@@ -478,7 +501,7 @@ By altering the “core protocol” to “fix” an “application”, we’re e
 * Passing independent consensus tests
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### Non Reasons
 * OMG! Centralization!
 * Reward the doubters
@@ -486,21 +509,21 @@ By altering the “core protocol” to “fix” an “application”, we’re e
 * It’s not an attack
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### OMG! Centralization!
 #### Two flavours of consensus
 * **Automated machine-consensus** : Run software you’ll probably be able to take part. Fast, efficient and secure. But ultimately limited in flexibility.
 * **Manual** : Effected through agreement of all stakeholders(miners, exchanges and users). Vastly inferior and fundamentally more adaptable.
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### Reward the doubters
 “I stayed out because I foresaw this. I should be rewarded/they should be punished” <br/>
 If you acted wisely on a correct prediction of the whole story (It’s not done yet!), then you probably should be rewarded.<br/>
 **Don’t make independent actors work to make your prediction come true.**
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### Not part of the spec
 “Yellow paper didn’t have any possibility of fork in it, therefore nobody should support it”<br/>
 **(Perhaps nobody will)**<br/>
@@ -508,13 +531,9 @@ Yellow paper is automate consensus.<br/>
 **It is not to definite or restrict the power of the stakeholders who collectively constitute the network.**
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
 ### Ultimately though...
 *It is the community who decides*
-</script></section>
-
-<section id="content" data-markdown><script type="text/template">
-
 </script></section>
 
 <section>
@@ -522,6 +541,8 @@ Yellow paper is automate consensus.<br/>
   <ul>
     <li>EIP1 : <a target="_blank" href="https://eips.ethereum.org/EIPS/eip-1">https://eips.ethereum.org/EIPS/eip-1</a></li>
     <li>EIP-template : <a target="_blank" href="https://github.com/ethereum/EIPs/blob/master/eip-template.md">https://github.com/ethereum/EIPs/blob/master/eip-template.md</a></li>
+    <li>Gavin Wood's presentation on hack of the DAO smart contract : <a target="_blank" href="https://www.youtube.com/watch?v=KaOGtH7J0WE">https://www.youtube.com/watch?v=KaOGtH7J0WE</a></li>
+    <li><a href="https://medium.com/ethereum-cat-herders/the-feedback-that-improves-ethereum-ff4f3f36a8e2" target="_blank">Opinionated article on EIP</a></li>
   </ul>
 </section>
 
