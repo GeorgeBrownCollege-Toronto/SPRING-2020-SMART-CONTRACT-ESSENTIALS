@@ -61,20 +61,17 @@
 
 #### Contract to Contract Interaction
 
-*Dhruvin Parikh, January 2021*
+*Dhruvin Parikh, May 2021*
 
 </script></section>
 
 <section>
-  <h2>Class Plan</h2>
-  <ul>
-    <li><a href="#/content">Content</a></li>
-    <li><a href="#/objectives">Objectives</a></li>
-  </ul>
+  <h2>Announcement</h2>
+  <p>Make-up class on Saturday May 22,'21 from 9:00 to 13:00 EST</p>
 </section>
 
-<section id="content" data-markdown><script type="text/template">
-  ## Content
+<section data-markdown><script type="text/template">
+  ## Topics
   * Contract-to-Contract interactions
   * Common Use Cases
   * Application Binary Interface (ABI)
@@ -83,7 +80,7 @@
   * Lab 2
 </script></section>
 
-<section id="objectives">
+<section>
   <h2>Objectives</h2>
   <ul>
     <li>Able to interact with other contract when ABI is know/unknown</li>
@@ -99,10 +96,10 @@
 
 <section data-markdown><script type="text/template">
   ## Common Use Cases
-    - Accessing data from another contract (e.g.oraclize)
-    - Contract Wallet (e.g. UniversalLogin)
+    - Accessing data from another contract (e.g.chainlink)
+    - Contract Wallet (e.g. gnosis safe)
     - Meta Transaction (e.g. Gas Network Station)
-    - Upgradability (e.g. Crypto Exchange)
+    - Upgradeability (e.g. p2p lending/borrowing pools )
     - Extensibility (e.g. ENS)
 </script></section>
 
@@ -191,37 +188,40 @@ bytes4(keccak256(bytes("fun(bool)")))
 
 <section>
   <h2>Events</h2>
-</section>
-
-<section>
     <ul>
       <li>Events are used by contracts to log state changes to the blockchain</li>
       <li>Applications can query the blockchain for log entries of interest</li>
     </ul>
 </section>
 
-<section>
-    <ul>
-      <li>Log entries are encoded using ABI format with the following fields:
-      <ul>
-        <li>Contract Address</li>
-        <li>Up to 4 Topics</li>
-        <ul>
-          <li>topic[0] - event selector (same as function selector). None for anonymous event</li>
-          <li>Topic[n] - indexed event parameters.</li>
-        </ul>
-        <li>Data</li>
-      </ul>
-    </li>
-  </ul>
-</section>
+<section data-markdown><script type="text/template">
+## Events
+* Indexed Parameters
+ * Maximum three indexed event parameters
+ * Keccak256 hash of the event signature to form the topics of the log entry
+* Non-Indexed parameters
+ * Form the byte array of the event
+* `Topics` ini event log speed up event filtering
+</script></section>
 
-<section>
-    <ul>
-      <li>Topics are indexed event parameters for speeding up event filtering</li>
-    </ul>
-  </section>
-</section>
+<section data-markdown><script type="text/template">
+## Events ABI structure
+
+* `address` : contract address
+* `topics[0]` :
+```
+keccak(EVENT_NAME+"("+
+EVENT_ARGS.map(canonical_type_of)
+.join(",")+")")
+```
+* `topics[n]` : 
+```
+abi_encode(
+  EVENT_INDEXED_ARGS[n - 1]
+  )
+```
+* `data` : ABI encoding of non-indexed event params
+</script></section>
 
 <section>
   <h2>JSON ABI</h2>
@@ -261,7 +261,8 @@ bytes4(keccak256(bytes("fun(bool)")))
     }
 
     contract Consumer {
-      function callFeed(PriceFeed feed) public view returns(uint) {
+      function callFeed(PriceFeed feed) public view 
+      returns(uint) {
         return feed.getPrice();
       }
     }
@@ -277,7 +278,8 @@ bytes4(keccak256(bytes("fun(bool)")))
     }
 
     contract Consumer {
-      function callFeed(PriceFeed feed) public view returns(uint) {
+      function callFeed(PriceFeed feed) public 
+      view returns(uint) {
         return feed.getPrice();
       }
     }
@@ -300,7 +302,7 @@ bytes4(keccak256(bytes("fun(bool)")))
   ```javascript
   selfdestruct(address payable recipient)
   ```
-      * `fallback()` or `receive()` function not executed
+      * `fallback()` or `receive()` function not executed while calling `selfdestruct()`
 </script></section>
 
 <section>
@@ -424,8 +426,8 @@ feed.delegatecall(abi.encodeWithSignature(
   ### Message Call : Cont'd
   * Every call has a sender, a recipient, a payload, a value, and an amount of gas.
 
-  ```js
-    `recipient`.call{gas:`gas`,value:`val`}(`payload`)
+  ```
+    recipient.call{gas:gas_limit,value:val_ether}(payload)
   ```
   - `msg.sender` and `tx.origin` are passed with the message call.
 </textarea></section>
@@ -500,10 +502,10 @@ feed.delegatecall(abi.encodeWithSignature(
 * Solidity generates code that causes EVM to save variable values in their declaration order.
 * Because variable **`first`** was declared first, it’s stored in slot 0
 
-```javascript
+```
 contract Sample {
-  uint first // slot 0
-  uint second; // slot 1
+   uint first // slot 0
+   uint second; // slot 1
 }
 ```
 
