@@ -1,15 +1,23 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.4;
 
 contract User {
     receive () external payable {
         revert();
     }
+
+    // function getBalance() public view returns(uint256) {
+    //     return address(this).balance;
+    // }
+    
+    // function killCaller(Caller _caller) external {
+    //     _caller.kill(payable(address(this)));
+    // }
 }
 
 contract Caller {
-  constructor() public payable {}
+  constructor() payable {}
   function doTransfer(address payable user) public {
     user.transfer(1 ether);
   }
