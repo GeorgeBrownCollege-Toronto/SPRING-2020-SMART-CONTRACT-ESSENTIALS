@@ -65,27 +65,19 @@
 
 #### Tokeneconomics
 
-*Dhruvin Parikh, January 2021*
+*Dhruvin Parikh, May 2021*
 
 </script></section>
 
-<section>
-  <h2>Class Plan</h2>
-  <ul>
-    <li><a href="#/content">Content</a></li>
-    <li><a href="#/objectives">Objectives</a></li>
-  </ul>
-</section>
-
-<section id="content" data-markdown><script type="text/template">
-  ## Content
-  * Crowd Sales
+<section data-markdown><script type="text/template">
+  ## Topic
+  * ICO, IEO and IDO
   * Centralized v/s Decentralized Exchanges
   * Time Locks
   * Applying mechanism design to incentivization schemes
 </script></section>
 
-<section id="objectives">
+<section >
   <h2>Objectives</h2>
   <ul>
     <li>Explain difference between centralized and decentralized exchanges</li>
@@ -97,13 +89,11 @@
 
 <section>
   <h2>Economics of Tokens</h2>
-</section>
-
-<section>
   <img src="cryptoeconomics.png" style="border: none; box-shadow: none; max-width: 55%; max-height: 55%;">
 </section>
 
 <section>
+  <h2>Defining token economics</h2>
   <ul>
     <li>Tokenomics is a subset of crypto economics. It is the economics of crypto project/DApp.</li>
     <li>It considers 3 design variables</li>
@@ -117,8 +107,9 @@
 </section>
 
 <section>
+  <h2>At a high level</h2>
   <ul>
-    <li>Tokeneconmics on a high level involves</li>
+    <li>Tokeneconmics involves</li>
     <ul style="list-style:circle;">
       <li><b>Incentives of token system</b></li>
       <li><b>Properties of token system</b></li>
@@ -281,6 +272,9 @@
 <section id="stable-coin-mechanism">
   <h2>Stable coin mechanisms</h2>
   <ul>
+    <li>a cryptocurrency designed to trade at a fixed price</li>
+  </ul>
+  <ul>
     <li>Instead of a central bank affecting the value of money, the project has various ways for the coin to maintain a stable value, in comparison to another asset (e.g. USD)</li>
       <ul style="list-style-type: none;">
           <li>E.g. One cookie is worth one cup of milk. One day, all the cows die and there is a shortage of milk. How do you manage the system of cookie to milk exchange?</li>
@@ -308,6 +302,7 @@
 <section id="oracle">
   <h2>Oracle</h2>
   <ul>
+    <li>A blockchain cannot access data outside of its state (e.g. ETHUSD price, the weather today etc.)</li>
     <li>Instead of a centralized entity giving input/answers to the system, you (the network participant) can add information into the oracle to be evaluated.</li>
   </ul>
 </section>
@@ -316,6 +311,7 @@
   <h2>Token curated registries</h2>
   <ul>
     <li>Instead of having a centralized entity like Buzzfeed to rank “best cheesecake in Philly”, you (the voter) can curate the decentralized list.</li>
+    <li>For e.g Scoring DeFi pools. (https://app.defiscore.io/assets/dai)</li>
   </ul>
 </section>
 
@@ -373,6 +369,7 @@
     <li>Air Drops</li>
     <li>ICOs</li>
     <li>IEOs</li>
+    <li>IDOs</li>
   </ul>
 </section>
 
@@ -442,11 +439,28 @@
 </script></section>
 
 <section data-markdown=""><script type="text/template">
+## Order book based exchanges
+* 0x protocol
+* EtherDelta
+* Kyber
+* Airswap
+</script></section>
+
+<section data-markdown=""><script type="text/template">
   ## Exchanges does
   * Capital deposits
   * Order books
   * Order Matching
   * Asset Exchange
+</script></section>
+
+<section data-markdown=""><script type="text/template">
+  ## IDO - Initial DEX Offering
+  * Order book based DEXes does not work well with today's blockchain.
+  * AMM(Automated market maker) based exchanges
+  * Add liquidity to the smart contract - bootstrapping liquidity
+  * Uniswap is a constant product based DEX : 
+   * `xy = k`
 </script></section>
 
 <section>
@@ -534,6 +548,24 @@
     <li>Which option will you choose?</li>
   </ul>
 </section>          
+
+<section data-markdown><script type="text/template">
+## Takeaways (1/2)
+* Token entitles you to earnings based on other participant actions (eg. COSS)
+* Token is burned/bought back at a future date (decreasing supply increases value)
+* Token is required for exclusive abilities/features (participating in hosted ICOs eg. BNB)
+* Token is required as a membership fee, consumed monthly/yearly (eg. Salt)
+* Token is required to be held, but not consumed.
+</script></section>
+
+<section data-markdown><script type="text/template">
+## Takeaways (2/2)
+* Token is required to make operations inside the ecosystem (eg. Ethereum)
+* Token is held purely on speculation of ecosystem demand (eg. B2BX)
+* Token is required for voting purposes (eg. District0x)
+* Token is used to incentivize contributors/miners (eg. 0x, ChainLink)
+* Token must be purchased by app developers to allow users to interact freely.
+</script></section>
 
 
 <section>
