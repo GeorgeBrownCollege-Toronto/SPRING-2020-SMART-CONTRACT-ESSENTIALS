@@ -1,6 +1,6 @@
 // SPDX-License_Identifier : MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.4;
 
 contract ABIEncoding {
     function fun(bool) public pure returns(bytes4 _data) {

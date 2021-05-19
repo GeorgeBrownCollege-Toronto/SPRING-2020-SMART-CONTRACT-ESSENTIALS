@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.4;
 
 contract Calculator {
     uint256 public calculateResult;
@@ -28,7 +28,7 @@ contract Machine {
     event AddedValuesByDelegateCall(uint256 a, uint256 b, bool success);
     event AddedValuesByCall(uint256 a, uint256 b, bool success);
     
-    constructor() public {
+    constructor() {
         calculateResult = 0;
     }
     
