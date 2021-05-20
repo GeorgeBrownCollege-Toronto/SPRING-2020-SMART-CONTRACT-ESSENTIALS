@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title> ERC20 Standard Compliant Contract </title>
+    <title> EIP:20 Compliant Token </title>
 
     <meta name="author" content="Dhruvin Parikh">
 
@@ -63,21 +63,13 @@
 
 ### BCDV 1010 - Smart Contract Essentials
 
-#### ERC20 Compliant Smart Contract
+#### EIP:20 Compliant Token
 
-*Dhruvin Parikh, January 2021*
+*Dhruvin Parikh, May 2021*
 
 </script></section>
 
-<section>
-  <h2>Class Plan</h2>
-  <ul>
-    <li><a href="#/content">Content</a></li>
-    <li><a href="#/objectives">Objectives</a></li>
-  </ul>
-</section>
-
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Content
   * ERC20 token standard
   * Developing a standard compliant token contract
@@ -85,7 +77,7 @@
   * Lab
 </script></section>
 
-<section id="objectives">
+<section>
   <h2>Objectives</h2>
   <ul>
     <li>Knowledge of popular ERC20 compliant tokens</li>
@@ -98,11 +90,12 @@
 <section>
     <h2>ERC-20 standard</h2>
     <ul>
-        <li>Standard for transferring tokens and approving tokens to be spent by another on-chain contract</li>
-        <li>Details in</li>
-        <ul>
-            <li><a href="https://eips.ethereum.org/EIPS/eip-20">https://eips.ethereum.org/EIPS/eip-20</a></li>
-        </ul>
+      <li>ERC-20 is a standard developed after the release of ETH that defines how tokens are transferred and how to keep a consistent record of those transfers among tokens in the Ethereum Network</li>  
+      <li>Standard for transferring tokens and approving tokens to be spent by another on-chain contract</li>
+      <li>Details in</li>
+      <ul>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-20">https://eips.ethereum.org/EIPS/eip-20</a></li>
+      </ul>
     </ul>
 </section>
 
@@ -225,6 +218,31 @@
   <h2>Lab - 5</h2>
 </section>
 
+<section data-markdown><script type="text/template">
+## WETH
+* wETH is "wrapped ETH"
+* Ether or ETH is the native currency built on the Ethereum blockchain
+* Wrapping ETH allows direct trade with other ERC20 tokens
+* WETH is required as ETH doesn’t conform to its own ERC20 standard.
+</script></section>
+
+<section data-markdown><script type="text/template">
+## Syntactical Differences
+* Sending ETH requires:
+ * A payable address
+ * Calling transfer(amount) on the address
+* Sending ERC20 Tokens :
+ * Requires an ERC20 Token to exist
+ * Invoking a function of specific contract with destination address 
+</script></section>
+
+<section data-markdown><script type="text/template">
+## Safe ERC20 token transfer
+* ERC20’s do not have a safe-transfer function
+* Tokens sent to an address that does not yet exist or a contract don’t allow developers to reject it
+* Potential solution is to check if address is a contract and that it was successful using low-level call
+</script></section>
+
 <section>
     <h2>Examples of ERC-20 Tokens</h2>
     <img src="erc-20-etherscan.png" width="800px">
@@ -235,6 +253,7 @@
     <h2>Recommended Resources</h2>
     <ul>
         <li>ERC20 - <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md">https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md</a></li>
+        <li>ERC-223 <a href="https://github.com/ethereum/EIPs/issues/223">https://github.com/ethereum/EIPs/issues/223</a></li>
     </ul>
 </section>
 
