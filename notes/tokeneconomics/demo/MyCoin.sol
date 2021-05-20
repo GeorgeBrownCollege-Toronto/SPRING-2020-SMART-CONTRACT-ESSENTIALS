@@ -1,6 +1,7 @@
+  
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.4;
 
 /* A demo contract for token
  * Run the test as follows:
@@ -43,7 +44,6 @@ contract MetaCoin {
     }
     
     function sendCoin(address _receiver, uint _amount) public returns(bool _sufficent) {
-        require(balances[msg.sender] >= _amount,"Insufficient balance");
         balances[msg.sender] = balances[msg.sender] - _amount;
         balances[_receiver] = balances[_receiver] + _amount;
         emit Transfer(msg.sender, _receiver, _amount);
