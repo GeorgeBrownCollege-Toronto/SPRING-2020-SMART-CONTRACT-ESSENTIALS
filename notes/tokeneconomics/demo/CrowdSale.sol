@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.4;
 
 /* A demo contract for Crowd Sale
  * Run the test as follows:
@@ -17,7 +17,7 @@ contract MyCoin {
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
-    constructor() public {
+    constructor() {
         balances[msg.sender] = 10000;
     }
 
@@ -62,7 +62,7 @@ contract GBCCrowdSale {
     }
     
     function _getCoinsCreated(uint256 weiAmount) internal view returns (uint256) {
-        return weiAmount * _rate;
+        return weiAmount * rate; // assume rate is 1 per 10^18 units
     }
     
     function _processPurchase(address beneficiary, uint256 coins) internal returns(bool) {
@@ -70,7 +70,7 @@ contract GBCCrowdSale {
     }
     
     function _deliverCoins(address beneficiary, uint256 coins) internal returns(bool) {
-        bool success = _coin.sendCoin(beneficiary, coins);
+        bool success = coin.sendCoin(beneficiary, coins);
         return success;
     }
     
