@@ -218,6 +218,17 @@
   <h2>Lab - 5</h2>
 </section>
 
+<section>
+  <h2>Approve Attack vector</h2>
+  <ul>
+    <li>If an account changes approval from 5 to 3, due to front running, the attacker can transfer 8 tokens</li>
+    <li>Work around is to change approval from 5 to 0 first. If no attack, change to 2 later. Otherwise, leave approval at 0.</li>
+    <li>The worse case in this approach is lose 5 tokens</li>
+    <li>Openzeppelin uses decrease/increase as solution</li>
+  </ul>
+</section>
+
+
 <section data-markdown><script type="text/template">
 ## WETH
 * wETH is "wrapped ETH"
