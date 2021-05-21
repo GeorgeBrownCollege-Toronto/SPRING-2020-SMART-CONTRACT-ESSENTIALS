@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.10;
+pragma solidity ^0.8.4;
 
 /**
  * @dev Interface of the ERC20 standard as defined in the EIP.
@@ -88,12 +88,13 @@ contract StandardERC20 is IERC20 {
     string private _symbol;
     uint8 private _decimals;
     
-    constructor (string memory name, string memory symbol, uint256 totalSupply) public {
-        _name = name;
-        _symbol = symbol;
+    constructor (string memory name_, string memory symbol_, uint256 totalSupply_)  {
+        _name = name_;
+        _symbol = symbol_;
         _decimals = 18; // 1 ether  = 10^18 wei
-        _totalSupply = totalSupply;
-        _balances[msg.sender] = _balances[msg.sender] + totalSupply;
+        _totalSupply = totalSupply_;
+        _balances[msg.sender] = _balances[msg.sender] + totalSupply_;
+        emit Transfer(address(0),msg.sender,_totalSupply);
     }
     
     function name() public view returns (string memory) {
@@ -140,8 +141,6 @@ contract StandardERC20 is IERC20 {
         require(recipient != address(0),"ERC20: transfer from zero transfer");
         require(sender != address(0),"ERC20: transfer from zero transfer");
         
-        require(_balances[sender] >= amount, "ERC20: sender does not have enough amount");
-        
         _balances[sender] = _balances[sender] - amount;
         _balances[recipient] = _balances[recipient] + amount;
         emit Transfer(sender, recipient, amount);
@@ -150,9 +149,20 @@ contract StandardERC20 is IERC20 {
     function _approve(address owner, address spender, uint256 amount) internal {
       require(spender != address(0),"ERC20: transfer from zero transfer");
       require(owner != address(0),"ERC20: transfer from zero transfer");
-        
       require(_balances[owner] >= amount, "ERC20: owner does not have enough amount");
       _allowances[owner][spender] = amount;
       emit Approval(owner, spender, amount);
     }
 }
+
+// allowances : 
+// {
+//     "owner1 address" : {
+//         "spender1" : "100",
+//         "spender2" : "500"
+//     },
+//     "owner2 address" : {
+//         "spender3" : "40",
+//         "spender4" : "100"
+//     }
+// }
