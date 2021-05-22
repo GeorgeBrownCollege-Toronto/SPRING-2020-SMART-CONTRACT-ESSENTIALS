@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.4;
 
 interface IERC20 {
 
@@ -25,19 +25,13 @@ contract ERC20Basic is IERC20 {
     uint8 public constant decimals = 18;  
 
 
-    event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
-    event Transfer(address indexed from, address indexed to, uint tokens);
-
-
     mapping(address => uint256) balances;
 
     mapping(address => mapping (address => uint256)) allowed;
     
     uint256 totalSupply_ = 10 ether;
 
-    using SafeMath for uint256;
-
-   constructor() public {  
+   constructor() {  
 	balances[msg.sender] = totalSupply_;
     }  
 
@@ -51,8 +45,8 @@ contract ERC20Basic is IERC20 {
 
     function transfer(address receiver, uint256 numTokens) public override returns (bool) {
         require(numTokens <= balances[msg.sender]);
-        balances[msg.sender] = balances[msg.sender].sub(numTokens);
-        balances[receiver] = balances[receiver].add(numTokens);
+        balances[msg.sender] -= numTokens;
+        balances[receiver] += numTokens;
         emit Transfer(msg.sender, receiver, numTokens);
         return true;
     }
@@ -71,24 +65,11 @@ contract ERC20Basic is IERC20 {
         require(numTokens <= balances[owner]);    
         require(numTokens <= allowed[owner][msg.sender]);
     
-        balances[owner] = balances[owner].sub(numTokens);
-        allowed[owner][msg.sender] = allowed[owner][msg.sender].sub(numTokens);
-        balances[buyer] = balances[buyer].add(numTokens);
+        balances[owner] -= numTokens;
+        allowed[owner][msg.sender] -= numTokens;
+        balances[buyer] += numTokens;
         emit Transfer(owner, buyer, numTokens);
         return true;
-    }
-}
-
-library SafeMath { 
-    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-      assert(b <= a);
-      return a - b;
-    }
-    
-    function add(uint256 a, uint256 b) internal pure returns (uint256) {
-      uint256 c = a + b;
-      assert(c >= a);
-      return c;
     }
 }
 
@@ -100,7 +81,7 @@ contract DEX {
 
     IERC20 public token;
 
-    constructor() public {
+    constructor() {
         token = new ERC20Basic();
     }
     
@@ -118,7 +99,7 @@ contract DEX {
         uint256 allowance = token.allowance(msg.sender, address(this));
         require(allowance >= amount, "Check the token allowance");
         token.transferFrom(msg.sender, address(this), amount);
-        msg.sender.transfer(amount);
+        payable(msg.sender).transfer(amount);
         emit Sold(amount);
     }
 
