@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.4;
 
 import "./IERC721.sol";
 import "./IERC721Metadata.sol";
@@ -106,7 +106,7 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
         _temp = _value;
         
         while(_temp != 0) {
-            buffer[index--] = byte(uint8(48 + _temp % 10));
+            buffer[index--] = bytes1(uint8(48 + _temp % 10));
             _temp /= 10;
         }
         
@@ -118,7 +118,7 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
         return _tokenIdToHolder[_tokenId];
     }
     
-    function approve(address _operator, uint256 _tokenId) public override payable {
+    function approve(address _operator, uint256 _tokenId) public override {
         require(_exists(_tokenId),"ERC721: approved query for nonexistant token");
         address _owner = _tokenIdToHolder[_tokenId];
         require(_owner == msg.sender, "ERC721: approve caller is not owner nor approved for all");
@@ -142,7 +142,7 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
         return _operatorApprovals[_owner][_operator];   
     }
     
-    function transferFrom(address _from, address _to, uint256 _tokenId) public override payable {
+    function transferFrom(address _from, address _to, uint256 _tokenId) public override {
         require(_exists(_tokenId),"ERC721: approved query for nonexistant token");
         // msg.sender should be approved
         address _owner = _tokenIdToHolder[_tokenId];
@@ -171,27 +171,27 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
         emit Transfer(_from, _to, _tokenId);
     }
     
-    function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes memory _data) public override payable {
+    function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes memory _data) public override {
         transferFrom(_from,  _to,  _tokenId);
         require(_checkOnERC721Received(_from, _to, _tokenId, _data));
     }
     
-    function safeTransferFrom(address _from, address _to, uint256 _tokenId) public override payable {
+    function safeTransferFrom(address _from, address _to, uint256 _tokenId) public override {
         transferFrom(_from, _to, _tokenId);
         require(_checkOnERC721Received(_from, _to, _tokenId, ""));
     }
     
-    function safeMint(address _to, uint256 _tokenId) public {
-        mint(_to, _tokenId);
+    function safeMint(address _to, uint256 _tokenId, string memory _tokenURI) public {
+        mint(_to, _tokenId,_tokenURI);
         require(_checkOnERC721Received(address(0), _to, _tokenId, ""));
     }
     
-    function safeMint(address _to, uint256 _tokenId, bytes memory data) public {
-        mint(_to, _tokenId);
+    function safeMint(address _to, uint256 _tokenId, string memory _tokenURI, bytes memory data) public {
+        mint(_to, _tokenId,_tokenURI);
         require(_checkOnERC721Received(address(0), _to, _tokenId, data));
     }
     
-    function mint(address _to, uint256 _tokenId) public {
+    function mint(address _to, uint256 _tokenId, string memory _tokenURI) public {
         require(_to != address(0), "ERC721: mint to the zero address");
         require(!_exists(_tokenId),"ERC721: approved query for nonexistant token");
         
@@ -200,7 +200,7 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
         _tokenIDs.push(_tokenId);
         uint _index = _tokenIDs.length - 1;
         _tokenIDToTokenIndex[_tokenId] = _index;
-        
+        _tokenURIs[_tokenId] = _tokenURI;
         emit Transfer(address(0), _to, _tokenId);
     }
     
@@ -231,3 +231,12 @@ contract ERC721Standard is IERC721,IERC721Metadata, IERC721Enumerable {
     }
     
 }
+
+// "_operatorApprovals" : {
+//     "owner1" :{
+//         "operator1" : true
+//     }
+//     "owner2" : {
+//         "operator2" : false
+//     }
+// }
