@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title> Contract Deployment </title>
+    <title> Contract Development tools </title>
 
     <meta name="author" content="Dhruvin Parikh">
 
@@ -63,89 +63,20 @@
 
 ### BCDV 1010 - Smart Contract Essentials
 
-#### Contract Deployment
+#### Contract Development tools
 
-*Dhruvin Parikh, January 2021*
+*Dhruvin Parikh, May 2021*
 
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Content
-  * Review of ERC20 standard
-  * Deploy the contract to a testnet
+  * Smart contract development frameworks
+  * Deploying the contract to a testnet
   * Verify the contract in etherscan
   * Manually test the contract
   * Lab
 </script></section>
-
-<section>
-  <h2>ERC20 Standard <a href="https://eips.ethereum.org/EIPS/eip-20">https://eips.ethereum.org/EIPS/eip-20</a></h2>
-  <ul>
-    <li>Standard for transferring tokens and
-      approving tokens to be spent by another
-      on-chain contract-development
-    </li>
-  </ul>
-</section>
-
-<section data-markdown><script type="text/template">
-  ### ERC-20 Mandatory Functions
-  * **`totalSupply`**: total token supply
-  * **`balanceOf`**: tokens an account own
-  * **`Transfer`**: transfer token from msg.sender to another account
-  * **`transferFrom`**: transfer token on behalf of other account
-  * **`approve`**: approve another account to transfer token from your account
-  * **`allowance`**: how many token can an approved account transfer from your account
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## ERC-20 Optional Functions
-  * These are optional as they are mainly for improved
-  usability and display purposes on applications
-   - **`name()`**: a descriptive name of the token
-   - **`symbol()`**: a symbol of token
-   - **`decimals()`**: number of decimal the token uses. E.g. 8
-  decimals will divide the token amount by 108 to get it’s user representation
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## ERC-20 Events
-  * **`Transfer`**:
-   * notification of token transfer
-   * Event fires as part of the transfer and transferFrom calls
-  * **`Approval`**:
-   * notification of token approval
-   * Event fires as part of the approve all
-  * Events are only accessible by off-chain application; contracts do not have
-  access to events
-</script></section>
-
-<section>
-  <h2>Approve Attack vector</h2>
-  <ul>
-    <li>If an account changes approval from 5 to 3, due to front running, the attacker can transfer 8 tokens</li>
-    <li>Work around is to change approval from 5 to 0 first. If no attack, change to 2 later. Otherwise, leave approval at 0.</li>
-    <li>The worse case in this approach is lose 5 tokens</li>
-    <li>Openzeppelin uses decrease/increase as solution</li>
-  </ul>
-</section>
-
-<section>
-  <h2><code>approve</code> and <code>transferFrom</code></h2>
-    <img src="approve_transferFrom_workflow.png" width="500px">
-</section>
-
-<section>
-  <h2><code>approve</code> and <code>transferFrom</code></h2>
-  <ul>
-    <li>A contract that will accept WETH tokens and issue another tokens</li>
-    <li>Demonstrate the use of ERC20 standard approve and transferFrom use case</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Lab 7</h2>
-</section>
 
 <section>
   <h2>Metamask</h2>
@@ -203,7 +134,6 @@
         <li>Rinkeby - <a target="_blank" href="https://faucet.rinkeby.io/">https://faucet.rinkeby.io/</a></li>
         <li>Kovan - <a target="_blank" href="https://faucet.kovan.network/">https://faucet.kovan.network/</a></li>
         <li>Goerli - <a target="_blank" href="https://goerli-faucet.slock.it/">https://goerli-faucet.slock.it/</a></li>
-        <li>All - <a target="_blank" href="https://faucets.blockxlabs.com">https://faucets.blockxlabs.com</a></li>
     </ul>
   </ul>
 </section>
@@ -243,37 +173,14 @@
 </section>
 
 <section>
-  <h2>Lab 8</h2>
-</section>
-
-<section>
   <h2>Details of token</h2>
+  https://etherscan.io/tokens
   <img src="etherscan.svg" width="500px" style="border: none;box-shadow: none;">
 </section>
 
 <section>
   <h2>What did we observe?</h2>
   <img src="etherscan-description.svg" width="600px" style="border: none;box-shadow: none;">
-</section>
-
-<section>
-<h2>Class Activity : ERC20 Token Payment</h2>
-<ul>
-  <li>Use account 1 to deploy <a target="_blank" href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-deployment/demo/Token.sol">Token.sol</a> contract</li>
-  <li>Use account 1 to deploy <a target="_blank" href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-deployment/demo/WETH.sol">WETH.sol</a> contract</li>
-  <li>Use account 1 to mint token</li>
-  <li>Use account 2 to deploy the TokenSale contract using account 1 as the wallet. <a target="_blank" href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-deployment/demo/TokenSale.sol">TokenSale.sol</a></li>
-</ul>
-</section>
-
-<section>
-  <h2>Class Activity : ERC20 Token Payment (Cont.)</h2>
-  <ul>
-  <li>Use account 1 to approve tokenSale to transfer tokens</li>
-  <li>Use account 3 to purchase WETH token</li>
-  <li>Use account 3 to approve tokenSale contract to spend <b>WETH</b></li>
-  <li>Use account 3 to call <code>tokenSale.claimToken()</code></li>
-</ul>
 </section>
 
 <section data-markdown><script type="text/template">
