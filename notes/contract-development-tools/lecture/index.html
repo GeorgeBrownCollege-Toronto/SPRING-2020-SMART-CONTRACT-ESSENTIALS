@@ -70,13 +70,157 @@
 </script></section>
 
 <section data-markdown><script type="text/template">
-  ## Content
+  ## Topics
   * Smart contract development frameworks
   * Deploying the contract to a testnet
   * Verify the contract in etherscan
   * Manually test the contract
   * Lab
 </script></section>
+
+<section>
+  <h2>Dev Environment (Web)</h2>
+  <ul>
+      <li>IDE - Remix</li>
+      <li>Dapp browsers- Metamask</li>
+      <li>Smart contract language - solidity</li>
+      <li>Simulator - ganache-cli</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Dev Environment (Standalone)</h2>
+  <ul>
+      <li>IDE - Visual Studio Code</li>
+      <li>Frameworks- Nodejs</li>
+      <li>Smart contract language - solidity, vyper</li>
+      <li>Test framework - Mocha/chai</li>
+      <li>Simulator - ganache-cli</li>
+      <li>Library - web3, ethers</li>
+      <li>Smart contract framework - Truffle, Hardhat, Brownie</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Truffle framework</h2>
+  <ul>
+      <li>Built-in smart contract compilation, linking, deployment and binary management</li>
+      <li>Automated testing and rapid development</li>
+      <li>Network management for deploying to any number of public and private networks</li>
+      <li>Package management with EthPM and NPM</li>
+      <li>Interactive console for contract communication</li>
+      <li>Build pipeline supports tight integration</li>
+      <li>External script runner that executes scripts within truffle environment</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Truffle framework</h2>
+  <ul>
+      <li>Creating a project</li>
+      <li>Exploring the project</li>
+      <li>Testing</li>
+      <li>Compiling</li>
+      <li>Migrating with ganache</li>
+      <li>Interacting with contract</li>
+  </ul>
+</section>
+
+<section data-markdown><script type="text/template">
+  ## Truffle Commands
+  ```
+  # installation
+  $ npm install -g truffle
+
+  # create project
+  $ truffle init
+
+  # compile 
+  $ truffle compile
+
+  # deploy
+  $ truffle migrate
+  ```
+</script></section>
+
+<section>
+  <h2>Truffle - directory structure</h2>
+  <ul>
+      <li><code><b>contracts/</b></code> : Directory for solidity contracts</li>
+      <li><code><b>migrations/</b></code> : Directory for scriptable deployment files</li>
+      <li><code><b>test/</b></code> : Directory for test files for testing your application and contracts</li>
+      <li><code><b>truffle-config.js</b></code> : Truffle configuration file</li>
+  </ul>
+</section>
+
+<section>
+<h2>DEMO</h2>
+<ul>
+  <li>Issue and verify academic certificates</li>
+</ul>
+</section>
+
+<section data-markdown><script type="text/template">
+## Coding Challenge
+- Follow this instructions : <a target="_blank" href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-development-tools/class-activity/simplestorage/README.md">SimpleStorage</a>
+- Present your solution to the class.
+</script></section>
+
+<section>
+  <h2>Links</h2>
+  <ul>
+      <li>Remix : <a target="_blank" href="https://remix.ethereum.org">https://remix.ethereum.org</a></li>
+      <li>Ethereum Wallet : <a target="_blank" href="https://wallet.ethereum.org">https://wallet.ethereum.org</a></li>
+      <li>Ganache : <a target="_blank" href="https://www.trufflesuite.com/docs/ganache/overview">https://www.trufflesuite.com/docs/ganache/overview</a></li>
+      <li>Ganache-cli : <a target="_blank" href="https://github.com/trufflesuite/ganache-cli/blob/develop/README.md">https://github.com/trufflesuite/ganache-cli/blob/develop/README.md</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Links</h2>
+  <ul>
+      <li>Node : <a target="_blank" href="https://nodejs.org/en">https://nodejs.org/en</a></li>
+      <li>Visual Studio code : <a target="_blank" href="https://code.visualstudio.com">https://code.visualstudio.com</a></li>
+  </ul>
+</section>
+
+<section data-markdown><script type="text/template">
+  ## Hardhat IDE
+  * Compile, debug, test and deploy Ethereum smart contracts
+  * Hardhat Network - a local Ethereum network designed for development. 
+  * Solidity debugging, stack traces, `console.log()` and explicit error messages when transactions fail.
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Hardhat Architecture
+  * Designed around the concepts of **tasks** and **plugins**.
+  * Every time you run Hardhat from the CLI you're running a task.
+  * Hardhat is not opinionated in terms of what tools you end up using, but it does come with some built-in defaults, all of which can be overridden
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Hardhat Commands
+  ```
+  # installation
+  $ npm install --save-dev hardhat
+
+  # create project
+  $ npx hardhat
+
+  # compile 
+  $ npx hardhat compile
+
+  # deploy
+  $ npx hardhat deploy
+  ```
+</script></section>
+
+<section>
+  <h2>DEMO</h2>
+  <ul>
+    <li>Initializing hardhat project, development and deployment of smart contract </li>
+  </ul>
+</section>
 
 <section>
   <h2>Metamask</h2>
