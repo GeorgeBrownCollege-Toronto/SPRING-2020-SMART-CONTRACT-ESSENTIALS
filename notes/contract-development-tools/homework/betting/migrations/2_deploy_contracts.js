@@ -1,4 +1,4 @@
-var Betting = artifacts.require("./Betting.sol");
+var Betting = artifacts.require("Betting.sol");
 
 module.exports = function(deployer) {
 	/* Input value to constructor on contract deployment */
