@@ -1,4 +1,4 @@
-var Betting = artifacts.require("./Betting.sol");
+var Betting = artifacts.require("Betting");
 
 contract('BettingTestGeneric', function(accounts) {
 	const args = {_default: accounts[0], _owner: accounts[1]};

@@ -1,3 +1,5 @@
+Note: You'll be expected to set up your developer environment, if you haven't already. This includes installing npm, Truffle, and ganache.
+
 # Developer Environment Setup
 Your task is simply to output the following in your console via the tools/frameworks below:
 

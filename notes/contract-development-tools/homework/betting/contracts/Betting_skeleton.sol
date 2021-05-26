@@ -1,4 +1,6 @@
-pragma solidity ^0.4.15;
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.4;
 
 contract Betting {
 	/* Standard state variables */
@@ -31,31 +33,31 @@ contract Betting {
 	modifier OutcomeExists(uint outcome) {_;}
 
 	/* Constructor function, where owner and outcomes are set */
-	function BettingContract(uint[] _outcomes) {
+	constructor (uint[] memory _outcomes) {
 	}
 
 	/* Owner chooses their trusted Oracle */
-	function chooseOracle(address _oracle) OwnerOnly() returns (address) {
+	function chooseOracle(address _oracle) public OwnerOnly() returns (address) {
 	}
 
 	/* Gamblers place their bets, preferably after calling checkOutcomes */
-	function makeBet(uint _outcome) payable returns (bool) {
+	function makeBet(uint _outcome) public payable returns (bool) {
 	}
 
 	/* The oracle chooses which outcome wins */
-	function makeDecision(uint _outcome) OracleOnly() OutcomeExists(_outcome) {
+	function makeDecision(uint _outcome) OracleOnly() OutcomeExists(_outcome) public {
 	}
 
 	/* Allow anyone to withdraw their winnings safely (if they have enough) */
-	function withdraw(uint withdrawAmount) returns (uint remainingBal) {
+	function withdraw(uint withdrawAmount) public returns (uint remainingBal) {
 	}
 	
 	/* Allow anyone to check the outcomes they can bet on */
-	function checkOutcomes(uint outcome) constant returns (uint) {
+	function checkOutcomes(uint outcome) public  view returns (uint) {
 	}
 	
 	/* Allow anyone to check if they won any bets */
-	function checkWinnings() constant returns(uint) {
+	function checkWinnings() public  view returns(uint) {
 	}
 
 	/* Call delete() to reset certain state variables. Which ones? That's upto you to decide */
@@ -63,7 +65,7 @@ contract Betting {
 	}
 
 	/* Fallback function */
-	function() payable {
+	fallback () external payable {
 		revert();
 	}
 }
