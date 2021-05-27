@@ -326,6 +326,55 @@ abi_encode(
 </section>
 
 <section>
+  <h2>Proxy Contract</h2>
+  <p>Initial</p>
+  <img src="proxy1.svg" style="box-shadow: none;border: none;">
+  <p>After upgrade</p>
+  <img src="proxy2.svg" style="box-shadow: none;border: none;">
+</section>
+
+<section data-auto-animate>
+  <h2 data-id="code-title">Proxy contract demo</h2>
+  <pre data-id="code-animation"><code class="hljs" data-trim>
+      // SPDX-License-Identifier: MIT
+
+      pragma solidity ^0.7.1;
+
+      interface ILib {
+          function version() external view returns(uint);
+      }
+
+      contract LibV1 is ILib {
+          uint public override version = 1;
+      }
+
+      contract Ownable {
+          address public owner;
+          constructor() {
+          owner = msg.sender;
+          }
+          modifier onlyOwner() {
+              require(msg.sender == owner, "not owner!");
+              _;
+          }
+      }
+
+      contract Proxy is Ownable {
+          ILib public lib;
+          constructor(ILib libAddress) {
+              lib = libAddress;
+          }
+          function upgrade(ILib newLib) public onlyOwner {
+              lib = newLib;
+          }
+          function version() public view returns(uint) {
+              return lib.version();
+          }
+      }
+  </code></pre>
+</section>
+
+<section>
   <h2>Assessments > Lab - 2 > Question 2</h2>
   <p>Refer : <a href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-to-contract-interaction/demo/ExternalCall.sol" target="_blank">PriceFeed example</a></p>
 </section>

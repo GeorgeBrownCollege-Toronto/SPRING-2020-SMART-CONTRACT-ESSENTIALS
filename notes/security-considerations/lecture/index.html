@@ -65,66 +65,16 @@
 
 #### Security Considerations
 
-*Dhruvin Parikh, January 2021*
+*Dhruvin Parikh, May 2021*
 
 </script></section>
 
-<section id="content" data-markdown><script type="text/template">
-  ## Content
-  * Proxy Contract
-  * Common Security Bugs
-  * Solidity Static Analysis using Remix 
+<section data-markdown><script type="text/template">
+  ## Topic
+  * Smart Contract Weaknesses
+  * Secured smart contracts 
   * Lab
 </script></section>
-
-<section>
-  <h2>Proxy Contract</h2>
-  <p>Initial</p>
-  <img src="proxy1.svg" style="box-shadow: none;border: none;">
-  <p>After upgrade</p>
-  <img src="proxy2.svg" style="box-shadow: none;border: none;">
-</section>
-
-<section data-auto-animate>
-  <h2 data-id="code-title">Proxy contract demo</h2>
-  <pre data-id="code-animation"><code class="hljs" data-trim>
-      // SPDX-License-Identifier: MIT
-
-      pragma solidity ^0.7.1;
-
-      interface ILib {
-          function version() external view returns(uint);
-      }
-
-      contract LibV1 is ILib {
-          uint public override version = 1;
-      }
-
-      contract Ownable {
-          address public owner;
-          constructor() {
-          owner = msg.sender;
-          }
-          modifier onlyOwner() {
-              require(msg.sender == owner, "not owner!");
-              _;
-          }
-      }
-
-      contract Proxy is Ownable {
-          ILib public lib;
-          constructor(ILib libAddress) {
-              lib = libAddress;
-          }
-          function upgrade(ILib newLib) public onlyOwner {
-              lib = newLib;
-          }
-          function version() public view returns(uint) {
-              return lib.version();
-          }
-      }
-  </code></pre>
-</section>
 
 <section>
   <h2>Common Security Bug</h2>
@@ -427,45 +377,16 @@ function withdrawBalance() public {
   <ul>
     <li><a href="https://ethernaut.openzeppelin.com/">https://ethernaut.openzeppelin.com/</a></li>
     <li><a href="https://capturetheether.com/">https://capturetheether.com/</a></li>
+    <li><a href="https://www.damnvulnerabledefi.xyz/">https://www.damnvulnerabledefi.xyz/</a></li>
   </ul>
 </section>
 
 <section>
-  <h2>Solidity Static Analysis</h2>
-</section>
-
-<section>
-  <h2>Solidity Static Analysis - Remix Plugin</h2>
+  <h2>Recommended Readings </h2>
   <ul>
-    <li>Debug the code without execution.</li>
-    <li>Ensures proper coding standards, best practices, syntax errors,etc.</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Solidity Static Analysis - Remix Plugin</h2>
-  <img src="remix-static-plugin.svg" style="border: none;box-shadow: none;">
-</section>
-
-<section>
-  <h2>Solidity Static Analysis - Remix Plugin</h2>
-  <img src="static-analysis-output.svg" style="border: none;box-shadow: none;">
-</section>
-
-<section>
-  <h2>Solidity Static Analysis - Remix Plugin</h2>
-  <ul style="list-style-type: none;">
-      <li>False Positive on infinite gas for dynamic arrays such as string</li>
-  </ul>
-  <img src="static-false-positive.svg" style="border: none;box-shadow: none;">
-</section>
-
-<section>
-  <h2>Solidity Linters</h2>
-  <ul>
-    <li><a href="https://github.com/protofire/solhint" target="_blank">solhint</a></li>
-    <li><a href="https://github.com/duaraghav8/Ethlint" target="_blank">ethlint</a></li>
-    <li><a href="https://github.com/prettier-solidity/prettier-plugin-solidity" target="_blank">prettier-solidity</a></li>
+    <li><a href="https://github.com/crytic/not-so-smart-contracts">Examples of solidity security issues</a></li>
+    <li><a href="https://swcregistry.io/">Smart contract Weakness classification</a></li>
+    <li><a href="https://consensys.github.io/smart-contract-best-practices">Consensys smart contract best practices</a></li>
   </ul>
 </section>
 
