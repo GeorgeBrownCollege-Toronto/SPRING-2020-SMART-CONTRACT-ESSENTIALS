@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Token.sol": {
+      "content": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.4;\n\ncontract Token {\n\n    string public name = \"The GBC Token\";\n\n    string public symbol = \"GBC\";\n\n    uint256 public totalSupply = 1000000;\n\n    mapping(address => uint) public balances;\n    \n    event Transfer(address indexed _from, address indexed _to, uint indexed _amount);\n    \n    address public owner;\n    \n    constructor() {\n        balances[msg.sender] = 10000;\n        owner = msg.sender;\n    }\n    \n    function transfer(address _receiver, uint _amount) external {\n        balances[msg.sender] = balances[msg.sender] - _amount;\n        balances[_receiver] = balances[_receiver] + _amount;\n        emit Transfer(msg.sender, _receiver, _amount);\n    }\n    \n    function balanceOf(address _account) public view returns(uint _balance) {\n        _balance = balances[_account];\n    }\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

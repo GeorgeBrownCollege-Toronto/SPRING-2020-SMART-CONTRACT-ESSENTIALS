@@ -1,0 +1,5 @@
+.mnemonic
+.infurakey
+node_modules
+coverage
+build
