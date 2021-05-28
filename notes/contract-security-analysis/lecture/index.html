@@ -61,15 +61,15 @@
 
 #### Smart Contract Security Analysis
 
-*Dhruvin Parikh, January 2021*
+*Dhruvin Parikh, May 2021*
 
 </script></section>
 
 <section id="content" data-markdown><script type="text/template">
   ## Content
-  * Fuzz testing
   * Static Analysis
   * Dynamic Analysis
+  * Fuzz testing
   * Symbolic Execution
   * Formal Verification
 </script></section>
@@ -85,58 +85,21 @@
 </section>
 
 <section>
-    <h2>Fuzz Testing</h2>
-    <ul style="list-style-type: none;">
-        <li>An automated software testing technique that involves providing invalid, unexpected, or random data as inputs to a computer program.</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Fuzzer classification</h2>
-    <ul>
-        <li>Fuzzers take a set of program inputs and generate new ones automatically. Fuzzers are based on how much information they collect about a program</li>
-        <ul>
-            <li>Blackbox fuzzer</li>
-            <li>Whitebox fuzzer</li>
-            <li>Greybox fuzzer</li>
-        </ul>
-    </ul>
-</section>
-
-<section>
-    <h2>Blackbox fuzzer</h2>
-    <ul>
-        <li>Black-box fuzzers do not collect any information about the program and typically perform random mutations to an input before running the program with it.</li>
-        <li>They are easy to implement and can try millions of different inputs within minutes</li>
-        <li>However, they struggle with achieving high code coverage for complex code.</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Whitebox fuzzer</h2>
-    <ul>
-        <li>White-box fuzzers symbolically execute each instruction run by a given input and use automated solvers (e.g., SMT/SAT solvers) to find new inputs to cover a new execution path.</li> 
-        <li>Typically, these tools are very effective at covering new paths.</li> 
-        <li>This is known as the path explosion problem and most fuzzers use heuristic search strategies to cover “interesting paths”.</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Greybox fuzzer</h2>
-    <ul>
-        <li>They use light-weight program instrumentation to record the execution path for each tested input and compute its path identifier.</li> 
-        <li>Many state-of-the-art tools use sophisticated evolutionary algorithms to select which inputs to fuzz.</li>
-        <li>Able to achieve high code coverage even for complex code without using more expensive techniques, such as automated solvers, to reason about the program.</li>
-    </ul>
-</section>
-
-<section>
     <h2>Static Analysis</h2>
     <ul>
         <li>Static Analysis is performed by reviewing the source code without running the program</li>
         <li>It is mostly for ensuring proper coding standards, best practices, syntax errors, etc</li>
     </ul>
 </section>
+
+<section>
+    <h2>Solidity Linters</h2>
+    <ul>
+      <li><a href="https://github.com/protofire/solhint" target="_blank">solhint</a></li>
+      <li><a href="https://github.com/duaraghav8/Ethlint" target="_blank">ethlint</a></li>
+      <li><a href="https://github.com/prettier-solidity/prettier-plugin-solidity" target="_blank">prettier-solidity</a></li>
+    </ul>
+  </section>
 
 <section>
     <h2>Static Analysis : tools</h2>
@@ -149,10 +112,6 @@
         <li><a target="_blank" href="https://github.com/eth-sri/securify2">Securify</a> - Solidity security static analyzer </li>
     </ul>
 </section>
-
-<section>
-    <h2>Solidity Static Analysis</h2>
-  </section>
   
   <section>
     <h2>Solidity Static Analysis - Remix Plugin</h2>
@@ -179,33 +138,6 @@
     </ul>
     <img src="static-false-positive.svg" style="border: none;box-shadow: none;">
   </section>
-  
-  <section>
-    <h2>Solidity Linters</h2>
-    <ul>
-      <li><a href="https://github.com/protofire/solhint" target="_blank">solhint</a></li>
-      <li><a href="https://github.com/duaraghav8/Ethlint" target="_blank">ethlint</a></li>
-      <li><a href="https://github.com/prettier-solidity/prettier-plugin-solidity" target="_blank">prettier-solidity</a></li>
-    </ul>
-  </section>
-
-<section>
-    <h2>Static Analysis : Remix Plugin</h2>
-    <img src="remix-static-plugin.svg" style="border: none;box-shadow: none;">
-</section>
-
-<section>
-    <h2>Static Analysis : Remix Plugin</h2>
-    <img src="static-analysis-output.svg" style="border: none;box-shadow: none;">
-</section>
-
-<section>
-    <h2>Static Analysis : Remix Plugin</h2>
-    <ul style="list-style-type: none;">
-        <li>False Positive on infinite gas for dynamic arrays such as string</li>
-    </ul>
-    <img src="static-false-positive.svg" style="border: none;box-shadow: none;">
-</section>
 
 <section>
     <h2> Static Analysis : <a target="_blank" href="https://contract.guardstrike.com/#/scan">sFuzz</a></h2>
@@ -281,6 +213,52 @@
         <li><a target="_blank" href="https://www.trufflesuite.com/docs/truffle/testing/testing-your-contracts#testing-your-contracts">Truffle tests</a></li>
         <li><a target="_blank" href="https://github.com/JoranHonig/vertigo">Vertigo</a> - Mutation testing for Ethereum smart contracts</li>
         <li><a target="_blank" href="https://remix-ide.readthedocs.io/en/latest/unittesting.html#write-tests">Unit Testing Plugin</a> - Remix Plugin</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Fuzz Testing</h2>
+    <ul style="list-style-type: none;">
+        <li>An automated software testing technique that involves providing invalid, unexpected, or random data as inputs to a computer program.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Fuzzer classification</h2>
+    <ul>
+        <li>Fuzzers take a set of program inputs and generate new ones automatically. Fuzzers are based on how much information they collect about a program</li>
+        <ul>
+            <li>Blackbox fuzzer</li>
+            <li>Whitebox fuzzer</li>
+            <li>Greybox fuzzer</li>
+        </ul>
+    </ul>
+</section>
+
+<section>
+    <h2>Blackbox fuzzer</h2>
+    <ul>
+        <li>Black-box fuzzers do not collect any information about the program and typically perform random mutations to an input before running the program with it.</li>
+        <li>They are easy to implement and can try millions of different inputs within minutes</li>
+        <li>However, they struggle with achieving high code coverage for complex code.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Whitebox fuzzer</h2>
+    <ul>
+        <li>White-box fuzzers symbolically execute each instruction run by a given input and use automated solvers (e.g., SMT/SAT solvers) to find new inputs to cover a new execution path.</li> 
+        <li>Typically, these tools are very effective at covering new paths.</li> 
+        <li>This is known as the path explosion problem and most fuzzers use heuristic search strategies to cover “interesting paths”.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Greybox fuzzer</h2>
+    <ul>
+        <li>They use light-weight program instrumentation to record the execution path for each tested input and compute its path identifier.</li> 
+        <li>Many state-of-the-art tools use sophisticated evolutionary algorithms to select which inputs to fuzz.</li>
+        <li>Able to achieve high code coverage even for complex code without using more expensive techniques, such as automated solvers, to reason about the program.</li>
     </ul>
 </section>
 
