@@ -1,5 +1,5 @@
-# SMART-CONTRACT-ESSENTIALS
-Contract-contract interaction, Develop and Deploy Simple and Token-based smart contract, Tokeneconomics, testing Framework 
+# SMART-CONTRACT-DEVELOPMENT-ESSENTIALS
+Smart contract introduction, Contract-contract interaction, Develop and Deploy Simple and Token-based smart contract, Tokeneconomics, testing Framework 
 
 [Course Website](https://georgebrowncollege-toronto.github.io/Smart-Contract-Essentials/)
 
