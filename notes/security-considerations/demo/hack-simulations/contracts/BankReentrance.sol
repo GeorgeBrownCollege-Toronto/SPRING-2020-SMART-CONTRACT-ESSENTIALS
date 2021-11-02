@@ -3,8 +3,6 @@
 
 pragma solidity ^0.6.0;
 
-import "hardhat/console.sol";
-
 /* A demo contract with reentrancy and integer overflow bug
  * Run the test as follow:
  * 1) create Bank with account A and send it 4 wei
@@ -77,7 +75,6 @@ contract BankUser {
     receive() external payable {
         if( count < max) {
             count++;
-            console.log(count);
             bank.withdraw(defaultWithdrawalAmount);
         } else {
             count = 0; // reset to 0 for next round of withdrawal
