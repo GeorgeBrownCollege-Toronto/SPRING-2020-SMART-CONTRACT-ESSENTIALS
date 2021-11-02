@@ -17,8 +17,23 @@
     "hardhat-deploy": "^0.7.9",
     "hardhat-deploy-ethers": "^0.3.0-beta.7",
     "mocha": "^8.4.0",
+    "prettier": "^2.3.0",
+    "prettier-plugin-solidity": "^1.0.0-beta.11",
+    "solhint": "^3.3.5",
+    "solhint-plugin-prettier": "^0.0.5",
     "solidity-coverage": "^0.7.16",
     "ts-node": "^10.0.0",
     "typescript": "^4.2.4"
+  },
+  "scripts": {
+    "clean": "hardhat clean",
+    "compile": "hardhat compile",
+    "coverage": "hardhat coverage",
+    "deploy": "hardhat deploy",
+    "deploy:network": "hardhat deploy --network",
+    "lint:sol": "solhint --config ./.solhint.json --max-warnings 0 \"contracts/**/*.sol\"",
+    "prettier": "prettier --config ./.prettierrc --write \"**/*.{js,json,sol,ts}\"",
+    "prettier:check": "prettier --check --config ./.prettierrc \"**/*.{js,json,sol,ts}\"",
+    "test": "hardhat test"
   }
 }
