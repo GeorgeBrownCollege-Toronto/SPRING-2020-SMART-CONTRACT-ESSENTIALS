@@ -95,6 +95,7 @@
     - Popular Ethereum Development tools
     - Running an ethereum node
     - Ethereum network interaction libraries
+    - Developing Simple DApp
 </textarea></section>
 
 <section>
@@ -355,6 +356,69 @@ geth --datadir ./mychaindata/ --nodiscover
     - It is going to secure network and verify the computation
     - In geth console run `miner.start()` to trigger mining blocks
     - run `web3.eth.mining` to check if node is mining
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+### Transaction on Ethereum
+* Two types
+    * Contract creation
+    * Message call
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    ### Contract creation
+    <img src="contract-creation.jpeg" width="500">
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    ### Message call
+    <img src="message-call.jpeg" width="500">
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    ### Transaction Object
+    <img src="tx-obj.jpeg" width="500">
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+### Transaction Object
+* 𝐧𝐨𝐧𝐜𝐞 
+    * a count of the number of transactions sent by the sender (i.e. the EOA that is sending the transaction)
+* 𝐠𝐚𝐬𝐏𝐫𝐢𝐜𝐞 
+    * the number of Wei that the sender is willing to pay per unit of gas required to execute the transaction 
+* 𝐠𝐚𝐬𝐋𝐢𝐦𝐢𝐭
+    * the maximum amount of gas that the sender is willing to pay for executing this transaction
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+### Transaction Object
+* 𝐭𝐨 
+    * the address of the recipient. In a contract-creation transaction, the contract account address does not yet exist, and so an empty value is used 
+* 𝐯𝐚𝐥𝐮𝐞 
+    * the amount of Wei to be transferred from the sender to the recipient. In a contract-creation transaction, this value would be the starting balance of the new contract account 𝐯, 𝐫, 𝐬: values used to cryptographically generate the signature that identifies the sender of the transaction
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+### Transaction Object
+* 𝐢𝐧𝐢𝐭 (only exists for contract-creation transactions): 
+    * An EVM code fragment that is used to initialize the new Contract Account 
+* 𝐝𝐚𝐭𝐚 (optional field that only exists for message calls)
+    * the input data (i.e. parameters) of the message call.
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    ### Contract
+    <img src="message-contract.jpeg" width="600">
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    ### EOA
+    <img src="eoa-message.png" width="600">
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    ### 4 cases of messages
+    <img src="messages.jpeg" width="600">
 </textarea></section>
 
 <section data-markdown><textarea data-template>
@@ -645,6 +709,11 @@ filter: {myIndexedParam: [20,23],
 <section data-markdown><textarea data-template>
     ### `ethers.js` DEMO
     - The <a href="https://github.com/GeorgeBrownCollege-Toronto/Advanced-Smart-Contracts/tree/master/notes/sc-dev-tools/demo/etherjs-script#readme" target="_blank">demo</a> contains sample node scripts to deploy, interact and listen contract events.
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    ### A typical DApp
+    <img src="dapp-architecture.png" width="600">
 </textarea></section>
 
 <section>
