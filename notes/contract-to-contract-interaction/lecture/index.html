@@ -61,23 +61,24 @@
 
 #### Contract to Contract Interaction
 
-*Dhruvin Parikh, May 2021*
+*Dhruvin Parikh, November 2021*
 
 </script></section>
 
 <section>
-  <h2>Announcement</h2>
-  <p>Make-up class on Saturday May 22,'21 from 9:00 to 13:00 EST</p>
+  <h2>Reminder</h2>
+  <p>Final Exam : 26th Nov '21 during class hours</p>
+  <p>Assignment due : 27th Nov '21 before midnight</p>
 </section>
 
 <section data-markdown><script type="text/template">
   ## Topics
-  * Contract-to-Contract interactions
-  * Common Use Cases
+  * Function selector
   * Application Binary Interface (ABI)
-  * External Function Calls
-  * Contract Creation Using **`new`** keyword
-  * Lab 2
+  * External and low-level Function Calls
+  * Contract Creation Using <span style="color:red;">`new`</span> keyword
+  * Event logs
+  * <span style="color:red;">`Try/catch`</span> in solidity
 </script></section>
 
 <section>
@@ -85,6 +86,8 @@
   <ul>
     <li>Able to interact with other contract when ABI is know/unknown</li>
     <li>Able to explain application binary interface</li>
+    <li>Able to differentiate between low-level calls</li>
+    <li>Identify the use-case of low-level calls</li>
   </ul>
 </section>
 
@@ -221,6 +224,25 @@ abi_encode(
   )
 ```
 * `data` : ABI encoding of non-indexed event params
+* [keccak256 hashing tool](https://emn178.github.io/online-tools/keccak_256.html)
+</script></section>
+
+<section data-markdown><script type="text/template">
+## Decoding events from log 
+```
+const eventFilterv5 = (contractAddress, simpleStorageABI, _provider) => {
+  const iface = new ethers.utils.Interface(simpleStorageABI);    
+  const logs = _provider.getLogs({
+      address: contractAddress
+  });    
+  const decodedEvents = logs.map(log => {
+      iface.decodeEventLog("Increment", log.data)
+  });    
+  const caller = decodedEvents.map(event => event["values"]["caller"]);
+  const storedData = decodedEvents.map(event => event["values"]["storedData"]);
+  const incrementalValue = decodedEvents.map(event => event["values"]["incrementalValue"]);    
+  return [caller, storedData, incrementalValue]}
+```
 </script></section>
 
 <section>
@@ -234,7 +256,7 @@ abi_encode(
 </section>
 
 <section>
-  <h2>Assessments > Lab - 2 > Question 1</h2>
+  <h2>Assessments > Lab - 4 > Question 1</h2>
   <p>Refer : <a href="https://docs.soliditylang.org/en/v0.8.0/abi-spec.html" target="_blank">Contract ABI Specification</a></p>
 </section>
 
@@ -375,54 +397,45 @@ abi_encode(
 </section>
 
 <section>
-  <h2>Assessments > Lab - 2 > Question 2</h2>
+  <h2>Assessments > Lab - 4 > Question 2</h2>
   <p>Refer : <a href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/contract-to-contract-interaction/demo/ExternalCall.sol" target="_blank">PriceFeed example</a></p>
 </section>
 
-<section data-markdown><script type="text/template">
-  ## Low Level External Function Calls
-  * `call`
-  * `staticcall`
-  * `delegatecall`
- </script></section>
+<section>
+  <h2>Account</h2>
+  <ul>
+    <li>2 types of accounts:</li>
+    <ol style="list-style-type: lower-alpha;">
+      <li>Externally Owned Account (EOA)</li>
+      <li>Contract Account</li>
+    </ol>
+    <li>Every account consists of a balance, a nonce, bytecode, and stored data (storage). EOA has empty bytecode and storage</li>
+  </ul>
+</section>
 
- <section data-markdown><textarea data-template>
-  ### When to Use Low Level Function Calls?
-  - When the ABI is not known
-  - When you want to bypass the gas stipend imposed on `.transfer()` or `.send()`
-  - Avoid using these low level calls if possible as they bypass safety checks
-  - Refer to the <a href="https://solidity.readthedocs.io/en/v0.6.2/units-and-global-variables.html#members-of-address-types" target="_blank">solidity docs</a> for more details
-</textarea></section>
-
-<section data-markdown><script type="text/template">
-  ## `call`
-
-  ```js
-  (bool success, bytes memory returnData) 
-  = feed.call{value:msg.value}(
-  abi.encodeWithSignature("set(uint256)", newPrice));
-  ```
+<section data-markdown=""><script type="text/template">
+  ## EOA v/s Contract Account
+  <img src="eoa-ca.png" width=400><br/>
+  * **EOA** - private keys, no code.
+  * **Contract Account** - contract code, no private keys.
 </script></section>
 
-<section data-markdown><script type="text/template">
-  ## `staticcall`
-  * Same as call, but will revert if the called function modifies the state in any way
-
-  ```javascript
-  (bool success, bytes memory returnData) 
-  = feed.staticcall(abi.encodeWithSignature("get()"));
-  ```
+<section data-markdown=""><script type="text/template">
+  ## EOA v/s Contract Account
+  <img src="eoa-ca-process.png">
 </script></section>
 
-<section data-markdown><script type="text/template">
-  ## `delegatecall`
-  * It is basically the same as `call`, except that code is run in the context of the calling contract
-  * Contract interacts with library via `delegatecall`
-  ```javascript
-  (bool success, bytes memory returnData) =
-feed.delegatecall(abi.encodeWithSignature(
-"set(uint256)", newPrice));
-  ```
+<section data-markdown=""><script type="text/template">
+  ## Account State
+  ![account-state](./account-state.png)
+</script></section>
+
+<section data-markdown=""><script type="text/template">
+  ## Account State
+  * **nonce** : For EOA, it is # of transactions sent; # of contracts created otherwise.
+  * **balance** : `wei` owned (1 ether = 10^18 wei)
+  * **storageRoot** : A hash of the root node of a Merkle Patricia tree. Tree encodes the hash of storage contents of this account.
+  * **codeHash** : For contract accounts codeHash = hash(code); codeHash = hash("") otherwise.
 </script></section>
 
 <section>
@@ -467,7 +480,7 @@ feed.delegatecall(abi.encodeWithSignature(
     <li>When a Solidity contract calls a function of another contract, it produces a message call.
     <li>Message call is not a transaction; It does not get recorded in a block in the blockchain
     <li>The depth of message call is limited to less than 1024 levels.</li>
-    <li> You will receive an exception if this limit is exceeded</li>
+    <li>You will receive an exception if this limit is exceeded</li>
   </ul>
 </section>
 
@@ -480,49 +493,6 @@ feed.delegatecall(abi.encodeWithSignature(
   ```
   - `msg.sender` and `tx.origin` are passed with the message call.
 </textarea></section>
-
-<section>
-  <h2>Account</h2>
-  <ul>
-    <li>2 types of accounts:</li>
-    <ol style="list-style-type: lower-alpha;">
-      <li>Externally Owned Account (EOA)</li>
-      <li>Contract Account</li>
-    </ol>
-    <li>Every account consists of a balance, a nonce, bytecode, and stored data (storage). EOA has empty bytecode and storage</li>
-  </ul>
-</section>
-
-<section data-markdown=""><script type="text/template">
-  ## EOA v/s Contract Account
-  <img src="eoa-ca.png" width=400><br/>
-  * **EOA** - private keys, no code.
-  * **Contract Account** - contract code, no private keys.
-</script></section>
-
-<section data-markdown=""><script type="text/template">
-  ## EOA v/s Contract Account
-  <img src="eoa-ca-process.png">
-</script></section>
-
-<section data-markdown=""><script type="text/template">
-  ## Account State
-  ![account-state](./account-state.png)
-</script></section>
-
-<section data-markdown=""><script type="text/template">
-  ## Account State
-  * **nonce** : For EOA, it is # of transactions sent; # of contracts created otherwise.
-  * **balance** : `wei` owned (1 ether = 10^18 wei)
-  * **storageRoot** : A hash of the root node of a Merkle Patricia tree. Tree encodes the hash of storage contents of this account.
-  * **codeHash** : For contract accounts codeHash = hash(code); codeHash = hash("") otherwise.
-</script></section>
-
-<section data-markdown=""><script type="text/template">
-  ## `this`
-  * **`this`** refers to the current contract if non-delegate call is made
-  * **`this`** refers to the caller contract if delegate call is made
-</script></section>
 
 <section data-markdown><script type="text/template">
 ## Caller
@@ -541,8 +511,79 @@ feed.delegatecall(abi.encodeWithSignature(
   <img src="delegatecall.svg" style="box-shadow: none;border: none;">
 </section>
 
+<section data-markdown><script type="text/template">
+  ## Low Level External Function Calls
+  * `call`
+  * `staticcall`
+  * `delegatecall`
+ </script></section>
+
+ <section data-markdown><textarea data-template>
+  ### When to Use Low Level Function Calls?
+  - When the ABI is not known
+  - When you want to bypass the gas stipend imposed on `.transfer()` or `.send()`
+  - Avoid using these low level calls if possible as they bypass safety checks
+  - Refer to the <a href="https://solidity.readthedocs.io/en/v0.6.2/units-and-global-variables.html#members-of-address-types" target="_blank">solidity docs</a> for more details
+</textarea></section>
+
 <section>
-  <h2>Assessments > Lab - 2 > Question 3</h2>
+  <h2>Call context</h2>
+  <img src="call-context.png" style="border: none;box-shadow: none;">  
+</section>
+
+<section data-markdown><script type="text/template">
+  ## `call`
+  * read/write to target contract's storage
+
+  ```js
+  (bool success, bytes memory returnData) 
+  = feed.call{value:msg.value}(
+  abi.encodeWithSignature("set(uint256)", newPrice));
+  ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## `staticcall`
+  * Only read target-contract's storage
+  * Same as call, but will revert if the called function modifies the state in any way
+
+  ```javascript
+  (bool success, bytes memory returnData) 
+  = feed.staticcall(abi.encodeWithSignature("get()"));
+  ```
+</script></section>
+
+<section>
+  <h2>Delegatecall context</h2>
+  <img src="delegate-call-context.png" style="border: none;box-shadow: none;">  
+</section>
+
+<section data-markdown><script type="text/template">
+  ## `delegatecall`
+  * Cannot read nor write to target contract's storage.
+  * Can read/write to caller's storage.
+  * Code is run in the context of the calling contract
+  * Contract interacts with library functions/variable via `delegatecall`
+  ```javascript
+  (bool success, bytes memory returnData) =
+feed.delegatecall(abi.encodeWithSignature(
+"set(uint256)", newPrice));
+  ```
+</script></section>
+
+<section>
+  <h2>Call V/s delegate Call Context</h2>
+  <img src="sender-context.svg" style="border: none;box-shadow: none;">
+</section>
+
+<section data-markdown=""><script type="text/template">
+  ## `this`
+  * **`this`** refers to the current contract if non-delegate call is made
+  * **`this`** refers to the caller contract if delegate call is made
+</script></section>
+
+<section>
+  <h2>Assessments > Lab - 4 > Question 3</h2>
 </section>
 
 <section data-markdown><script type="text/template">
@@ -564,21 +605,6 @@ contract Sample {
 1 | second
 
 </script></section>
-
-<section>
-  <h2>Call context</h2>
-  <img src="call-context.png" style="border: none;box-shadow: none;">  
-</section>
-
-<section>
-  <h2>Delegatecall context</h2>
-  <img src="delegate-call-context.png" style="border: none;box-shadow: none;">  
-</section>
-
-<section>
-  <h2>Call V/s delegate Call Context</h2>
-  <img src="sender-context.svg" style="border: none;box-shadow: none;">
-</section>
 
 <section data-markdown><script type="text/template">
   ## Create Contract via **`new`**
@@ -623,8 +649,202 @@ contract Sample {
 </script></section>
 
 <section>
-  <h2>Assessments > Lab - 2 > Question 4</h2>
+  <h2>Assessments > Lab - 4 > Question 4</h2>
 </section>
+
+<section data-markdown><textarea data-template>
+  ### Old way to `try/catch`
+  ```
+  function execute(uint256 amount) external {
+    // the low level call will return `false` if its execution reverts
+    (bool success, bytes memory returnData) = address(this).call(
+      abi.encodeWithSignature("onlyEven(uint256)",amount)
+    );
+    if (success) { /*handle success*/ } 
+    else { /*handle exception*/ }
+  }
+
+  function onlyEven(uint256 a) public {
+    // Code that can revert
+    require(a % 2 == 0, "Ups! Reverting");
+    // ...
+  }
+  ```
+  * Changes applied before/after the call are not rolled back here. 
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### `try/catch` (1)
+  * Handle external call failures
+  * React on failed external calls and contract creation.
+  * Cannot be used for internal function calls
+  * Call public function with <span class="highlightRed">`this`</span> to make it external.
+  * Eventual `out of gas` error is caught by the low-level `catch` clause. 
+  * `out of gas` error is not caught if transaction executing code runs out of gas.
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### `try/catch`(2)
+  * following revert inside the try success block will revert the transaction:
+  ```
+  function execute() public {
+    try externalContract.someFunction() {
+      // this will revert the execution of the transaction
+      // even if the external call succeeded
+      revert();
+    } catch {
+       // ...
+    }
+  }
+  ```
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### `try/catch`(3)
+  * Constructor calls
+  ```
+  contract TryCatcher {
+    // ...
+    function execute() public {
+      try new CalledContract() returns(CalledContract returnedInstance) {
+        // returnedInstance can be used to obtain the 
+        // address of the newly deployed contract
+        emit SuccessEvent();
+      } catch {
+        emit CatchEvent();
+      }
+    }
+  }
+  ```
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### `try/catch`(4)
+  * External calls
+  ```
+  contract CalledContract {    
+    function getTwo() public returns (uint256) {
+      return 2;
+    }
+  }
+  contract TryCatcher {
+    CalledContract public externalContract;
+    function execute() public returns (uint256, bool) {
+      try externalContract.getTwo() returns (uint256 v) {
+        uint256 newValue = v + 2;
+        return (newValue, true);
+      } catch {
+        emit CatchEvent();
+      }		
+    }
+  }
+  ```
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### `try/catch`(5)
+  * Use returned data inside catch statement
+  ```
+  contract TryCatcher {
+    event ReturnDataEvent(bytes someData);
+    // ...
+    function execute() public returns (uint256, bool) {
+      try externalContract.someFunction() {
+        // ...
+      } catch (bytes memory returnData) {            
+        emit ReturnDataEvent(returnData);
+      }
+    }
+  }
+  ```
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### `try/catch`(6)
+  * revert-style exception (`require` or `revert`) error signature matches <span class="highlightRed">`catch Error`</span> block.
+  <pre class="hljs">
+  contract TryCatcher {
+    event ReturnDataEvent(bytes someData);
+    event CatchStringEvent(string someString);
+    event SuccessEvent();
+    // ...
+    function execute() public {
+      try externalContract.someFunction() {
+        emit SuccessEvent();
+      } <span class="highlightRed">catch Error(string memory revertReason) {
+        emit CatchStringEvent(revertReason);
+      }</span> catch (bytes memory returnData) {
+        emit ReturnDataEvent(returnData);
+      }
+    }
+  }
+    </pre>
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### `try/catch`(7)
+  * assert-style exception (`assert`) error signature  matches <span class="highlightRed">`catch`</span> block
+  <pre class="hljs">
+  contract TryCatcher {
+    event ReturnDataEvent(bytes someData);
+    event CatchStringEvent(string someString);
+    event SuccessEvent();
+    // ...
+    function execute() public {
+      try externalContract.someFunction() {
+        emit SuccessEvent();
+      } catch Error(string memory revertReason) {
+        emit CatchStringEvent(revertReason);
+      } <span class="highlightRed">catch (bytes memory returnData) {
+        emit ReturnDataEvent(returnData);
+      }</span>
+    }
+  }
+  </pre>
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### `try/catch`(8)
+  * error like overflow/underflow matches <span class="highlightRed">`catch Panic()`</span> block
+  <pre class="hljs">
+  contract TryCatcher {
+    event PanicErrorEvent(uint errorCode);
+    event CatchStringEvent(string someString);
+    event SuccessEvent();
+    // ...
+    function execute() public {
+      try externalContract.someFunction() {
+        emit SuccessEvent();
+      } catch Error(string memory revertReason) {
+        emit CatchStringEvent(revertReason);
+      } <span class="highlightRed">catch Panic(uint errorCode) {
+        emit PanicErrorEvent(errorCode);
+      }</span>
+    }
+  }
+  </pre>
+  </textarea></section>
+
+
+  <section data-markdown><textarea data-template>
+  ### `try/catch`(Panic codes)
+  1. **`0x01`**: assert evaluates to false.
+  2. **`0x11`**: underflow/overflow.
+  3. **`0x12`**: e.g. `5/0` or `23%0`.
+  4. **`0x21`**: Converting a value that is too big or negative into an enum type.
+  5. **`0x31`**: Call `.pop()` on an empty array.
+  6. **`0x32`**: bytesN or an array slice at an out-of-bounds or negative index (i.e. x[i] where i >= x.length or i < 0).
+  7. **`0x41`**: too much memory or create large array.
+  8. **`0x51`**: zero-initialized variable of internal function type.
+  </textarea></section>
+
+  <section data-markdown><script type="text/template">
+
+  ## References
+  * [Logs and Events in Ethereum](https://www.linumlabs.com/articles/everything-you-ever-wanted-to-know-about-events-and-logs-on-ethereum)
+  
+  </script></section>
+
 
 <section data-markdown><script type="text/template">
 
