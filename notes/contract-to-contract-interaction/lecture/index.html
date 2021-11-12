@@ -57,7 +57,7 @@
 
 <section data-markdown><script type="text/template">
 
-### BCDV 1010 - Smart Contract Essentials
+### BCDV 1010 - Smart Contract Development Essentials
 
 #### Contract to Contract Interaction
 
@@ -534,7 +534,7 @@ const eventFilterv5 = (contractAddress, simpleStorageABI, _provider) => {
 <section data-markdown><script type="text/template">
   ## `call`
   * read/write to target contract's storage
-
+  * Returns `false` if the subcall encounters an exception, otherwise it returns `true`
   ```js
   (bool success, bytes memory returnData) 
   = feed.call{value:msg.value}(
@@ -553,6 +553,14 @@ const eventFilterv5 = (contractAddress, simpleStorageABI, _provider) => {
   ```
 </script></section>
 
+<section data-markdown><script type="text/template">
+  ## `staticcall`
+  * Enforces read-only call at runtime.
+  * Do **NOT** use , if your contract’s state change requires a successful state change in another contract.
+  * Use if a contract’s state change depends on reading data from another contract.
+  * Returns `false` if subcall encounters exception, `true` otherwise
+</script></section>
+
 <section>
   <h2>Delegatecall context</h2>
   <img src="delegate-call-context.png" style="border: none;box-shadow: none;">  
@@ -569,6 +577,12 @@ const eventFilterv5 = (contractAddress, simpleStorageABI, _provider) => {
 feed.delegatecall(abi.encodeWithSignature(
 "set(uint256)", newPrice));
   ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## `delegatecall`
+  * The context is on Caller contract, all state change logics reflect on Caller’s storage.
+  * The context is **NOT** on the user who execute caller contract but on caller contract.
 </script></section>
 
 <section>
@@ -842,7 +856,7 @@ contract Sample {
 
   ## References
   * [Logs and Events in Ethereum](https://www.linumlabs.com/articles/everything-you-ever-wanted-to-know-about-events-and-logs-on-ethereum)
-  
+  * [Anatomy of transaction data](https://programtheblockchain.com/posts/2018/07/25/anatomy-of-transaction-data/)
   </script></section>
 
 
