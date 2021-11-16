@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title> Contract Development tools </title>
+
+    <meta name="author" content="Dhruvin Parikh">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../../reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="../../../reveal.js/css/theme/simple.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../../../reveal.js/lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../../../reveal.js/css/print/pdf.css' : '../../../reveal.js/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <style>
+      .reveal .slides h1, .reveal .slides h2, .reveal .slides h3 {
+        text-transform: none;
+      }
+
+      .two-column {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .two-column em {
+        margin: 20px;
+      }
+
+      .credits {
+          font-size: small;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+<!------------------------------------------------------->
+
+
+
+<section data-markdown><script type="text/template">
+
+### BCDV 1010 - Smart Contract Development Essentials
+
+#### Smart contract frameworks
+
+*Dhruvin Parikh, November 2021*
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Topics
+  * Smart contract development environment setup
+  * Deploying the contract to a testnet
+  * Verify the contract in etherscan
+  * Manually test the contract
+  * Automation testing of smart contracts
+</script></section>
+
+<section>
+  <h2>Dev Environment (Web)</h2>
+  <ul>
+      <li>IDE - Remix</li>
+      <li>Dapp browsers- Metamask</li>
+      <li>Smart contract language - solidity</li>
+      <li>Simulator - ganache-cli, hardhat node</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Dev Environment (Standalone)</h2>
+  <ul>
+      <li>IDE - Visual Studio Code</li>
+      <li>Frameworks- Nodejs</li>
+      <li>Smart contract language - solidity, vyper</li>
+      <li>Test framework - Mocha/chai</li>
+      <li>Simulator - ganache-cli</li>
+      <li>Library - web3, ethers</li>
+      <li>Smart contract framework - Truffle, Hardhat, Brownie</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Metamask</h2>
+  <div class="two-column">
+    <div>
+      <img src="Metamask-dashboard.png" width="300px" style="border:none; box-shadow: none;">
+    </div>
+    <div style="width: 600px;">
+      <ul>
+        <li>Ethereum Wallet plugin for chrome</li>
+        <li>A wallet allows you to manage your crypto assets and interact with smart contracts</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Create/Import Account</h2>
+  <ul>
+    <li>Create Account</li>
+    <li>Import Account</li>
+    <ul>
+      <li>Private Key</li>
+      <li>JSON wallet file</li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>What is a JSON Wallet File?</h2>
+  <ul>
+    <li>It includes the encrypted private key, with information about how it was encrypted</li>
+    <li>You can use <a target="_blank" href="https://www.myetherwallet.com/create-wallet">https://www.myetherwallet.com/create-wallet</a> to generate the wallet file</li>
+    <li>You can use <a target="_blank" href="https://www.myetherwallet.com/access-my-wallet">https://www.myetherwallet.com/access-my-wallet</a> to generate the wallet file</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Testnet</h2>
+  <ul>
+    <li>Testnet is a blockchain network for testing purposes</li>
+      <li>The following article has a good description of each testnet:
+      <ul>
+        <li><a target="_blank" href="https://ethereum.org/en/developers/docs/networks/">https://ethereum.org/en/developers/docs/networks/</a></li>
+      </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Faucets</h2>
+  <ul style="list-style-type: none;">
+    <li>Faucets give testnet ether, to be used for testing</li>
+    <ul>
+      <li>Ropsten - <a target="_blank" href="https://faucet.ropsten.be/">https://faucet.ropsten.be/</a></li>
+        <li>Rinkeby - <a target="_blank" href="https://faucet.rinkeby.io/">https://faucet.rinkeby.io/</a></li>
+        <li>Kovan - <a target="_blank" href="https://faucet.kovan.network/">https://faucet.kovan.network/</a></li>
+        <li>Goerli - <a target="_blank" href="https://goerli-faucet.slock.it/">https://goerli-faucet.slock.it/</a></li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Blockchain Explorer</h2>
+  <ul>
+    <li>Blockchain Explorer is used to lookup a blockchain for information about account, transaction, block, ens name, etc.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Etherscan</h2>
+  <ul style="list-style-type: none;">
+    <li>Is a blockchain explorer</li>
+    <ul>
+      <li>Mainnet : <a target="_blank" href="https://etherscan.io/">https://etherscan.io/</a></li>
+    </ul>
+    <ul>
+      <li>Testnets</li>
+      <ul>
+        <li><a target="_blank" href="https://ropsten.etherscan.io/">https://ropsten.etherscan.io/</a></li>
+        <li><a target="_blank" href="https://rinkeby.etherscan.io/">https://rinkeby.etherscan.io/</a></li>
+        <li><a target="_blank" href="https://goerli.etherscan.io/">https://goerli.etherscan.io/</a></li>
+        <li><a target="_blank" href="https://kovan.etherscan.io/">https://kovan.etherscan.io/</a></li>
+      </ul>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>Details of token</h2>
+  https://etherscan.io/tokens
+  <img src="etherscan.svg" width="500px" style="border: none;box-shadow: none;">
+</section>
+
+<section>
+  <h2>What did we observe?</h2>
+  <img src="etherscan-description.svg" width="600px" style="border: none;box-shadow: none;">
+</section>
+
+<section>
+  <h2>Truffle framework</h2>
+  <ul>
+      <li>Built-in smart contract compilation, linking, deployment and binary management</li>
+      <li>Automated testing and rapid development</li>
+      <li>Network management for deploying to any number of public and private networks</li>
+      <li>Package management with EthPM and NPM</li>
+      <li>Interactive console for contract communication</li>
+      <li>Build pipeline supports tight integration</li>
+      <li>External script runner that executes scripts within truffle environment</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Truffle framework</h2>
+  <ul>
+      <li>Creating a project</li>
+      <li>Exploring the project</li>
+      <li>Testing</li>
+      <li>Compiling</li>
+      <li>Migrating with ganache</li>
+      <li>Interacting with contract</li>
+  </ul>
+</section>
+
+<section data-markdown><script type="text/template">
+  ## Truffle Commands
+  ```
+  # installation
+  $ npm install -g truffle
+
+  # create project
+  $ truffle init
+
+  # compile 
+  $ truffle compile
+
+  # deploy
+  $ truffle migrate
+  ```
+</script></section>
+
+<section>
+  <h2>Truffle - directory structure</h2>
+  <ul>
+      <li><code><b>contracts/</b></code> : Directory for solidity contracts</li>
+      <li><code><b>migrations/</b></code> : Directory for scriptable deployment files</li>
+      <li><code><b>test/</b></code> : Directory for test files for testing your application and contracts</li>
+      <li><code><b>truffle-config.js</b></code> : Truffle configuration file</li>
+  </ul>
+</section>
+
+<section>
+<h2>DEMO</h2>
+<ul>
+  <li>Issue and verify academic certificates</li>
+</ul>
+</section>
+
+<section data-markdown><script type="text/template">
+## Coding Challenge
+- Follow this instructions : <a target="_blank" href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/sc-frameworks/class-activity/simplestorage/README.md">SimpleStorage</a>
+</script></section>
+
+<section>
+  <h2>Links</h2>
+  <ul>
+      <li>Remix : <a target="_blank" href="https://remix.ethereum.org">https://remix.ethereum.org</a></li>
+      <li>Ethereum Wallet : <a target="_blank" href="https://wallet.ethereum.org">https://wallet.ethereum.org</a></li>
+      <li>Ganache : <a target="_blank" href="https://www.trufflesuite.com/docs/ganache/overview">https://www.trufflesuite.com/docs/ganache/overview</a></li>
+      <li>Ganache-cli : <a target="_blank" href="https://github.com/trufflesuite/ganache-cli/blob/develop/README.md">https://github.com/trufflesuite/ganache-cli/blob/develop/README.md</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Links</h2>
+  <ul>
+      <li>Node : <a target="_blank" href="https://nodejs.org/en">https://nodejs.org/en</a></li>
+      <li>Visual Studio code : <a target="_blank" href="https://code.visualstudio.com">https://code.visualstudio.com</a></li>
+  </ul>
+</section>
+
+<section data-markdown><script type="text/template">
+  ## Hardhat IDE
+  * Compile, debug, test and deploy Ethereum smart contracts
+  * Hardhat Network - a local Ethereum network designed for development. 
+  * Solidity debugging, stack traces, `console.log()` and explicit error messages when transactions fail.
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Hardhat Architecture
+  * Designed around the concepts of **tasks** and **plugins**.
+  * Every time you run Hardhat from the CLI you're running a task.
+  * Hardhat is not opinionated in terms of what tools you end up using, but it does come with some built-in defaults, all of which can be overridden
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Hardhat components
+  * Hardhat runner
+  * Hardhat network
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Hardhat runner
+  * webpack
+  * Parcel
+  * Gradle
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Hardhat network
+  <img src="hre_network.jpeg">
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Hardhat working
+  <img src="hh_working.png">
+</script></section>
+
+
+
+<section data-markdown><script type="text/template">
+  ## Hardhat Commands
+  ```
+  # installation
+  $ npm install --save-dev hardhat
+
+  # create project
+  $ npx hardhat
+
+  # compile 
+  $ npx hardhat compile
+
+  # deploy
+  $ npx hardhat deploy
+  ```
+</script></section>
+
+<section>
+  <h2>DEMO</h2>
+  <ul>
+    <li>Initializing hardhat project, development and deployment of smart contract </li>
+  </ul>
+</section>
+
+<section>
+  <h2>Verify Contract</h2>
+  <ul>
+    <li>After a contract is verified on etherscan, the source code is available and you can read or write to the contract on etherscan</li>
+    <li>Demo for verifying a contract</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Smart contract automation testing</h2>
+  <ul>
+      <li>Testing solidity smart contract</li>
+      <li>Writing tests in javascript, typescript and solidity</li>
+      <li>Openzeppelin helpers, waffle, truffle</li>
+  </ul>
+</section>
+
+<section>
+<h2>Testing solidity smart contracts</h2>
+<ul>
+  <li>Testing is the primary job of developer</li>
+  <li>Little time spend writing solidity code and more utilized writing contract</li>
+</ul>
+</section>
+
+<section>
+<h2>TDD Overview</h2>
+<ul>
+  <li>Fully understand the requirement</li>
+  <li>Create automated tests that test the requirement</li>
+  <li>Create the coding logic -- test it by running the automated test(s)</li>
+  <li>Once the automated test(s) pass, the coding then fulfills the requirement</li>
+  <li>Refactor the code for better maintainability, run the automated test(s) again to ensure it still works</li>
+</ul>
+</section>
+
+<section>
+<h2>Functional Tests</h2>
+<ul>
+  <li><b>Unit tests</b> : Keep units small, test single or very small groups of functions/methods or parameters at a time.
+  <li><b>Integration tests</b> : Interact with external class, module or datasource.</li>
+</ul>
+</section>
+
+<section>
+<h2>Unit tests</h2>
+<ul>
+  <li>Good unit tests</li>
+  <li>Run fast (they have short setups, run times, and breakdowns).</li>
+  <li>Run in isolation (you should be able to reorder them).</li>
+  <li>Use data that makes them easy to read and to understand.</li>
+  <li>Use real data (e.g. copies of production data) when they need to.</li>
+  <li>Represent one step towards your overall goal.</li>
+</ul>
+</section>
+
+<section>
+<h2>Integration tests</h2>
+<ul>
+  <li>Good for uncovering whether all the parts work together or not.</li>
+</ul>
+</section>
+
+<section>
+<h2>Test frameworks (Truffle use them under hood)</h2>
+<ul>
+  <li><b>Mocha</b> : <a href="https://mochajs.org/">https://mochajs.org/</a> - Javascript testing framework</li>
+  <li><b>Chai</b> : <a href="https://www.chaijs.com/">https://www.chaijs.com/</a> - Javascript Assertion library</li>
+</ul>
+</section>
+
+<section>
+<h2>Hooks in Mocha</h2>
+<ul>
+  <li><code>before()</code> — Runs once before the first test case in the block</li>
+  <li><code>beforeEach()</code> — Runs before each test case</li>
+    <li><code>afterEach()</code> — Runs after each test case</li>
+    <li><code>after()</code> — Runs once after the last test case in the block</li>
+</ul>
+<ul style="list-style: none;">
+  <li>Sequence of Hooks</li>
+  <ul style="list-style: none;">
+    <li><code>before() -> beforeEach() -> test() -> afterEach() -> after()</code></li>
+  </ul>
+</ul>
+</section>
+
+<section>
+<h2>Demo</h2>
+<ul>
+  <li>Writing tests using Truffle</li>
+  <li>Writing tests for Hardhat</li>
+</ul>
+</section>
+
+<section>
+<h2>Coverage</h2>
+<ul style="list-style-type: none;">
+  <li>Given the nature of smart contract development, where data is literal value, testing practises needs to be stringent. 100% code coverage is not maximum to aim, its must.</li>
+</ul>
+</section>
+
+<section>
+<h2>Achieving 100% Coverage</h2>
+<ul>
+  <li>Positive test</li>
+  <ul>
+    <li>Test that code behaves as expected when valid data is given.</li>
+  </ul>
+  <li>Negative tests</li>
+  <ul>
+    <li>Test that code behaves as expected when invalid data is given.</li>
+  </ul>
+</ul>
+</section>
+
+<section>
+<h2>Solidity code coverage tools</h2>
+<ul>
+  <li>solidity-coverage(Truffle) - <a href="https://github.com/sc-forks/solidity-coverage">https://github.com/sc-forks/solidity-coverage</a></li>
+  <li>solidity-coverage(Hardhat) - <a href="https://github.com/sc-forks/solidity-coverage/blob/master/HARDHAT_README.md">https://github.com/sc-forks/solidity-coverage/blob/master/HARDHAT_README.md</a></li>
+</ul>
+</section>
+
+<section>
+<h2>My Truffle Demo Videos</h2>
+<ul>
+  <li><a target="_blank" href="https://georgebrowncollege-my.sharepoint.com/personal/101035720_georgebrown_ca/_layouts/15/onedrive.aspx?id=%2Fpersonal%2F101035720%5Fgeorgebrown%5Fca%2FDocuments%2FTruffle%2Dtest%2Ffaucet%2Dtests%2Emov&parent=%2Fpersonal%2F101035720%5Fgeorgebrown%5Fca%2FDocuments%2FTruffle%2Dtest&originalPath=aHR0cHM6Ly9nZW9yZ2Vicm93bmNvbGxlZ2UtbXkuc2hhcmVwb2ludC5jb20vOnY6L2cvcGVyc29uYWwvMTAxMDM1NzIwX2dlb3JnZWJyb3duX2NhL0VVYm5HaWNaSWw1SW1sOURzVFdkUU04QlZpTVlBVEZ6dWZ5RG01MjBqUXVvR0E_cnRpbWU9cUR6TzYyQUcyRWc">Faucet test in truffle</a></li>
+  <li><a target="_blank" href="https://georgebrowncollege-my.sharepoint.com/:v:/g/personal/101035720_georgebrown_ca/EfICbiNVXdRLvymjoynRDqABXm_2H9Pg8OK6qLvZOHeEgw?e=8diYL2">ERC20 tests in truffle</a></li>
+  <li><a target="_blank" href="https://georgebrowncollege-my.sharepoint.com/:v:/g/personal/101035720_georgebrown_ca/EeBExsl-r7ZBu3YG__hLLmoBTeI-WKWCacd7kk_OlGdf2w?e=eUlznl">ERC20 solidity coverage</a></li>
+</ul>
+</section>
+
+<section>
+<h2>Read their test suites</h2>
+<ul>
+<li><a target="_blank" href="https://github.com/trufflesuite/devcon5-honeypot-exploration">devcon5-honey-exploration</a></li>
+<li><a target="_blank" href="https://github.com/0xProject/dev-tools-truffle-example">dev-tools-truffle-example</a></li>
+<li><a target="_blank" href="https://github.com/OpenZeppelin/openzeppelin-contracts">openzeppelin-contracts</a></li>
+</ul>
+</section>
+
+<section>
+<h2>Tools</h2>
+<ul>
+  <li><a href="https://github.com/sc-forks/solidity-coverage">https://github.com/sc-forks/solidity-coverage</a></li>
+  <li><a href="https://protofire.github.io/solhint/">https://protofire.github.io/solhint/</a></li>
+  <li><a href="https://github.com/OpenZeppelin/openzeppelin-test-helpers">https://github.com/OpenZeppelin/openzeppelin-test-helpers</a></li>
+  <li><a href="https://sol-profiler.com/">https://sol-profiler.com/</a></li>
+  <li><a href="https://github.com/cgewecke/eth-gas-reporter#readme">https://github.com/cgewecke/eth-gas-reporter#readme</a></li>
+</ul>
+</section>
+
+
+<section data-markdown><script type="text/template">
+
+## Reference GH repositories
+* https://github.com/fvictorio/hardhat-examples
+* https://github.com/ChainShot/Dutch-Auction-Hardhat
+* https://github.com/CodeForcer/curve-error-example
+* https://github.com/alcuadrado/hardhat-network-intro
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## End
+
+</script></section>
+
+
+
+<!------------------------------------------------------->
+
+
+      </div>
+
+    </div>
+
+    <script src="../../../reveal.js/lib/js/head.min.js"></script>
+    <script src="../../../reveal.js/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+
+	math: {
+          mathjax: './lib/MathJax/MathJax.js',
+          config: 'TeX-AMS_SVG-full',
+	},
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../../reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../../reveal.js/plugin/math/math.js', async: true },
+           // Zoom in and out with Alt+click
+           { src: "../../../reveal.js/plugin/zoom-js/zoom.js", async: true },
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
