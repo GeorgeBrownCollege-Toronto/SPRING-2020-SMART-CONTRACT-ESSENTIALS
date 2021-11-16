@@ -257,6 +257,62 @@
 </ul>
 </section>
 
+<section data-markdown><textarea data-template>
+  ### Truffle debugger
+  * Not debugging code in real-time.
+  * Step over the historical execution of that transaction.
+  * Mapping that execution onto its associated code. 
+  * Debug any transaction given all artifacts, code & ABI. 
+  ```
+  truffle debug \transaction hash\
+  ```
+
+  </textarea></section>
+
+
+  <section data-markdown><textarea data-template>
+  ### Debugging Error (An Infinite loop)
+  ```
+  function set(uint x) public {
+    while(true) {
+      myVariable = x;
+    }
+  }
+  ```
+  <pre class="hljs">
+    Error: VM Exception while processing transaction: out of gas
+  </pre>
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### Debugging Error (An Infinite Error check)
+  ```
+  function set(uint x) public {
+    assert(x == 0);
+    myVariable = x;
+  }
+  ```
+  <pre class="hljs">
+    Error: VM Exception while processing transaction: invalid opcode
+  </pre>
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### Debugging Error (A function isn't operating as desired)
+  ```
+  event Odd();
+  event Even();
+  function set(uint x) public {
+    myVariable = x;
+    if (x % 2 == 0) {
+      emit Odd();
+    } else {
+      emit Even();
+    }
+  }
+  ```
+  </textarea></section>
+
 <section data-markdown><script type="text/template">
 ## Coding Challenge
 - Follow this instructions : <a target="_blank" href="https://github.com/GeorgeBrownCollege-Toronto/Smart-Contract-Essentials/blob/master/notes/sc-frameworks/class-activity/simplestorage/README.md">SimpleStorage</a>
@@ -316,8 +372,6 @@
   ## Hardhat working
   <img src="hh_working.png">
 </script></section>
-
-
 
 <section data-markdown><script type="text/template">
   ## Hardhat Commands
@@ -505,6 +559,12 @@
 * https://github.com/CodeForcer/curve-error-example
 * https://github.com/alcuadrado/hardhat-network-intro
 
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## References
+* [Hardhat's present and future](https://youtu.be/cdhdTknb54Q)
 </script></section>
 
 <section data-markdown><script type="text/template">
