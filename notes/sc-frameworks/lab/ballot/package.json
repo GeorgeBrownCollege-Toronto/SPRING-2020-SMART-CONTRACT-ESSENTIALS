@@ -1,0 +1,17 @@
+{
+  "name": "ballot-test",
+  "version": "1.0.0",
+  "description": "Testing Ballot",
+  "main": "index.js",
+  "scripts": {
+    "test": "truffle test",
+    "coverage": "truffle run coverage",
+    "compile":"truffle compile"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "solidity-coverage": "^0.7.17",
+    "truffle": "^5.4.19",
+    "truffle-assertions": "^0.9.2"
+  }
+}
