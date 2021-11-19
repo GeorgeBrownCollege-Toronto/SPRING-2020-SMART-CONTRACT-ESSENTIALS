@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity >=0.4.25 <0.7.0;
+pragma solidity ^0.8.10;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
@@ -15,7 +15,7 @@ contract TestFaucet {
         // uint amount = 1 ether;
         faucet = Faucet(DeployedAddresses.Faucet());
         // perform an action which sends value to myContract, then assert.
-        address(faucet).transfer(initialBalance);
+        payable(faucet).transfer(initialBalance);
         Assert.equal(address(faucet).balance,initialBalance,"Balance is zero");
         // (bool result, ) = address(faucet).call(abi.encodePacked("withdraw(uint)", amount));
         // Assert.equal(result, false, "Allows for withdrawal");
