@@ -1,9 +1,9 @@
 import hre, { artifacts } from "hardhat";
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
-import type { Loan } from "../typechain";
+import type { Loan } from "../../typechain";
 import { expect } from "chai";
 import { Artifact } from "hardhat/types";
-import { Signers } from "./types";
+import { Signers } from "../types";
 
 let mutex: boolean = true;
 let loanDuration: number;
