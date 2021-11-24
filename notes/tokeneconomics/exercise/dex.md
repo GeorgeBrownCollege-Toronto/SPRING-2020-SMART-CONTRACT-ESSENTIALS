@@ -1,13 +1,11 @@
 ### Starting point
 
-`SafeYorkERC20Token.sol`
+`GBCToken.sol`
 
 ```js
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.10;
-
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol";
 
 
 interface IERC20 {
