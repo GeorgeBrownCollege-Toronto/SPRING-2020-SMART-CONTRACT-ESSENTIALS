@@ -93,7 +93,7 @@ contract  GBCToken is IERC20{
 
 pragma solidity ^0.6.10;
 
-import “SafeYorkERC20Token.sol”;
+import “GBCToken.sol”;
 
 contract DEX {
 
