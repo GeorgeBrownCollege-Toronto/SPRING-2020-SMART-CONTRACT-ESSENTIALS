@@ -91,7 +91,7 @@ contract  GBCToken is IERC20{
 
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.10;
+pragma solidity ^0.8.10;
 
 import “GBCToken.sol”;
 
