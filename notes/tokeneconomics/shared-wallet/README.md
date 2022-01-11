@@ -37,7 +37,7 @@ Let’s see if we can improve this a bit in the next step.
 ```js
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.10;
 
 contract SharedWallet {
 
@@ -45,7 +45,7 @@ contract SharedWallet {
         _to.transfer(_amount);
     }
 
-    //prior sol0.6 the receive function is the funciton() external payable
+    //prior sol0.6 the receive function is the function() external payable
     receive() external payable {
     }
 }
@@ -58,7 +58,7 @@ In this step we restrict withdrawal to the owner of the wallet. How can we deter
 ```js 
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.10;
 
 contract SharedWallet {
     address owner;
@@ -110,7 +110,7 @@ In this step we are adding a mapping so we can store `address` > `uint` amounts.
 ```js
 // SPDX-License-Identifier:MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.10;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 
@@ -165,7 +165,7 @@ Now we know our basic functionality, we can structure the smart contract differe
 ```js
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.10;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 
@@ -210,7 +210,7 @@ One thing that’s missing is events.
 ```js
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.10;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 
 contract Allowance is Ownable {
@@ -269,7 +269,7 @@ contract SharedWallet is Ownable, Allowance {
 ```js
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.10;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol"; 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/math/SafeMath.sol";
@@ -321,7 +321,7 @@ contract SharedWallet is Allowance {
 ```js
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.10;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol"; 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/math/SafeMath.sol";
@@ -335,7 +335,7 @@ contract Allowance is Ownable {
 ```js
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.10;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/math/SafeMath.sol"; 
 import "./Allowance.sol";
@@ -350,7 +350,7 @@ contract SharedWallet is Allowance {
 ```js
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.10;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/math/SafeMath.sol";
 
@@ -388,7 +388,7 @@ contract Allowance is Ownable {
 ```js
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.1;
+pragma solidity ^0.8.10;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/math/SafeMath.sol"; 
 import "./Allowance.sol";
